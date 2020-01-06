@@ -15,13 +15,15 @@
             <RowDefinition Height="16"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <TextBlock FontWeight="Bold" Margin="8,0,0,0">网页内容变动提醒</TextBlock>
-        <TextBlock FontSize="18" Grid.Row="2">
-            <Run Text="网页"/>
+        <TextBlock FontWeight="Bold" Margin="8,0,0,0" Text="{DynamicResource win_main}"/>
+        <TextBlock  VerticalAlignment="Center" FontSize="18" Grid.Row="2">
+            <Run Text="{DynamicResource label_changed1}"/>
             <Run Text="{Binding WebPage.Name}" FontWeight="Bold"/>
-            <Run Text="的内容发生变化"/>
+            <Run Text="{DynamicResource label_changed2}"/>
         </TextBlock>
-        <ScrollViewer Grid.Row="4" MaxHeight="46"
+        <TextBlock x:Name="tbkTime" HorizontalAlignment="Right" 
+                   VerticalAlignment="Center" Grid.Row="2"/>
+        <ScrollViewer Grid.Row="4" MaxHeight="80"
                       HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Hidden">
             <TextBlock x:Name="tbkContent" TextWrapping="Wrap"  MaxWidth="360">这里里显示变里显示变里显示变里显示变里显示变里显
                 里显示变里显示变里显示变显示变化具体内示变里显示变里显示变显示变化具体内容
@@ -39,9 +41,9 @@
                 <ColumnDefinition Width="16"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <Button  Click="Button_Click_1" Content="打开网页" Style="{StaticResource NotificationButton}"/>
-            <Button  Click="Button_Click_2" Grid.Column="2" Content="查看详情" Style="{StaticResource NotificationButton}"/>
-            <Button Grid.Column="4"  Style="{StaticResource NotificationButton}" Click="Button_Click"  >关闭</Button>
+            <Button  Click="Button_Click_1" Content="{DynamicResource button_openWebPage}" Style="{StaticResource NotificationButton}"/>
+            <Button  Click="Button_Click_2" Grid.Column="2" Content="{DynamicResource button_getMore}" Style="{StaticResource NotificationButton}"/>
+            <Button Grid.Column="4"  Style="{StaticResource NotificationButton}" Click="Button_Click"   Content="{DynamicResource button_close}"/>
         </Grid>
         <local:Dialog x:Name="dialog" Margin="-12"/>
     </Grid>

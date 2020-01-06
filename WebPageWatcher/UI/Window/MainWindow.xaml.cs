@@ -27,10 +27,15 @@ namespace WebPageWatcher.UI
     public partial class MainWindow : WindowBase
     {
 
+        public MainWindow(WebPage needToSelect) : this()
+        {
+            SelectItem(needToSelect);
+        }
         public MainWindow()
         {
+            BackgroundTask.WebPagesChanged += (p1, p2) => Notify(nameof(WebPages));
             InitializeComponent();
-            UIHelper.SetContextMenuForSelector(lvwWebPages, WebPages,(p1,p2)=>DbHelper.DeleteAsync(p2));
+            UIHelper.SetContextMenuForSelector(lvwWebPages, WebPages, (p1, p2) => DbHelper.DeleteAsync(p2));
             item.Update = UpdateItem;
             //item.Reset = ResetItem;
         }
@@ -43,29 +48,33 @@ namespace WebPageWatcher.UI
             await DbHelper.UpdateAsync(newItem);
             lvwWebPages.SelectedItem = newItem;
 
-            await BackgroundTask.Load();
         }
 
-        public void UpdateDisplay(WebPage webPage,bool changed)
+        public void UpdateDisplay(WebPage webPage)
         {
             WebPage webPage2 = WebPages.FirstOrDefault(p => p.ID == webPage.ID);
-            if(webPage2!=null)
+            if (webPage2 != null)
             {
-                webPage2.LastCheckTime = webPage.LastCheckTime;
-                    webPage2.LastUpdateTime = webPage.LastUpdateTime;
-                    webPage2.LatestDocument = webPage.LatestDocument;
-
-                if(item.WebPage!=null &&webPage2.ID==item.WebPage.ID)
+                if (item.WebPage != null && webPage2.ID == item.WebPage.ID)
                 {
-                    item.UpdateDisplay(webPage, changed);
+                    item.UpdateDisplay(webPage);
                 }
             }
         }
 
-        public ExtendedObservableCollection<WebPage> WebPages { get; } = new ExtendedObservableCollection<WebPage>();
-        private async void Window_Loaded(object sender, RoutedEventArgs e)
+        public void SelectItem(WebPage webPage)
         {
-            WebPages.AddRange(await DbHelper.GetWebPagesAsync());
+           lvwWebPages.SelectedItem  = webPage;
+        }
+        //private ExtendedObservableCollection<WebPage> webPages;
+        //public ExtendedObservableCollection<WebPage> WebPages
+        //{
+        //    get => webPages;
+        //    set => SetValueAndNotify(ref webPages, value, nameof(WebPages));
+        //}
+        public ExtendedObservableCollection<WebPage> WebPages => BackgroundTask.WebPages;
+        private  void Window_Loaded(object sender, RoutedEventArgs e)
+        {
         }
 
         private async void Button_Click(object sender, RoutedEventArgs e)

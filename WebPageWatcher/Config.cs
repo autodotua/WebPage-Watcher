@@ -21,7 +21,7 @@ namespace WebPageWatcher
             }
         }
         public bool WaitForScriptComplete { get; set; } = true;
-        public string Language { get; set; } = "en-US";
-        //public string Language { get; set; } = "zh-CN";
+        //public string Language { get; set; } = "en-US";
+        public string Language { get; set; } = "zh-CN";
     }
 }

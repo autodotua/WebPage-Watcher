@@ -138,7 +138,7 @@ namespace WebPageWatcher.UI
             catch (Exception ex)
             {
                 progressDialog.Close();
-                if (await dialog.ShowYesNoAsync("获取当前网页失败，是否继续？" + Environment.NewLine + ex.ToString(), "获取HTML失败"))
+                if (await dialog.ShowYesNoAsync(FindResource("error_getHtmlFailed") as string + Environment.NewLine + ex.ToString(), FindResource("error_title_getHtmlFailed") as string))
                 {
                     grd.Children.Remove(tree);
                     grd.ColumnDefinitions[0].Width = grd.ColumnDefinitions[1].Width = new GridLength(0);
@@ -176,7 +176,7 @@ namespace WebPageWatcher.UI
             catch (Exception ex)
             {
                 progressDialog.Close();
-                if (await dialog.ShowYesNoAsync("获取当前JSON页失败，是否继续？" + Environment.NewLine + ex.ToString(), "获取HTML失败"))
+                if (await dialog.ShowYesNoAsync(FindResource("error_getHtmlFailed") as string + Environment.NewLine + ex.ToString(), FindResource("error_title_getHtmlFailed") as string))
                 {
                     grd.Children.Remove(tree);
                     grd.ColumnDefinitions[0].Width = grd.ColumnDefinitions[1].Width = new GridLength(0);
@@ -294,7 +294,7 @@ namespace WebPageWatcher.UI
             }
             if (node == null)
             {
-                await dialog.ShowErrorAsync("找不到指定的节点");
+                await dialog.ShowErrorAsync(FindResource("error_cannotFindNode") as string);
                 return;
             }
             //SelectTreeViewItemByHtmlNode(node);
@@ -427,18 +427,21 @@ namespace WebPageWatcher.UI
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            var methodName = parameter as string;
-            if (value == null || methodName == null)
+            if (value == null || !(parameter is string methodName))
+            {
                 return null;
+            }
             var methodInfo = value.GetType().GetMethod(methodName, new Type[0]);
             if (methodInfo == null)
+            {
                 return null;
+            }
             return methodInfo.Invoke(value, new object[0]);
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            throw new NotSupportedException(GetType().Name + " can only be used for one way conversion.");
+            throw new NotSupportedException();
         }
     }
 }

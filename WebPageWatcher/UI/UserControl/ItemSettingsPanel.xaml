@@ -8,6 +8,7 @@
         xmlns:system="clr-namespace:System;assembly=mscorlib"
     xmlns:local="clr-namespace:WebPageWatcher.UI"
     xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+     xmlns:glo="clr-namespace:System.Globalization;assembly=mscorlib"
     mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <extension:ExtendedUserControl.Resources>
@@ -24,7 +25,7 @@
         </Grid.RowDefinitions>
         <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
             <StackPanel Margin="0,0,8,0">
-                <Expander Header="{DynamicResource expander_runningStatus}" IsExpanded="False">
+                <Expander Header="{DynamicResource expander_runningStatus}" IsExpanded="True">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
@@ -42,11 +43,11 @@
                         <TextBlock Grid.Row="0" VerticalAlignment="Center" 
                    HorizontalAlignment="Right" Text="{DynamicResource label_lastCheckTime}"/>
                         <TextBox Grid.Row="0" Grid.Column="2"  IsReadOnly="True"
-                VerticalAlignment="Center" Text="{Binding WebPage.LastCheckTime , ConverterCulture={StaticResource  culture}}"/>
+                VerticalAlignment="Center" Text="{Binding WebPage.LastCheckTime , ConverterCulture={x:Static glo:CultureInfo.CurrentUICulture}}"/>
                         <TextBlock Grid.Row="2" VerticalAlignment="Center" 
                    HorizontalAlignment="Right" Text="{DynamicResource label_lastUpdateTime}"/>
                         <TextBox Grid.Row="2" Grid.Column="2"   IsReadOnly="True" 
-                VerticalAlignment="Center" Text="{Binding WebPage.LastUpdateTime, ConverterCulture={StaticResource  culture}}"/>       
+                VerticalAlignment="Center" Text="{Binding WebPage.LastUpdateTime, ConverterCulture={x:Static glo:CultureInfo.CurrentUICulture}}"/>
                         
                         <TextBlock Grid.Row="4" VerticalAlignment="Center" 
                    HorizontalAlignment="Right" Text="{DynamicResource label_lastUpdateContent}"/>

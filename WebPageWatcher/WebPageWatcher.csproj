@@ -140,6 +140,9 @@
     <Compile Include="UI\UserControl\HtmlBlackWhiteListItemLine.xaml.cs">
       <DependentUpon>HtmlBlackWhiteListItemLine.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UI\Window\BackgroundTaskErrorNotificationWindow.xaml.cs">
+      <DependentUpon>BackgroundTaskErrorNotificationWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UI\Window\WebPageChangedNotificationWindow.xaml.cs">
       <DependentUpon>WebPageChangedNotificationWindow.xaml</DependentUpon>
     </Compile>
@@ -183,6 +186,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="UI\Window\ComparisonWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\Window\BackgroundTaskErrorNotificationWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

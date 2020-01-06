@@ -91,14 +91,14 @@ namespace WebPageWatcher.UI
             var dialog = (Window.GetWindow(this) as MainWindow).dialog;
             if (WebPage.LatestDocument == null)
             {
-                await dialog.ShowErrorAsync("还没有进行过获取");
+                await dialog.ShowErrorAsync(FindResource("error_notGetYet") as string);
                 return;
             }
             PreviewWindow win = new PreviewWindow(WebPage) { Owner = Window.GetWindow(this) };
             win.ShowDialog();
         }
 
-        public void UpdateDisplay(WebPage webPage, bool changed)
+        public void UpdateDisplay(WebPage webPage)
         {
 
             WebPage.LastCheckTime = webPage.LastCheckTime;

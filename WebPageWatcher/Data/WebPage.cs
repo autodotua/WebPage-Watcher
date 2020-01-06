@@ -21,14 +21,14 @@ namespace WebPageWatcher.Data
         public string Url { get; set; }
         public  DateTime LastUpdateTime { get; set; }=DateTime.MinValue;
         public DateTime LastCheckTime { get; set; } = DateTime.MinValue;
-        public int Interval { get; set; } = 1000 * 60;
+        public int Interval { get; set; } = 1000 * 60*15;
         public string LatestDocument { get; set; }
 
 
 
 
         [Computed]
-        public List<BlackWhiteListItem> BlackWhiteList { get; set; }
+        public List<BlackWhiteListItem> BlackWhiteList { get; set; } = new List<BlackWhiteListItem>();
         public string BlackWhiteListJson
         {
             get => JsonConvert.SerializeObject(BlackWhiteList);
@@ -37,7 +37,7 @@ namespace WebPageWatcher.Data
         /// <summary>
         /// 0为白名单，1为黑名单
         /// </summary>
-        public int BlackWhiteListMode { get; set; } = 0;
+        public int BlackWhiteListMode { get; set; } = 1;
         public bool InnerTextOnly { get; set; } = true;
         public bool IgnoreWhiteSpace { get; set; } = true;
 

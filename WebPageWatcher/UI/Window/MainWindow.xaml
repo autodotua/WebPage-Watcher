@@ -6,6 +6,8 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WebPageWatcher.UI"
+         xmlns:glo="clr-namespace:System.Globalization;assembly=mscorlib"
+
     Loaded="Window_Loaded"
     xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" 
     mc:Ignorable="d"
@@ -34,8 +36,8 @@
                     <GridView>
                         <GridViewColumn Header="{DynamicResource list_title}" DisplayMemberBinding="{Binding Name}"/>
                         <GridViewColumn Header="{DynamicResource list_url}"  Width="108" DisplayMemberBinding="{Binding Url}"/>
-                        <GridViewColumn Header="{DynamicResource list_lastUpdateTime}"  DisplayMemberBinding="{Binding LastUpdateTime , ConverterCulture={StaticResource  culture}}"/>
-                        <GridViewColumn Header="{DynamicResource list_lastCheckTime}"  DisplayMemberBinding="{Binding LastCheckTime, ConverterCulture={StaticResource  culture}}"/>
+                        <GridViewColumn Header="{DynamicResource list_lastUpdateTime}"  DisplayMemberBinding="{Binding LastUpdateTime ,ConverterCulture={x:Static glo:CultureInfo.CurrentUICulture}}"/>
+                        <GridViewColumn Header="{DynamicResource list_lastCheckTime}"  DisplayMemberBinding="{Binding LastCheckTime,ConverterCulture={x:Static glo:CultureInfo.CurrentUICulture}}"/>
                     </GridView>
                 </ListView.View>
             </ListView>

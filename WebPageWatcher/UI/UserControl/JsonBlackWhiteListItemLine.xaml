@@ -17,10 +17,6 @@
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="8"/>
             <ColumnDefinition Width="Auto"/>
-            <!--<ColumnDefinition Width="8"/>
-            <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="8"/>
-            <ColumnDefinition Width="Auto"/>-->
         </Grid.ColumnDefinitions>
 
         <TextBlock Grid.Column="2" VerticalAlignment="Center">Path=</TextBlock>

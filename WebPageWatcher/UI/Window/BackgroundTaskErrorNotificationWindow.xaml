@@ -1,0 +1,48 @@
+﻿<local:NotificationWindowBase x:Class="WebPageWatcher.UI.BackgroundTaskErrorNotificationWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WebPageWatcher.UI"
+        mc:Ignorable="d" >
+    <Grid Margin="12">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="8"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="8"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="8"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="16"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <TextBlock FontWeight="Bold" Margin="8,0,0,0" Text="{DynamicResource win_main}"/>
+        <TextBlock  VerticalAlignment="Center" FontSize="18" Grid.Row="2" Foreground="#EF9A9A">
+            <Run Text="{DynamicResource label_taskError1}"/>
+            <Run Text="{Binding WebPage.Name}" FontWeight="Bold"/>
+            <Run Text="{DynamicResource label_taskError2}"/>
+        </TextBlock>
+        <TextBlock x:Name="tbkTime" HorizontalAlignment="Right"  
+                   VerticalAlignment="Center" Grid.Row="2"/>
+        <TextBlock x:Name="tbkMessage"        FontWeight="Bold"    FontSize="14"           VerticalAlignment="Center" Grid.Row="4"/>
+
+        <ScrollViewer Grid.Row="6" MaxHeight="80"
+                      HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
+            <TextBlock x:Name="tbkContent" TextWrapping="Wrap"  MaxWidth="360"/>
+        </ScrollViewer>  
+        <Grid Grid.Row="8">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="16"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="16"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Button  Click="Button_Click_1" Content="{DynamicResource button_viewSetting}" Style="{StaticResource NotificationButton}"/>
+            <Button  Click="Button_Click_2" Grid.Column="2" Content="{DynamicResource button_ignoreOnce}" Style="{StaticResource NotificationButton}"/>
+            <Button Grid.Column="4"  Style="{StaticResource NotificationButton}" Click="Button_Click"   Content="{DynamicResource button_ignore}"/>
+        </Grid>
+        <local:Dialog x:Name="dialog" Margin="-12"/>
+    </Grid>
+</local:NotificationWindowBase>

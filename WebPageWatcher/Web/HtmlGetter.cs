@@ -42,19 +42,10 @@ namespace WebPageWatcher.Web
         }
         private string GetResponse()
         {
-            string str = @"Host: app.zafu.edu.cn
-Proxy-Connection: keep-alive
-Content-Length: 0
-Accept: application/json
-X-Requested-With: XMLHttpRequest
-User-Agent: Mozilla/5.0 (Linux; Android 9; MI 6 Build/PQ3A.190801.002; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/77.0.3865.92 Mobile Safari/537.36
-Origin: http://app.zafu.edu.cn
-Referer: http://app.zafu.edu.cn/h5app/studentscore.htm
-Accept-Encoding: gzip, deflate
-Accept-Language: zh-CN,zh;q=0.9,en-US;q=0.8,en;q=0.7
-Cookie: Hm_lvt_6f798e51a1cd93937ee8293eece39b1a=1568115202;Hm_lpvt_6f798e51a1cd93937ee8293eece39b1a=1569408778;CNZZDATA5718743=cnzz_eid%3D465618644-1559608103-%26ntime%3D1569405599; JSESSIONID=9775BB7370CA66601E73D4760CBF8D69
-";
-
+            if(string.IsNullOrEmpty(WebPage.Url))
+            {
+                throw new Exception(App.Current.FindResource("error_urlIsEmpty") as string);
+            }
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(WebPage.Url);
             request.CookieContainer = GetCookies();
             if(!string.IsNullOrEmpty(WebPage.Request_Method))

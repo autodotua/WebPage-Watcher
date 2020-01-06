@@ -21,8 +21,10 @@ namespace WebPageWatcher
     {
         private FzLib.Program.Runtime.TrayIcon notifyIcon = null;
         public MainWindow SingleObject { get; set; }
+        public static new App Current { get; private set; }
         private async void Application_Startup(object sender, StartupEventArgs e)
         {
+            Current = this;
 #if DEBUG
 #else
                         FzLib.Program.Runtime.UnhandledException.RegistAll();
@@ -43,10 +45,23 @@ namespace WebPageWatcher
 
             if (!(e.Args.Length == 1 && e.Args[0] == "startup"))
             {
-                SingleObject = new MainWindow();
-                SingleObject.Show();
+                CreateMainWindow();
             }
 
+        }
+
+        public void CreateMainWindow(WebPage para = null)
+        {
+            if (para != null)
+            {
+                SingleObject = new MainWindow(para);
+
+            }
+            else
+            {
+                SingleObject = new MainWindow();
+            }
+            SingleObject.Show();
         }
 
         private void AboutTheme()
@@ -106,17 +121,17 @@ namespace WebPageWatcher
             DbHelper.Dispose();
         }
 
-        public  void SelectCulture(string culture)
+        public void SelectCulture(string culture)
         {
             if (String.IsNullOrEmpty(culture))
                 return;
 
             //Copy all MergedDictionarys into a auxiliar list.
-            var dictionaryList = Resources.MergedDictionaries;
+            var dictionary = Resources.MergedDictionaries;
 
             //Search for the specified culture.     
             string requestedCulture = string.Format("/Properties/StringResources.{0}.xaml", culture);
-            var resourceDictionary = dictionaryList.
+            var resourceDictionary = dictionary.
                 FirstOrDefault(p => p.Source != null && p.Source.OriginalString == requestedCulture);
 
 
@@ -124,8 +139,8 @@ namespace WebPageWatcher
             //Then this language will be our string table to use.      
             if (resourceDictionary != null)
             {
-                Application.Current.Resources.MergedDictionaries.Remove(resourceDictionary);
-                Application.Current.Resources.MergedDictionaries.Add(resourceDictionary);
+                dictionary.Remove(resourceDictionary);
+                dictionary.Add(resourceDictionary);
             }
 
 
@@ -133,11 +148,16 @@ namespace WebPageWatcher
             var c = new CultureInfo(culture);
             Thread.CurrentThread.CurrentCulture = c;
             Thread.CurrentThread.CurrentUICulture = c;
-            if(resourceDictionary.Contains("culture"))
+        }
+
+        public  MainWindow GetMainWindow(bool notUIThread = false)
+        {
+            MainWindow mainWindow =SingleObject;
+            if (mainWindow != null && mainWindow.IsLoaded && !mainWindow.IsClosed)
             {
-                resourceDictionary.Remove("culture");
+                return mainWindow;
             }
-            resourceDictionary.Add("culture", c);
+            return null;
         }
     }
 }

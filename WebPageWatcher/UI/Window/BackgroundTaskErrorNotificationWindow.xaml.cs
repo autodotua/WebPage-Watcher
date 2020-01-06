@@ -23,52 +23,47 @@ namespace WebPageWatcher.UI
     /// <summary>
     /// WebPageChangedNotificationWindow.xaml 的交互逻辑
     /// </summary>
-    public partial class WebPageChangedNotificationWindow : NotificationWindowBase
+    public partial class BackgroundTaskErrorNotificationWindow : NotificationWindowBase
     {
-        public WebPageChangedNotificationWindow(WebPage webPage, CompareResult compareResult)
+        public BackgroundTaskErrorNotificationWindow(WebPage webPage, Exception exception)
         {
             WebPage = webPage;
-            CompareResult = compareResult;
             InitializeComponent();
-            IEnumerable<string> strs=null;
-            switch (compareResult.Type)
-            {
-                case "HTML":
-                    strs = compareResult.DifferentNodes.Select(p => Regex.Replace((p.New as HtmlNode) .InnerText.Trim(), "\\s+", " "));
-                    break;
-                case "JSON":
-                    strs = compareResult.DifferentNodes.Select(p => Regex.Replace((p.New as JToken).ToString().Trim(), "\\s+", " "));
-                    break;
-            }
-            
-            tbkContent.Text = string.Join(Environment.NewLine + Environment.NewLine, strs);
-            tbkTime.Text = DateTime.Now.ToString("t",FindResource("culture") as CultureInfo);
+
+            tbkMessage.Text = exception.Message;
+            tbkContent.Text = exception.ToString();
+            tbkTime.Text = DateTime.Now.ToString("t",CultureInfo.CurrentUICulture);
         }
 
         public WebPage WebPage { get; }
         public CompareResult CompareResult { get; }
+        public EventHandler IgnoreOnce;
+        public EventHandler Ignore;
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
+            Ignore?.Invoke(this, new EventArgs());
             TakeBack();
         }
 
         private async void Button_Click_1(object sender, RoutedEventArgs e)
         {
-            try
+            MainWindow win = App.Current.GetMainWindow();
+            if(win!=null)
             {
-                System.Diagnostics.Process.Start(WebPage.Url);
+                win.SelectItem(WebPage);
+                win.BringToFront();
             }
-            catch (Exception ex)
+            else
             {
-                await dialog.ShowErrorAsync("打开失败");
+               App.Current.CreateMainWindow(WebPage);
             }
         }
 
         private void Button_Click_2(object sender, RoutedEventArgs e)
         {
-            ComparisonWindow win = new ComparisonWindow(CompareResult);
-            win.Show();
+            IgnoreOnce?.Invoke(this, new EventArgs());
+            TakeBack();
         }
     }
 }

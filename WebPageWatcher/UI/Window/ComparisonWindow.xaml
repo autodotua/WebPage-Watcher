@@ -25,8 +25,8 @@
             </Grid.ColumnDefinitions>
         <GridSplitter Grid.Row="3" Grid.ColumnSpan="3" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
 
-        <TextBlock FontSize="20">之前的</TextBlock>
-        <TextBlock Grid.Column="2" FontSize="20">现在的</TextBlock>
+        <TextBlock FontSize="20" Text="{DynamicResource label_before}"/>
+        <TextBlock Grid.Column="2" FontSize="20" Text="{DynamicResource label_current}"/>
         <WebBrowser x:Name="web1" Grid.Row="2" Grid.Column="0"/>
         <WebBrowser x:Name="web2" Grid.Row="2" Grid.Column="2"/>
         <avalonEdit:TextEditor x:Name="code1" IsReadOnly="True" ShowLineNumbers="True" Grid.Row="4"/>

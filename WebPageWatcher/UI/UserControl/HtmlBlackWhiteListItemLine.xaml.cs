@@ -31,32 +31,6 @@ namespace WebPageWatcher.UI
         public HtmlBlackWhiteListItemLine(BlackWhiteListItem item) : this()
         {
             Item = item;
-            //switch (item.Type)
-            //{
-            //    case HtmlElementIdentifyType.Id:
-            //        cbbIdentifyType.SelectedIndex = 0;
-            //        break;
-            //    case HtmlElementIdentifyType.XPath:
-            //        cbbIdentifyType.SelectedIndex = 1;
-            //        break;
-            //}
-            //txtValue.Text = item.Value;
-
-            //txtValue.TextChanged += TxtValue_TextChanged;
-            //cbbIdentifyType.SelectionChanged += CbbIdentifyType_SelectionChanged;
-        }
-
-        private void CbbIdentifyType_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            //switch (cbbIdentifyType.SelectedIndex)
-            //{
-            //    case 0:
-            //        Item.Type = HtmlElementIdentifyType.Id;
-            //        break;
-            //    case 1:
-            //        Item.Type = HtmlElementIdentifyType.XPath;
-            //        break;
-            //}
         }
 
         private void TxtValue_TextChanged(object sender, TextChangedEventArgs e)

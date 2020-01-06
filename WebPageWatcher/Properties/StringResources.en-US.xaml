@@ -67,4 +67,28 @@ xmlns:system="clr-namespace:System;assembly=mscorlib">
     <system:String x:Key="list_Key" >Key</system:String>
     <system:String x:Key="list_Value" >Value</system:String>
 
+
+    <system:String x:Key="button_openWebPage" >Open..</system:String>
+    <system:String x:Key="button_getMore" >More..</system:String>
+    <system:String x:Key="button_close" >Close</system:String>
+    
+    <system:String x:Key="label_changed1">WebPage</system:String>
+    <system:String x:Key="label_changed2">Changed</system:String>
+
+    <system:String x:Key="label_before">Before</system:String>
+    <system:String x:Key="label_current">Current</system:String>
+
+    <system:String x:Key="button_viewSetting">View Setting</system:String>
+    <system:String x:Key="button_ignoreOnce">Ignore Once</system:String>
+    <system:String x:Key="button_ignore">Always Ignore</system:String>
+    
+    <system:String x:Key="label_taskError1">WebPage</system:String>
+    <system:String x:Key="label_taskError2">Error 5 Times</system:String>
+
+    <system:String x:Key="error_urlIsEmpty">Url Is Empty</system:String>
+    <system:String x:Key="error_cannotFindNode">Can't Find Node</system:String>
+    <system:String x:Key="error_getHtmlFailed">Can't Download Webpage, Continue?</system:String>
+    <system:String x:Key="error_title_getHtmlFailed">Get Webpage Failed</system:String>
+    <system:String x:Key="error_notGetYet">Not Get Webpage Yet</system:String>
+
 </ResourceDictionary>
