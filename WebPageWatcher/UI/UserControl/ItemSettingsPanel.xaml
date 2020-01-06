@@ -1,0 +1,240 @@
+﻿<extension:ExtendedUserControl
+    xmlns:extension="clr-namespace:FzLib.Control.Extension;assembly=FzWpfControlLib"
+    x:Class="WebPageWatcher.UI.ItemSettingsPanel"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+        xmlns:system="clr-namespace:System;assembly=mscorlib"
+    xmlns:local="clr-namespace:WebPageWatcher.UI"
+    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+    mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <extension:ExtendedUserControl.Resources>
+        <local:IsNotNullToBoolConverter x:Key="notNull2Enable" />
+        <local:TimeSpan2Ms x:Key="timeSpan2Ms" />
+    </extension:ExtendedUserControl.Resources>
+    <Grid Margin="8,0,0,0" 
+          IsEnabled="{Binding WebPage, Converter={StaticResource notNull2Enable}}">
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="8"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
+            <StackPanel Margin="0,0,8,0">
+                <Expander Header="{DynamicResource expander_runningStatus}" IsExpanded="False">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="8"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="8"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="16"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock Grid.Row="0" VerticalAlignment="Center" 
+                   HorizontalAlignment="Right" Text="{DynamicResource label_lastCheckTime}"/>
+                        <TextBox Grid.Row="0" Grid.Column="2"  IsReadOnly="True"
+                VerticalAlignment="Center" Text="{Binding WebPage.LastCheckTime , ConverterCulture={StaticResource  culture}}"/>
+                        <TextBlock Grid.Row="2" VerticalAlignment="Center" 
+                   HorizontalAlignment="Right" Text="{DynamicResource label_lastUpdateTime}"/>
+                        <TextBox Grid.Row="2" Grid.Column="2"   IsReadOnly="True" 
+                VerticalAlignment="Center" Text="{Binding WebPage.LastUpdateTime, ConverterCulture={StaticResource  culture}}"/>       
+                        
+                        <TextBlock Grid.Row="4" VerticalAlignment="Center" 
+                   HorizontalAlignment="Right" Text="{DynamicResource label_lastUpdateContent}"/>
+                        <Button Grid.Row="4" Grid.Column="2"  VerticalAlignment="Center"
+                                HorizontalAlignment="Right" Content="{DynamicResource button_view}" Click="Button_Click_5"/>
+
+                    </Grid>
+
+                </Expander>
+                <Expander Header="{DynamicResource expander_basicInfo}" IsExpanded="True">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="8"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="16"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="16"/>
+                            <ColumnDefinition Width="72"/>
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock Grid.Row="0" VerticalAlignment="Center" 
+                   HorizontalAlignment="Right" Text="{DynamicResource label_name}"/>
+                        <TextBox Grid.Row="0" Grid.Column="2"  Grid.ColumnSpan="3" 
+                VerticalAlignment="Center" Text="{Binding WebPage.Name}"/>
+
+                    </Grid>
+
+                </Expander>
+                <Expander Header="{DynamicResource expander_getAndCompare}"  IsExpanded="True">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="8"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="8"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="16"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="16"/>
+                            <ColumnDefinition Width="72"/>
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock Grid.Row="0" VerticalAlignment="Center" 
+                   HorizontalAlignment="Right" Text="{DynamicResource label_blackWhiteList}"/>
+                        <TextBlock x:Name="tbkBlackWhiteList" Grid.Row="0" Grid.Column="2"
+                VerticalAlignment="Center"   Text="{Binding WebPage.BlackWhiteList.Count, Mode=OneWay}"/>
+                        <Button Grid.Row="0" Grid.Column="4"  Click="Button_Click_4" Content="{DynamicResource button_setting}"/>
+
+                        <TextBlock Grid.Row="2" VerticalAlignment="Bottom" 
+                   HorizontalAlignment="Right" Text="{DynamicResource label_updateInterval}"/>
+                        <!--<Slider x:Name="sldInterval" Minimum="0"   Maximum="60" Grid.Row="8" Grid.Column="2"
+  Style="{StaticResource MaterialDesignDiscreteSlider}" Margin="0,-24,48,0"  VerticalAlignment="Center"        />
+            <TextBlock Grid.Row="8" Grid.Column="4" VerticalAlignment="Bottom" Margin="-48,0,0,4" Text="{Binding ElementName=sldInterval, Path=Value}"/>
+            <ComboBox x:Name="cbbInterval" Grid.Row="8" Grid.Column="4" SelectedIndex="0" VerticalAlignment="Bottom">
+                <ComboBoxItem>分</ComboBoxItem>
+                <ComboBoxItem>小时</ComboBoxItem>
+            </ComboBox>-->
+                        <materialDesign:TimePicker  Grid.Row="2" Grid.Column="2"  Grid.ColumnSpan="3"
+   materialDesign:HintAssist.Hint="{DynamicResource time_hint}"  Is24Hours="True"  SelectedTime="{Binding WebPage.Interval,Converter={StaticResource timeSpan2Ms}}" />
+                        <TextBlock Grid.Row="4" VerticalAlignment="Center" HorizontalAlignment="Right" Text="{DynamicResource label_compareOptions}"/>
+                        <StackPanel Grid.Row="4" Grid.Column="2"  Grid.ColumnSpan="3" >
+                            <CheckBox IsChecked="{Binding WebPage.InnerTextOnly}" Content="{DynamicResource check_innerTextOnly}"/>
+                            <FrameworkElement Height="4"/>
+                            <CheckBox IsChecked="{Binding WebPage.IgnoreWhiteSpace}" Content="{DynamicResource check_ignoreWhiteSpace}"/>
+                        </StackPanel>
+
+
+                    </Grid>
+
+                </Expander>
+                <Expander Header="{DynamicResource expander_httpRequest}" IsExpanded="True">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="8"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="8"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="8"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="8"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="8"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="8"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="16"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="16"/>
+                            <ColumnDefinition Width="72"/>
+                        </Grid.ColumnDefinitions>
+
+
+                        <TextBlock Grid.Row="0" VerticalAlignment="Center" 
+                   HorizontalAlignment="Right" Text="{DynamicResource label_url}"/>
+                        <TextBox Grid.Row="0" Grid.Column="2"  Grid.ColumnSpan="3"
+                 VerticalAlignment="Center" Text="{Binding WebPage.Url}"/>
+
+                        <TextBlock Grid.Row="2" VerticalAlignment="Center" 
+                   HorizontalAlignment="Right" Text="{DynamicResource label_method}"/>
+                        <ComboBox Grid.Row="2"  Grid.Column="2" Grid.ColumnSpan="99"  SelectedItem="{Binding WebPage.Request_Method}">
+                            <system:String>GET</system:String>
+                            <system:String>POST</system:String>
+                        </ComboBox>
+
+                        <TextBlock Grid.Row="4" VerticalAlignment="Center" 
+                   HorizontalAlignment="Right">Cookie：</TextBlock>
+                        <TextBlock x:Name="tbkCookie" Grid.Row="4" Grid.Column="2"
+                VerticalAlignment="Center"   Text="{Binding WebPage.Request_Cookies.Count, Mode=OneWay}"/>
+                        <Button Grid.Row="4" Grid.Column="4" 
+                                VerticalAlignment="Center" Click="Button_Click"  Content="{DynamicResource button_setting}"/>
+
+                        <TextBlock Grid.Row="6" VerticalAlignment="Center" 
+                   HorizontalAlignment="Right">Body：</TextBlock>
+                        <TextBox Grid.Row="6" Grid.Column="2"  Grid.ColumnSpan="3"
+                 VerticalAlignment="Center" Text="{Binding WebPage.Body}"/>
+
+                        <TextBlock Grid.Row="8" VerticalAlignment="Center" 
+                   HorizontalAlignment="Right">Accept：</TextBlock>
+                        <TextBox Grid.Row="8" Grid.Column="2"  Grid.ColumnSpan="3"
+                 VerticalAlignment="Center" Text="{Binding WebPage.Request_Accept}"/>
+                        <TextBlock Grid.Row="10" VerticalAlignment="Center" 
+                   HorizontalAlignment="Right">ContentType：</TextBlock>
+                        <TextBox Grid.Row="10" Grid.Column="2"  Grid.ColumnSpan="3"
+                 VerticalAlignment="Center" Text="{Binding WebPage.Request_ContentType}"/>
+
+                        <TextBlock Grid.Row="12" VerticalAlignment="Center" 
+                   HorizontalAlignment="Right">Refer：</TextBlock>
+                        <TextBox Grid.Row="12" Grid.Column="2"  Grid.ColumnSpan="3"
+                 VerticalAlignment="Center" Text="{Binding WebPage.Request_Refer}"/>
+                        
+                    </Grid>
+
+                </Expander>
+                <Expander Header="{DynamicResource expander_httpResponse}" IsExpanded="True">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="8"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="16"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="16"/>
+                            <ColumnDefinition Width="72"/>
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock Grid.Row="0" VerticalAlignment="Center" 
+                   HorizontalAlignment="Right" Text="{DynamicResource label_responseType}"/>
+                        <ComboBox Grid.Row="0"  Grid.Column="2" Grid.ColumnSpan="99"  SelectedItem="{Binding WebPage.Response_Type}">
+                            <system:String>HTML</system:String>
+                            <system:String>JSON</system:String>
+                            <system:String>TEXT</system:String>
+                        </ComboBox>
+                    </Grid>
+
+                </Expander>
+
+            </StackPanel>
+        </ScrollViewer>
+
+
+
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="16"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <!--<RowDefinition Height="8"/>-->
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Button Click="Button_Click_1" Content="{DynamicResource button_save}"/>
+            <Button Click="Button_Click_2" Grid.Column="2" Content="{DynamicResource button_reset}"/>
+        </Grid>
+    </Grid>
+</extension:ExtendedUserControl>

@@ -1,0 +1,48 @@
+﻿<local:NotificationWindowBase x:Class="WebPageWatcher.UI.WebPageChangedNotificationWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WebPageWatcher.UI"
+        mc:Ignorable="d" >
+    <Grid Margin="12">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="8"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="8"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="16"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <TextBlock FontWeight="Bold" Margin="8,0,0,0">网页内容变动提醒</TextBlock>
+        <TextBlock FontSize="18" Grid.Row="2">
+            <Run Text="网页"/>
+            <Run Text="{Binding WebPage.Name}" FontWeight="Bold"/>
+            <Run Text="的内容发生变化"/>
+        </TextBlock>
+        <ScrollViewer Grid.Row="4" MaxHeight="46"
+                      HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Hidden">
+            <TextBlock x:Name="tbkContent" TextWrapping="Wrap"  MaxWidth="360">这里里显示变里显示变里显示变里显示变里显示变里显
+                里显示变里显示变里显示变显示变化具体内示变里显示变里显示变显示变化具体内容
+                里显示变里显示变里显示变显示变化具体内示变里显示变里显示变显示变化具体内容
+                里显示变里显示变里显示变显示变化具体内示变里显示变里显示变显示变化具体内容
+                里显示变里显示变里显示变显示变化具体内示变里显示变里显示变显示变化具体内容
+                里显示变里显示变里显示变显示变化具体内示变里显示变里显示变显示变化具体内容
+            </TextBlock>
+        </ScrollViewer>  
+        <Grid Grid.Row="6">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="16"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="16"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Button  Click="Button_Click_1" Content="打开网页" Style="{StaticResource NotificationButton}"/>
+            <Button  Click="Button_Click_2" Grid.Column="2" Content="查看详情" Style="{StaticResource NotificationButton}"/>
+            <Button Grid.Column="4"  Style="{StaticResource NotificationButton}" Click="Button_Click"  >关闭</Button>
+        </Grid>
+        <local:Dialog x:Name="dialog" Margin="-12"/>
+    </Grid>
+</local:NotificationWindowBase>

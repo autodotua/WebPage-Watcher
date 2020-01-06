@@ -1,0 +1,70 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:WebPageWatcher.Properties"
+xmlns:system="clr-namespace:System;assembly=mscorlib">
+    <system:String x:Key="expander_runningStatus" >Running Status</system:String>
+    <system:String x:Key="expander_basicInfo" >Basic Infomation</system:String>
+    <system:String x:Key="expander_getAndCompare" >Get And Compare</system:String>
+    <system:String x:Key="expander_httpRequest" >HTTP Request</system:String>
+    <system:String x:Key="expander_httpResponse" >HTTP Response</system:String>
+    
+    <system:String x:Key="label_lastCheckTime" >Last Check Time:</system:String>
+    <system:String x:Key="label_lastUpdateTime" >Last Update Time:</system:String>
+    <system:String x:Key="label_lastUpdateContent" >Last Update Content:</system:String>
+
+    <system:String x:Key="label_name" >Name:</system:String>
+
+    <system:String x:Key="label_blackWhiteList" >Black And White List:</system:String>
+    <system:String x:Key="label_updateInterval" >Update Interval:</system:String>
+    <system:String x:Key="label_compareOptions" >Compare Options:</system:String>
+
+    <system:String x:Key="label_url" >Url:</system:String>
+    <system:String x:Key="label_method" >Method:</system:String>
+
+    <system:String x:Key="label_responseType" >Response Type:</system:String>
+
+    <system:String x:Key="button_setting" >Set..</system:String>
+    <system:String x:Key="button_view" >View..</system:String>
+
+    <system:String x:Key="button_save" >Save</system:String>
+    <system:String x:Key="button_reset" >Reset</system:String>
+    <system:String x:Key="button_new" >New</system:String>
+
+    <system:String x:Key="check_innerTextOnly" >Compare Inner Text Only</system:String>
+    <system:String x:Key="check_ignoreWhiteSpace" >Ignore White Space</system:String>
+
+
+    <system:String x:Key="win_main" >Webpage Watcher</system:String>
+    <system:String x:Key="win_blackWhiteList" >Black And White List Settings</system:String>
+    <system:String x:Key="win_compare" >Content Compare</system:String>
+    <system:String x:Key="win_cookie" >Cookie Settings</system:String>
+    <system:String x:Key="win_preview" >Preview</system:String>
+
+    <system:String x:Key="time_hint" >Select Interval..</system:String>
+    
+    <system:String x:Key="menu_id" >Add ID Match</system:String>
+    <system:String x:Key="menu_xpath" >Add XPath Match</system:String>
+    <system:String x:Key="menu_path" >Add Path Match</system:String>
+
+
+    <system:String x:Key="json_object" >Object</system:String>
+    <system:String x:Key="json_array" >Array</system:String>
+    <system:String x:Key="json_property" >Property:</system:String>
+    <system:String x:Key="json_constructor" >Constructor</system:String>
+    <system:String x:Key="json_raw" >Raw</system:String>
+    
+    <system:String x:Key="option_whiteList" >Use White List</system:String>
+    <system:String x:Key="option_blackList" >Use Black List</system:String>
+
+    <system:String x:Key="label_search" >Search</system:String>
+    
+    <system:String x:Key="list_title" >Title</system:String>
+    <system:String x:Key="list_url" >Url</system:String>
+    <system:String x:Key="list_lastCheckTime" >Last Check Time</system:String>
+    <system:String x:Key="list_lastUpdateTime" >Last Update Time</system:String>
+
+
+    <system:String x:Key="list_Key" >Key</system:String>
+    <system:String x:Key="list_Value" >Value</system:String>
+
+</ResourceDictionary>
