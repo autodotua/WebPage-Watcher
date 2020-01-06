@@ -4,6 +4,10 @@
 
 这是一款支持当指定的网页或接口响应发生变化时在桌面右下角弹出提醒框的小程序
 
+## 截图
+
+![image](https://github.com/autodotua/WebPage-Watcher/blob/master/Screenshots/MainWindow.png)
+
 ## 特性
 
 - 使用.Net Framework 4.8 + WPF 开发
