@@ -6,7 +6,7 @@
 
 ## 截图
 
-![image](https://github.com/autodotua/WebPage-Watcher/blob/master/Screenshots/MainWindow.png)
+![image](/Screenshots/MainWindow.png)
 
 ## 特性
 
@@ -23,8 +23,8 @@
 - [x] 自动跟随系统主题变色
 - [x] POST支持
 - [x] JSON HTTP响应格式
-- [ ] 多次错误弹窗提示
-- [ ] 多国语言支持
+- [x] 多次错误弹窗提示
+- [x] 多国语言支持
 - [ ] 设置界面
 - [ ] 纯文本HTTP响应格式
 - [ ] 详细对比
