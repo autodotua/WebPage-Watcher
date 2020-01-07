@@ -23,6 +23,7 @@ namespace WebPageWatcher.UI
             Foreground = Brushes.White;
             
             Topmost = true;
+
         }
 
         public void PopUp()

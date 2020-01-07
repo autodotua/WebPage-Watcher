@@ -41,9 +41,9 @@
                 <ColumnDefinition Width="16"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <Button  Click="Button_Click_1" Content="{DynamicResource button_openWebPage}" Style="{StaticResource NotificationButton}"/>
-            <Button  Click="Button_Click_2" Grid.Column="2" Content="{DynamicResource button_getMore}" Style="{StaticResource NotificationButton}"/>
-            <Button Grid.Column="4"  Style="{StaticResource NotificationButton}" Click="Button_Click"   Content="{DynamicResource button_close}"/>
+            <Button x:Name="btnOpen" Click="OpenButton_Click" Content="{DynamicResource button_openWebPage}" Style="{StaticResource NotificationButton}"/>
+            <Button  Click="ViewButton_Click" Grid.Column="2" Content="{DynamicResource button_getMore}" Style="{StaticResource NotificationButton}"/>
+            <Button Grid.Column="4"  Style="{StaticResource NotificationButton}" Click="CloseButton_Click"   Content="{DynamicResource button_close}"/>
         </Grid>
         <local:Dialog x:Name="dialog" Margin="-12"/>
     </Grid>

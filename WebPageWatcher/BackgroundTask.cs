@@ -11,6 +11,9 @@ using WebPageWatcher.Web;
 using WebPageWatcher.UI;
 using FzLib.Basic.Collection;
 using System.Diagnostics;
+using System.Media;
+using System.IO;
+using System.Runtime.InteropServices;
 
 namespace WebPageWatcher
 {
@@ -47,7 +50,7 @@ namespace WebPageWatcher
 #endif
         }
 
-        private static void Do()
+        private static async Task Do()
         {
             DateTime now = DateTime.Now;
             foreach (var webPage in WebPages.ToArray())
@@ -59,14 +62,13 @@ namespace WebPageWatcher
                         webPage.LatestDocument = HtmlGetter.GetResponse(webPage);
                         webPage.LastCheckTime = now;
 
-                        UpdateDbAndUI(webPage, null).Wait();
+                        await UpdateDbAndUI(webPage, null);
                     }
                     else
 #if (!TEST || !DEBUG)
                     if (webPage.LastCheckTime + TimeSpan.FromMilliseconds(webPage.Interval) < now)
 #endif
                     {
-                        Debug.WriteLine("比较了");
                         webPage.LastCheckTime = now;
 
                         CompareResult result = ComparerBase.Compare(webPage);
@@ -79,10 +81,10 @@ namespace WebPageWatcher
                             });
                             webPage.LastUpdateTime = now;
                             webPage.LatestDocument = result.NewContent;
-
+                            PlayRing();
                         }
 
-                        UpdateDbAndUI(webPage, result).Wait();
+                        await UpdateDbAndUI(webPage, result);
                     }
                 }
                 catch (Exception ex)
@@ -104,7 +106,7 @@ namespace WebPageWatcher
             App.Current.Dispatcher.Invoke(() =>
             {
                 var mainWindow = App.Current.GetMainWindow(true);
-                if (mainWindow != null )
+                if (mainWindow != null)
                 {
                     mainWindow.UpdateDisplay(page);
                 }
@@ -113,7 +115,7 @@ namespace WebPageWatcher
 
         private static void CheckExceptions(WebPage webPage)
         {
-            if (exceptionsCount[webPage]>=5)
+            if (exceptionsCount[webPage] >= 5)
             {
                 exceptionsCount[webPage] = -1;//暂时先不记录，等关闭窗口以后继续累计
                 App.Current.Dispatcher.Invoke(() =>
@@ -125,7 +127,30 @@ namespace WebPageWatcher
                 });
             }
         }
+        public static uint SND_ASYNC = 0x0001;
+        public static uint SND_FILENAME = 0x00020000;
+        [DllImport("winmm.dll")]
+        public static extern uint mciSendString(string lpstrCommand, string lpstrReturnString, uint uReturnLength, uint hWndCallback);
 
+        private static void PlayRing()
+        {
+            if(Config.Instance.Ring==0)
+            {
+                return;
+            }
+            string path;
+            if (Config.Instance.Ring == 1 || !File.Exists(Config.Instance.RingPath))
+            {
+                path = Path.Combine(FzLib.Program.App.ProgramDirectoryPath, "Audio", "ring.mp3");
+            }
+            else
+            {
+                path = Config.Instance.RingPath;
+            }
+            mciSendString("close temp_alias", null, 0, 0);
+            mciSendString($"open \"{path}\" alias temp_alias", null, 0, 0); //音乐文件
+            mciSendString("play temp_alias", null, 0, 0);
+        }
     }
 
 }

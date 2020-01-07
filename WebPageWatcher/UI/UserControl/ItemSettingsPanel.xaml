@@ -24,8 +24,9 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
-            <StackPanel Margin="0,0,8,0">
-                <Expander Header="{DynamicResource expander_runningStatus}" IsExpanded="True">
+            <StackPanel Margin="0,0,8,0" >
+                <GroupBox BorderThickness="0" Header="{DynamicResource expander_runningStatus}" 
+  materialDesign:ColorZoneAssist.Mode="Accent">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
@@ -56,8 +57,9 @@
 
                     </Grid>
 
-                </Expander>
-                <Expander Header="{DynamicResource expander_basicInfo}" IsExpanded="True">
+                </GroupBox >
+                <GroupBox BorderThickness="0" Header="{DynamicResource expander_basicInfo}"  
+  materialDesign:ColorZoneAssist.Mode="Accent">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
@@ -79,8 +81,9 @@
 
                     </Grid>
 
-                </Expander>
-                <Expander Header="{DynamicResource expander_getAndCompare}"  IsExpanded="True">
+                </GroupBox >
+                <GroupBox BorderThickness="0" Header="{DynamicResource expander_getAndCompare}"  
+  materialDesign:ColorZoneAssist.Mode="Accent">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
@@ -124,8 +127,9 @@
 
                     </Grid>
 
-                </Expander>
-                <Expander Header="{DynamicResource expander_httpRequest}" IsExpanded="True">
+                </GroupBox >
+                <GroupBox BorderThickness="0" Header="{DynamicResource expander_httpRequest}" 
+  materialDesign:ColorZoneAssist.Mode="Accent">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
@@ -191,8 +195,9 @@
                         
                     </Grid>
 
-                </Expander>
-                <Expander Header="{DynamicResource expander_httpResponse}" IsExpanded="True">
+                </GroupBox >
+                <GroupBox BorderThickness="0" Header="{DynamicResource expander_httpResponse}" 
+  materialDesign:ColorZoneAssist.Mode="Accent">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
@@ -216,7 +221,7 @@
                         </ComboBox>
                     </Grid>
 
-                </Expander>
+                </GroupBox >
 
             </StackPanel>
         </ScrollViewer>

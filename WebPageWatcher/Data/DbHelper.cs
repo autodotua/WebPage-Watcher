@@ -13,7 +13,7 @@ namespace WebPageWatcher.Data
 {
     public class DbHelper
     {
-        public const string DbPath = "db.db";
+        public static string DbPath =>Path.Combine(Config.DataPath,"db.db");
         public const string WebPagesTableName = "WebPages";
         public const string CookiesTableName = "Cookies";
         private static IDbConnection db;
@@ -24,8 +24,12 @@ namespace WebPageWatcher.Data
             if (db == null)
             {
                 if (!File.Exists(DbPath))
-
                 {
+
+                    if (!Directory.Exists(Config.DataPath))
+                    {
+                        Directory.CreateDirectory(Config.DataPath);
+                    }
                     var fzDb = SQLiteDatabaseHelper.OpenOrCreate(DbPath);
                     fzDb.CreateTable(WebPagesTableName, "ID",
                        new SQLiteColumn(nameof(WebPage.Name), SQLiteDataType.Text),

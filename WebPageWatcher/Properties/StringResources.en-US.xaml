@@ -91,6 +91,7 @@ xmlns:system="clr-namespace:System;assembly=mscorlib">
     <system:String x:Key="error_getHtmlFailed">Can't download webpage, continue?</system:String>
     <system:String x:Key="error_title_getHtmlFailed">Get webpage failed</system:String>
     <system:String x:Key="error_notGetYet">Not get webpage yet</system:String>
+    <system:String x:Key="error_textTypeNotSupport">Text type not support black or white list</system:String>
 
     <system:String x:Key="menu_program">Program</system:String>
     <system:String x:Key="menu_setting">Settings</system:String>
@@ -100,5 +101,14 @@ xmlns:system="clr-namespace:System;assembly=mscorlib">
     <system:String x:Key="set_general">General</system:String>
     <system:String x:Key="set_launch">Launch</system:String>
     <system:String x:Key="set_startup">Launch at startup</system:String>
+    <system:String x:Key="set_theme">Theme color</system:String>
+    <system:String x:Key="set_light">Light</system:String>
+    <system:String x:Key="set_dark">Dark</system:String>
+    <system:String x:Key="set_auto">Auto</system:String>
+    <system:String x:Key="set_notification">Notification</system:String>
+    <system:String x:Key="set_ring">Notification Ring</system:String>
+    <system:String x:Key="set_disabled">Disabled</system:String>
+    <system:String x:Key="set_default">Default</system:String>
+    <system:String x:Key="set_browse">Browse..</system:String>
 
 </ResourceDictionary>

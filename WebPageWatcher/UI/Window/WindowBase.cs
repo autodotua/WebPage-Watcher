@@ -12,8 +12,10 @@ namespace WebPageWatcher.UI
     {
         public WindowBase()
         {
-            Background = FindResource("MaterialDesignPaper") as Brush;
-            TextElement.SetForeground(this, FindResource("MaterialDesignBody") as Brush);
+            SetResourceReference(BackgroundProperty, "MaterialDesignPaper");
+            SetResourceReference(ForegroundProperty, "MaterialDesignBody");
+            //Background = FindResource("MaterialDesignPaper") as Brush;
+            //TextElement.SetForeground(this, FindResource("MaterialDesignBody") as Brush);
 
         }
     }

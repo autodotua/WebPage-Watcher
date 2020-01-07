@@ -26,8 +26,26 @@ namespace WebPageWatcher.UI
         {
             InitializeComponent();
             cbbLanguage.SelectedItem = cbbLanguage.Items.Cast<ComboBoxItem>().First(p => p.Tag.Equals(Config.Instance.Language));
+            cbbTheme.SelectedItem = cbbTheme.Items.Cast<ComboBoxItem>().First(p => p.Tag.Equals(Config.Instance.Theme.ToString()));
             chkStartup.IsChecked = FzLib.Program.Startup.IsRegistryKeyExist() == FzLib.IO.Shortcut.ShortcutStatus.Exist;
+            cbbLanguage.SelectionChanged += cbbLanguage_SelectionChanged;
+            cbbTheme.SelectionChanged += cbbTheme_SelectionChanged;
 
+            switch(Config.Instance.Ring)
+            {
+                case 0:
+                    rbtnRingDisabled.IsChecked = true;
+                    break;
+                case 1:
+                    rbtnRingDefault.IsChecked = true;
+                    break;
+                default:
+                    rbtnRingCustom.IsChecked = true;
+                    break;
+            }
+            rbtnRingDisabled.Checked += RadioButton_Checked;
+            rbtnRingDefault.Checked += RadioButton_Checked;
+            rbtnRingCustom.Checked += RadioButton_Checked;
         }
 
 
@@ -35,6 +53,7 @@ namespace WebPageWatcher.UI
         {
             Config.Instance.Language = (cbbLanguage.SelectedItem as ComboBoxItem).Tag as string;
             App.Current.SetCulture();
+            Config.Instance.Save();
         }
 
         private void CheckBox_Click(object sender, RoutedEventArgs e)
@@ -46,6 +65,42 @@ namespace WebPageWatcher.UI
             else
             {
                 FzLib.Program.Startup.DeleteRegistryKey();
+            }
+        }
+
+        private void cbbTheme_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            Config.Instance.Theme = int.Parse((cbbTheme.SelectedItem as ComboBoxItem).Tag as string);
+            App.Current.SetTheme();
+            Config.Instance.Save();
+        }
+
+        private void RadioButton_Checked(object sender, RoutedEventArgs e)
+        {
+            switch((sender as RadioButton).Name)
+            {
+                case nameof(rbtnRingDisabled):
+                    Config.Instance.Ring = 0;
+                    break;
+                case nameof(rbtnRingDefault):
+                    Config.Instance.Ring = 1;
+                    break;
+                case nameof(rbtnRingCustom):
+                    Config.Instance.Ring = 2;
+                    break;
+            }
+            Config.Instance.Save();
+        }
+
+        public Config Config => Config.Instance;
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            string path = FzLib.Control.Dialog.FileSystemDialog.GetOpenFile(new (string, string)[] { ("mp3", "mp3") });
+            if(path!=null)
+            {
+                Config.RingPath = path;
+                Notify(nameof(Config));
             }
         }
     }

@@ -38,7 +38,8 @@ namespace WebPageWatcher
 
             FzLib.Program.App.SetWorkingDirectoryToAppPath();
 
-            AboutTheme();
+            InitializeTheme();
+            SetTheme();
 
             Tray();
 
@@ -65,28 +66,46 @@ namespace WebPageWatcher
             SingleObject.Show();
         }
 
-        private void AboutTheme()
+        private void InitializeTheme()
         {
-            MaterialDesignThemes.Wpf.BundledTheme theme = new MaterialDesignThemes.Wpf.BundledTheme();
-            theme.PrimaryColor = MaterialDesignColors.PrimaryColor.Purple;
-            theme.SecondaryColor = MaterialDesignColors.SecondaryColor.Lime;
-
             var v = Microsoft.Win32.Registry.GetValue(@"HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Themes\Personalize", "AppsUseLightTheme", "1");
             if (v == null || v.ToString() == "1")
             {
                 AppsUseLightTheme = true;
-                theme.BaseTheme = MaterialDesignThemes.Wpf.BaseTheme.Light;
             }
-            else
-            {
-                theme.BaseTheme = MaterialDesignThemes.Wpf.BaseTheme.Dark;
-            }
-            Resources.MergedDictionaries.Add(theme);
             v = Microsoft.Win32.Registry.GetValue(@"HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Themes\Personalize", "SystemUsesLightTheme", "0");
             if (v == null || v.ToString() == "1")
             {
                 SystemUsesLightTheme = true;
             }
+        }
+        public void SetTheme()
+        {
+            MaterialDesignThemes.Wpf.BundledTheme theme = new MaterialDesignThemes.Wpf.BundledTheme();
+            theme.PrimaryColor = MaterialDesignColors.PrimaryColor.Purple;
+            theme.SecondaryColor = MaterialDesignColors.SecondaryColor.Lime;
+            switch (Config.Instance.Theme)
+            {
+                case 0:
+                    if (AppsUseLightTheme)
+                    {
+                        theme.BaseTheme = MaterialDesignThemes.Wpf.BaseTheme.Light;
+                    }
+                    else
+                    {
+                        theme.BaseTheme = MaterialDesignThemes.Wpf.BaseTheme.Dark;
+                    }
+                    break;
+                case -1:
+                    theme.BaseTheme = MaterialDesignThemes.Wpf.BaseTheme.Dark;
+                    break;
+                case 1:
+                    theme.BaseTheme = MaterialDesignThemes.Wpf.BaseTheme.Light;
+                    break;
+            }
+
+            Resources.MergedDictionaries.Add(theme);
+
         }
 
         public bool SystemUsesLightTheme { get; private set; }

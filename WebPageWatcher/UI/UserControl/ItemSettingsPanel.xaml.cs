@@ -77,7 +77,7 @@ namespace WebPageWatcher.UI
             var dialog = (Window.GetWindow(this) as MainWindow).dialog;
             if (WebPage.Response_Type == "TEXT")
             {
-                await dialog.ShowErrorAsync("文本不支持黑白名单设置" + Environment.NewLine);
+                await dialog.ShowErrorAsync(FindResource("error_textTypeNotSupport") as string);
                 return;
             }
 
@@ -119,7 +119,7 @@ namespace WebPageWatcher.UI
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            throw new NotSupportedException("Two-way binding not supported by IsNotNullToBoolConverter");
+            throw new NotSupportedException();
         }
 
     }

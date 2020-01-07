@@ -43,17 +43,18 @@ namespace WebPageWatcher.UI
             
             tbkContent.Text = string.Join(Environment.NewLine + Environment.NewLine, strs);
             tbkTime.Text = DateTime.Now.ToString("t", CultureInfo.CurrentUICulture);
+            btnOpen.IsEnabled = webPage.Request_Method == "GET";
         }
 
         public WebPage WebPage { get; }
         public CompareResult CompareResult { get; }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void CloseButton_Click(object sender, RoutedEventArgs e)
         {
             TakeBack();
         }
 
-        private async void Button_Click_1(object sender, RoutedEventArgs e)
+        private async void OpenButton_Click(object sender, RoutedEventArgs e)
         {
             try
             {
@@ -65,7 +66,7 @@ namespace WebPageWatcher.UI
             }
         }
 
-        private void Button_Click_2(object sender, RoutedEventArgs e)
+        private void ViewButton_Click(object sender, RoutedEventArgs e)
         {
             ComparisonWindow win = new ComparisonWindow(CompareResult);
             win.Show();
