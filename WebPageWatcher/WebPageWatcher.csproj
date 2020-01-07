@@ -127,6 +127,9 @@
       <DependentUpon>ProgressDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="UI\WebBrowserHelper.cs" />
+    <Compile Include="UI\Window\SettingWindow.xaml.cs">
+      <DependentUpon>SettingWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UI\Window\PreviewWindow.xaml.cs">
       <DependentUpon>PreviewWindow.xaml</DependentUpon>
     </Compile>
@@ -180,6 +183,10 @@
     <Page Include="UI\UserControl\HtmlBlackWhiteListItemLine.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Window\SettingWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="UI\Window\PreviewWindow.xaml">
       <Generator>MSBuild:Compile</Generator>

@@ -25,23 +25,24 @@ namespace WebPageWatcher
         private async void Application_Startup(object sender, StartupEventArgs e)
         {
             Current = this;
-#if DEBUG
-#else
-                        FzLib.Program.Runtime.UnhandledException.RegistAll();
+#if (!DEBUG)
+            FzLib.Program.Runtime.UnhandledException.RegistAll();
+
+            FzLib.Program.Runtime.SingleInstance singleInstance = new FzLib.Program.Runtime.SingleInstance(Assembly.GetExecutingAssembly().FullName);
+            if (await singleInstance.CheckAndOpenWindow(this, this))
+            {
+                return;
+            }
 #endif
             await BackgroundTask.Load();
-            FzLib.Program.Runtime.SingleInstance singleInstance = new FzLib.Program.Runtime.SingleInstance(Assembly.GetExecutingAssembly().FullName);
-            //if (await singleInstance.CheckAndOpenWindow(this, this))
-            //{
-            //    return;
-            //}
+
             FzLib.Program.App.SetWorkingDirectoryToAppPath();
 
             AboutTheme();
 
             Tray();
 
-            SelectCulture(Config.Instance.Language);
+            SetCulture();
 
             if (!(e.Args.Length == 1 && e.Args[0] == "startup"))
             {
@@ -121,10 +122,9 @@ namespace WebPageWatcher
             DbHelper.Dispose();
         }
 
-        public void SelectCulture(string culture)
+        public void SetCulture()
         {
-            if (String.IsNullOrEmpty(culture))
-                return;
+            string culture = Config.Instance.Language;
 
             //Copy all MergedDictionarys into a auxiliar list.
             var dictionary = Resources.MergedDictionaries;
@@ -150,9 +150,9 @@ namespace WebPageWatcher
             Thread.CurrentThread.CurrentUICulture = c;
         }
 
-        public  MainWindow GetMainWindow(bool notUIThread = false)
+        public MainWindow GetMainWindow(bool notUIThread = false)
         {
-            MainWindow mainWindow =SingleObject;
+            MainWindow mainWindow = SingleObject;
             if (mainWindow != null && mainWindow.IsLoaded && !mainWindow.IsClosed)
             {
                 return mainWindow;

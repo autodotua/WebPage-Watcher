@@ -94,6 +94,12 @@ namespace WebPageWatcher.UI
         {
 
         }
+
+        private void MenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            SettingWindow win = new SettingWindow() { Owner = this };
+            win.ShowDialog();
+        }
     }
 
 }

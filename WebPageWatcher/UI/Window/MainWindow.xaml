@@ -15,35 +15,59 @@
     WindowStartupLocation="CenterScreen"
         Title="{DynamicResource win_main}" Height="600" Width="1200" x:Name="win">
     <Grid Margin="4">
-        <Grid.ColumnDefinitions >
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="8"/>
-            <ColumnDefinition Width="*"/>
-        </Grid.ColumnDefinitions>
-        <GridSplitter Grid.Column="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
-        <local:ItemSettingsPanel x:Name="item" Grid.Column="2"/>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="0"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Menu  IsMainMenu="True">
+            <MenuItem    Header="{DynamicResource menu_program}">
+                <MenuItem  Header="{DynamicResource menu_setting}" Click="MenuItem_Click">
+                    <MenuItem.Icon>
+                        <materialDesign:PackIcon Kind="Settings" />
+                    </MenuItem.Icon>
+                </MenuItem>
+            </MenuItem>
+            <MenuItem    Header="{DynamicResource menu_help}">
+                <MenuItem      Header="{DynamicResource menu_about}">
+                    <MenuItem.Icon>
+                        <materialDesign:PackIcon  Kind="About" />
+                    </MenuItem.Icon>
+                </MenuItem>
+            </MenuItem>
+        </Menu>
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions >
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="8"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <GridSplitter Grid.Column="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
+            <local:ItemSettingsPanel x:Name="item" Grid.Column="2"/>
 
-        <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="8"/>
-                <RowDefinition Height="Auto"/>
-            </Grid.RowDefinitions>
-            <ListView x:Name="lvwWebPages" ItemsSource="{Binding WebPages}"
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="8"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <ListView x:Name="lvwWebPages" ItemsSource="{Binding WebPages}"
                   SelectedItem="{Binding ElementName=item, Path=WebPage, Mode=OneWayToSource}"
                       SelectionChanged="lvwWebPages_SelectionChanged">
-                <ListView.View>
-                    <GridView>
-                        <GridViewColumn Header="{DynamicResource list_title}" DisplayMemberBinding="{Binding Name}"/>
-                        <GridViewColumn Header="{DynamicResource list_url}"  Width="108" DisplayMemberBinding="{Binding Url}"/>
-                        <GridViewColumn Header="{DynamicResource list_lastUpdateTime}"  DisplayMemberBinding="{Binding LastUpdateTime ,ConverterCulture={x:Static glo:CultureInfo.CurrentUICulture}}"/>
-                        <GridViewColumn Header="{DynamicResource list_lastCheckTime}"  DisplayMemberBinding="{Binding LastCheckTime,ConverterCulture={x:Static glo:CultureInfo.CurrentUICulture}}"/>
-                    </GridView>
-                </ListView.View>
-            </ListView>
+                    <ListView.View>
+                        <GridView>
+                            <GridViewColumn Header="{DynamicResource list_title}" DisplayMemberBinding="{Binding Name}"/>
+                            <GridViewColumn Header="{DynamicResource list_url}"  Width="108" DisplayMemberBinding="{Binding Url}"/>
+                            <GridViewColumn Header="{DynamicResource list_lastUpdateTime}"  DisplayMemberBinding="{Binding LastUpdateTime ,ConverterCulture={x:Static glo:CultureInfo.CurrentUICulture}}"/>
+                            <GridViewColumn Header="{DynamicResource list_lastCheckTime}"  DisplayMemberBinding="{Binding LastCheckTime,ConverterCulture={x:Static glo:CultureInfo.CurrentUICulture}}"/>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
 
-            <Button Grid.Row="2" Click="Button_Click" Content="{DynamicResource button_new}"/>
+                <Button Grid.Row="2" Click="Button_Click" Content="{DynamicResource button_new}"/>
+            </Grid>
+            <local:Dialog Grid.RowSpan="999" Margin="-4" Grid.ColumnSpan="999" x:Name="dialog"/>
         </Grid>
-        <local:Dialog Grid.RowSpan="999" Margin="-4" Grid.ColumnSpan="999" x:Name="dialog"/>
+
     </Grid>
 </local:WindowBase>

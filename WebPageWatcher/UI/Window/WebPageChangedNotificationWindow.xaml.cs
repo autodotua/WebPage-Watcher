@@ -42,7 +42,7 @@ namespace WebPageWatcher.UI
             }
             
             tbkContent.Text = string.Join(Environment.NewLine + Environment.NewLine, strs);
-            tbkTime.Text = DateTime.Now.ToString("t",FindResource("culture") as CultureInfo);
+            tbkTime.Text = DateTime.Now.ToString("t", CultureInfo.CurrentUICulture);
         }
 
         public WebPage WebPage { get; }

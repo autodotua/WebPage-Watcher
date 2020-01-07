@@ -39,6 +39,7 @@
     <system:String x:Key="win_compare" >对比</system:String>
     <system:String x:Key="win_cookie" >Cookie设置</system:String>
     <system:String x:Key="win_preview" >预览</system:String>
+    <system:String x:Key="win_setting" >设置</system:String>
 
     <system:String x:Key="time_hint" >选择时间间隔</system:String>
 
@@ -89,7 +90,13 @@
     <system:String x:Key="error_title_getHtmlFailed">获取网页失败</system:String>
     <system:String x:Key="error_notGetYet">还未曾进行获取</system:String>
 
+    <system:String x:Key="menu_program">程序</system:String>
+    <system:String x:Key="menu_setting">设置</system:String>
+    <system:String x:Key="menu_help">帮助</system:String>
+    <system:String x:Key="menu_about">关于</system:String>
 
-
+    <system:String x:Key="set_general">一般</system:String>
+    <system:String x:Key="set_launch">启动</system:String>
+    <system:String x:Key="set_startup">开机自启</system:String>
 
 </ResourceDictionary>
