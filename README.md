@@ -6,7 +6,7 @@
 
 ## 截图
 
-![image](https://github.com/autodotua/WebPage-Watcher/blob/master/Screenshots/MainWindow.png)
+![image](/Screenshots/MainWindow.png)
 
 ## 特性
 
