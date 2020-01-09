@@ -13,10 +13,11 @@
              d:DesignHeight="450" d:DesignWidth="800">
     <extension:ExtendedUserControl.Resources>
         <local:IsNotNullToBoolConverter x:Key="notNull2Enable" />
+        <local:ValueMinusConverter x:Key="minus"/>
+
         <local:TimeSpan2Ms x:Key="timeSpan2Ms" />
     </extension:ExtendedUserControl.Resources>
-    <Grid Margin="8,0,0,0" 
-          IsEnabled="{Binding WebPage, Converter={StaticResource notNull2Enable}}">
+    <Grid  IsEnabled="{Binding WebPage, Converter={StaticResource notNull2Enable}}">
 
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
@@ -145,6 +146,8 @@
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="8"/>
                             <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="8"/>
+                            <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto"/>
@@ -192,7 +195,8 @@
                    HorizontalAlignment="Right">Refer：</TextBlock>
                         <TextBox Grid.Row="12" Grid.Column="2"  Grid.ColumnSpan="3"
                  VerticalAlignment="Center" Text="{Binding WebPage.Request_Refer}"/>
-                        
+
+                        <Button Grid.Row="14" Grid.ColumnSpan="999" Content="{DynamicResource button_importHTTPHeader}" Click="Button_Click_6"/>
                     </Grid>
 
                 </GroupBox >

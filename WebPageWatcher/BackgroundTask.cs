@@ -69,7 +69,6 @@ namespace WebPageWatcher
                     if (webPage.LastCheckTime + TimeSpan.FromMilliseconds(webPage.Interval) < now)
 #endif
                     {
-                        webPage.LastCheckTime = now;
 
                         CompareResult result = ComparerBase.Compare(webPage);
                         if (result.Same == false)
@@ -77,6 +76,7 @@ namespace WebPageWatcher
                             App.Current.Dispatcher.Invoke(() =>
                             {
                                 WebPageChangedNotificationWindow win = new WebPageChangedNotificationWindow(webPage, result);
+                                win.Closed += (p1, p2) => StopPlayRing();
                                 win.PopUp();
                             });
                             webPage.LastUpdateTime = now;
@@ -84,6 +84,7 @@ namespace WebPageWatcher
                             PlayRing();
                         }
 
+                        webPage.LastCheckTime = now;
                         await UpdateDbAndUI(webPage, result);
                     }
                 }
@@ -132,24 +133,35 @@ namespace WebPageWatcher
         [DllImport("winmm.dll")]
         public static extern uint mciSendString(string lpstrCommand, string lpstrReturnString, uint uReturnLength, uint hWndCallback);
 
-        private static void PlayRing()
+        public static void PlayRing()
         {
-            if(Config.Instance.Ring==0)
+            App.Current.Dispatcher.Invoke(() =>
             {
-                return;
-            }
-            string path;
-            if (Config.Instance.Ring == 1 || !File.Exists(Config.Instance.RingPath))
+                if (Config.Instance.Ring == 0)
+                {
+                    return;
+                }
+                string path;
+                if (Config.Instance.Ring == 1 || !File.Exists(Config.Instance.CustomRingPath))
+                {
+                    path = Path.Combine(FzLib.Program.App.ProgramDirectoryPath, "Audio", "ring.mp3");
+                }
+                else
+                {
+                    path = Config.Instance.CustomRingPath;
+                }
+                mciSendString("close ring", null, 0, 0);
+                mciSendString($"open \"{path}\" alias ring", null, 0, 0); //音乐文件
+                mciSendString("play ring", null, 0, 0);
+            });
+        }
+        public static void StopPlayRing()
+        {
+            App.Current.Dispatcher.Invoke(() =>
             {
-                path = Path.Combine(FzLib.Program.App.ProgramDirectoryPath, "Audio", "ring.mp3");
-            }
-            else
-            {
-                path = Config.Instance.RingPath;
-            }
-            mciSendString("close temp_alias", null, 0, 0);
-            mciSendString($"open \"{path}\" alias temp_alias", null, 0, 0); //音乐文件
-            mciSendString("play temp_alias", null, 0, 0);
+                mciSendString("stop ring", null, 0, 0);
+                mciSendString("close ring", null, 0, 0);
+            });
         }
     }
 

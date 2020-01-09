@@ -14,7 +14,7 @@ namespace WebPageWatcher.Web
 {
     public class HtmlGetter
     {
-        private WebPage WebPage { get;  set; }
+        private WebPage WebPage { get; set; }
         private HtmlGetter(WebPage webPage)
         {
             WebPage = webPage;
@@ -24,31 +24,43 @@ namespace WebPageWatcher.Web
         public static HtmlDocument GetHtmlDocument(WebPage webPage)
         {
             HtmlGetter parser = new HtmlGetter(webPage);
-            string html = parser. GetResponse();
+            string html = parser.GetResponseText();
             var doc = new HtmlDocument();
             doc.LoadHtml(html);
             return doc;
-        }     
-        public static JObject GetJsonObject(WebPage webPage)
+        }
+        public static JToken GetJsonObject(WebPage webPage)
         {
             HtmlGetter parser = new HtmlGetter(webPage);
-            string json = parser.GetResponse();
-            return JObject.Parse(json);
+            string json = parser.GetResponseText();
+            try
+            {
+                return JToken.Parse(json);
+            }
+            catch(Exception ex)
+            {
+                throw new Exception("转换为JSON失败", ex);
+            }
         }
         public static string GetResponse(WebPage webPage)
         {
             HtmlGetter parser = new HtmlGetter(webPage);
-            return parser.GetResponse();
+            return parser.GetResponseText();
         }
-        private string GetResponse()
+        private string GetResponseText()
         {
-            if(string.IsNullOrEmpty(WebPage.Url))
+            byte[] response = GetResponse();
+            return Encoding.UTF8.GetString(response);
+        }
+        private byte[] GetResponse()
+        {
+            if (string.IsNullOrEmpty(WebPage.Url))
             {
                 throw new Exception(App.Current.FindResource("error_urlIsEmpty") as string);
             }
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(WebPage.Url);
             request.CookieContainer = GetCookies();
-            if(!string.IsNullOrEmpty(WebPage.Request_Method))
+            if (!string.IsNullOrEmpty(WebPage.Request_Method))
             {
                 request.Method = WebPage.Request_Method;
             }
@@ -67,19 +79,34 @@ namespace WebPageWatcher.Web
             if (!string.IsNullOrEmpty(WebPage.Request_UserAgent))
             {
                 request.UserAgent = WebPage.Request_UserAgent;
-            }     
+            }
             if (!string.IsNullOrEmpty(WebPage.Request_Referer))
             {
                 request.Referer = WebPage.Request_Referer;
             }
+            if (request.Method == "POST")
+            {
+                if (WebPage.Request_Body != null && WebPage.Request_Body.Length > 0)
+                {
+                    using (StreamWriter streamWriter = new StreamWriter(request.GetRequestStream()))
+                    {
+                        streamWriter.Write(WebPage.Request_Body);
+                    }
+                }
+                else
+                {
+                    request.ContentLength = 0;
+                }
+            }
             //request.CookieContainer = GetCookie();
             HttpWebResponse response = (HttpWebResponse)request.GetResponse();
-            var stream = response.GetResponseStream();
-
-            using (var reader = new StreamReader(stream))
+            using (Stream stream = response.GetResponseStream())
             {
-                string html = reader.ReadToEnd();
-                return html;
+                using (var mS = new MemoryStream())
+                {
+                    stream.CopyTo(mS);
+                    return mS.ToArray();
+                }
             }
         }
 
@@ -93,7 +120,7 @@ namespace WebPageWatcher.Web
 
                 foreach (var c in WebPage.Request_Cookies)
                 {
-                    cookies.Add(new System.Net.Cookie(c.Name, c.Value, "/", new Uri(WebPage.Url).Host));
+                    cookies.Add(new System.Net.Cookie(c.Key, c.Value, "/", new Uri(WebPage.Url).Host));
                 }
             }
             return cookies;

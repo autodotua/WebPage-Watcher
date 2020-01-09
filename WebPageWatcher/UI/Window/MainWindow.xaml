@@ -20,7 +20,7 @@
             <RowDefinition Height="0"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <Menu  IsMainMenu="True">
+        <Menu  IsMainMenu="True" >
             <MenuItem    Header="{DynamicResource menu_program}">
                 <MenuItem  Header="{DynamicResource menu_setting}" Click="MenuItem_Click">
                     <MenuItem.Icon>
@@ -39,10 +39,10 @@
         <Grid Grid.Row="2">
             <Grid.ColumnDefinitions >
                 <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="8"/>
+                <ColumnDefinition Width="20"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <GridSplitter Grid.Column="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
+            <GridSplitter Grid.Column="1" VerticalAlignment="Stretch" HorizontalAlignment="Center" Width="6"/>
             <local:ItemSettingsPanel x:Name="item" Grid.Column="2"/>
 
             <Grid>
@@ -67,6 +67,8 @@
                 <Button Grid.Row="2" Click="Button_Click" Content="{DynamicResource button_new}"/>
             </Grid>
             <local:Dialog Grid.RowSpan="999" Margin="-4" Grid.ColumnSpan="999" x:Name="dialog"/>
+            <local:InputDialog x:Name="inputDialog" Width="{ Binding ElementName=win, Path=ActualWidth }"/>
+
         </Grid>
 
     </Grid>

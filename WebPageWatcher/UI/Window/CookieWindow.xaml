@@ -26,7 +26,7 @@
             <DataGrid x:Name="lvw" ItemsSource="{Binding Cookies}" Grid.ColumnSpan="5" 
                   CanUserAddRows="False" CanUserDeleteRows="True" AutoGenerateColumns="False">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="{DynamicResource list_Key}" MinWidth="108" Binding="{Binding Name}"/>
+                    <DataGridTextColumn Header="{DynamicResource list_Key}" MinWidth="108" Binding="{Binding Key}"/>
                     <DataGridTextColumn Header="{DynamicResource list_Value}" MinWidth="160"  Binding="{Binding Value}"/>
                 </DataGrid.Columns>
             </DataGrid>

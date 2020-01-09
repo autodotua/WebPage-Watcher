@@ -108,6 +108,18 @@ namespace WebPageWatcher.UI
             Notify(nameof(WebPage));
         }
 
+        private async void Button_Click_6(object sender, RoutedEventArgs e)
+        {
+            string header = await (Window.GetWindow(this) as MainWindow).inputDialog.ShowAsync(FindResource("label_HTTPHeaderInput") as string, true, TryFindResource("hint_HTTPHeader") as string);
+            if (header != null)
+            {
+                string[] errors = RequestParser.Parse(WebPage, header);
+                await (Window.GetWindow(this) as MainWindow).dialog.ShowInfomationAsync(FindResource("label_headerError")
+                       + Environment.NewLine + string.Join(Environment.NewLine, errors));
+
+                Notify(nameof(WebPage));
+            }
+        }
     }
 
     public class IsNotNullToBoolConverter : IValueConverter

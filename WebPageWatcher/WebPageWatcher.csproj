@@ -125,12 +125,15 @@
     </ApplicationDefinition>
     <Compile Include="BackgroundTask.cs" />
     <Compile Include="Data\Cookie.cs" />
+    <Compile Include="UI\Dialog\InputDialog.xaml.cs">
+      <DependentUpon>InputDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UI\UserControl\IBlackWhiteListItemLine.cs" />
     <Compile Include="UI\UserControl\JsonBlackWhiteListItemLine.xaml.cs">
       <DependentUpon>JsonBlackWhiteListItemLine.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UI\Dialog\ProgressDialog.xaml.cs">
-      <DependentUpon>ProgressDialog.xaml</DependentUpon>
+    <Compile Include="UI\Dialog\Dialog.xaml.cs">
+      <DependentUpon>Dialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="UI\WebBrowserHelper.cs" />
     <Compile Include="UI\Window\SettingWindow.xaml.cs">
@@ -143,8 +146,8 @@
       <DependentUpon>ComparisonWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="UI\Window\NotificationWindowBase.cs" />
-    <Compile Include="UI\Dialog\Dialog.xaml.cs">
-      <DependentUpon>Dialog.xaml</DependentUpon>
+    <Compile Include="UI\Dialog\ProcessDialog.xaml.cs">
+      <DependentUpon>ProcessDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="UI\UserControl\HtmlBlackWhiteListItemLine.xaml.cs">
       <DependentUpon>HtmlBlackWhiteListItemLine.xaml</DependentUpon>
@@ -166,6 +169,7 @@
     <Compile Include="Web\Comparer.cs" />
     <Compile Include="Data\BlackWhiteListItem.cs" />
     <Compile Include="Web\HtmlGetter.cs" />
+    <Compile Include="Web\RequestParser.cs" />
     <Page Include="Properties\StringResources.en-US.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -174,15 +178,19 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="UI\Dialog\InputDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="UI\UserControl\JsonBlackWhiteListItemLine.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="UI\Dialog\ProgressDialog.xaml">
+    <Page Include="UI\Dialog\Dialog.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="UI\Dialog\Dialog.xaml">
+    <Page Include="UI\Dialog\ProcessDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -268,7 +276,9 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Libs\" />
+  </ItemGroup>
   <ItemGroup>
     <Resource Include="Icon\webpage.ico" />
   </ItemGroup>
@@ -279,7 +289,6 @@
     <Content Include="Audio\ring.mp3">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Libs\Microsoft.WindowsAPICodePack.Shell.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

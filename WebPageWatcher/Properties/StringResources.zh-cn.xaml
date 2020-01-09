@@ -30,6 +30,9 @@
     <system:String x:Key="button_save" >保存</system:String>
     <system:String x:Key="button_reset" >重置</system:String>
     <system:String x:Key="button_new" >新增</system:String>
+    <system:String x:Key="button_importHTTPHeader" >自动识别HTTP头</system:String>
+    <system:String x:Key="label_HTTPHeaderInput" >请将HTTP头粘贴至下方文本框</system:String>
+    <system:String x:Key="hint_HTTPHeader" >HTTP头</system:String>
 
     <system:String x:Key="check_innerTextOnly" >仅比对内容，忽略HTML属性</system:String>
     <system:String x:Key="check_ignoreWhiteSpace" >忽略空白内容</system:String>
@@ -108,5 +111,16 @@
     <system:String x:Key="set_disabled">禁用</system:String>
     <system:String x:Key="set_default">默认</system:String>
     <system:String x:Key="set_browse">浏览</system:String>
+    <system:String x:Key="set_play">试听</system:String>
+    
+    <system:String x:Key="dialog_ok">确定</system:String>
+    <system:String x:Key="dialog_yes">是</system:String>
+    <system:String x:Key="dialog_no">否</system:String>
+    <system:String x:Key="dialog_cancel">取消</system:String>
+    
+    <system:String x:Key="label_error">错误</system:String>
+    <system:String x:Key="label_information">提示</system:String>
+    
+    <system:String x:Key="label_headerError">解析完成，以下行无法解析：</system:String>
 
 </ResourceDictionary>

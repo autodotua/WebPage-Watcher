@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,7 +13,6 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using WebPageWatcher.Data;
 
 namespace WebPageWatcher.UI
@@ -25,13 +25,13 @@ namespace WebPageWatcher.UI
         public SettingWindow()
         {
             InitializeComponent();
-            cbbLanguage.SelectedItem = cbbLanguage.Items.Cast<ComboBoxItem>().First(p => p.Tag.Equals(Config.Instance.Language));
-            cbbTheme.SelectedItem = cbbTheme.Items.Cast<ComboBoxItem>().First(p => p.Tag.Equals(Config.Instance.Theme.ToString()));
+            cbbLanguage.SelectedItem = cbbLanguage.Items.Cast<ComboBoxItem>().First(p => p.Tag.Equals(Config.Language));
+            cbbTheme.SelectedItem = cbbTheme.Items.Cast<ComboBoxItem>().First(p => p.Tag.Equals(Config.Theme.ToString()));
             chkStartup.IsChecked = FzLib.Program.Startup.IsRegistryKeyExist() == FzLib.IO.Shortcut.ShortcutStatus.Exist;
             cbbLanguage.SelectionChanged += cbbLanguage_SelectionChanged;
             cbbTheme.SelectionChanged += cbbTheme_SelectionChanged;
 
-            switch(Config.Instance.Ring)
+            switch(Config.Ring)
             {
                 case 0:
                     rbtnRingDisabled.IsChecked = true;
@@ -40,20 +40,32 @@ namespace WebPageWatcher.UI
                     rbtnRingDefault.IsChecked = true;
                     break;
                 default:
-                    rbtnRingCustom.IsChecked = true;
+                    if (string.IsNullOrEmpty(Config.CustomRingPath) || !File.Exists(Config.CustomRingPath))
+                    {
+                        Config.Ring = 1;
+                        rbtnRingDefault.IsChecked = true;
+                        Config.CustomRingName = null;
+                        Config.Save();
+                    }
+                    else
+                    {
+                        rbtnRingCustom.IsChecked = true;
+                    }
                     break;
             }
             rbtnRingDisabled.Checked += RadioButton_Checked;
             rbtnRingDefault.Checked += RadioButton_Checked;
             rbtnRingCustom.Checked += RadioButton_Checked;
+
+            Notify(nameof(Config));
         }
 
 
         private void cbbLanguage_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            Config.Instance.Language = (cbbLanguage.SelectedItem as ComboBoxItem).Tag as string;
+            Config.Language = (cbbLanguage.SelectedItem as ComboBoxItem).Tag as string;
             App.Current.SetCulture();
-            Config.Instance.Save();
+            Config.Save();
         }
 
         private void CheckBox_Click(object sender, RoutedEventArgs e)
@@ -70,9 +82,9 @@ namespace WebPageWatcher.UI
 
         private void cbbTheme_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            Config.Instance.Theme = int.Parse((cbbTheme.SelectedItem as ComboBoxItem).Tag as string);
+            Config.Theme = int.Parse((cbbTheme.SelectedItem as ComboBoxItem).Tag as string);
             App.Current.SetTheme();
-            Config.Instance.Save();
+            Config.Save();
         }
 
         private void RadioButton_Checked(object sender, RoutedEventArgs e)
@@ -80,28 +92,48 @@ namespace WebPageWatcher.UI
             switch((sender as RadioButton).Name)
             {
                 case nameof(rbtnRingDisabled):
-                    Config.Instance.Ring = 0;
+                    Config.Ring = 0;
                     break;
                 case nameof(rbtnRingDefault):
-                    Config.Instance.Ring = 1;
+                    Config.Ring = 1;
                     break;
                 case nameof(rbtnRingCustom):
-                    Config.Instance.Ring = 2;
+                    Config.Ring = 2;
                     break;
             }
-            Config.Instance.Save();
+            Config.Save();
         }
 
         public Config Config => Config.Instance;
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private async void Button_Click(object sender, RoutedEventArgs e)
         {
             string path = FzLib.Control.Dialog.FileSystemDialog.GetOpenFile(new (string, string)[] { ("mp3", "mp3") });
             if(path!=null)
             {
-                Config.RingPath = path;
+                string name = Path.GetFileName(path);
+                Config.CustomRingName = name;
                 Notify(nameof(Config));
+                await Task.Run(() =>
+                {
+                    if(File.Exists(Config.CustomRingPath))
+                    {
+                        File.Delete(Config.CustomRingPath);
+                    }
+                    File.Copy(path, Config.CustomRingPath);
+                });
+                Config.Save();
             }
+        }
+
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            BackgroundTask.PlayRing();
+        }
+
+        private void WindowBase_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            BackgroundTask.StopPlayRing();
         }
     }
 }

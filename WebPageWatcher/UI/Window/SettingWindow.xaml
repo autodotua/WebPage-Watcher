@@ -9,6 +9,7 @@
  xmlns:local="clr-namespace:WebPageWatcher.UI"
         mc:Ignorable="d"
     WindowStartupLocation="CenterOwner"
+    Closing="WindowBase_Closing"
         Title="{DynamicResource win_setting}" Height="450" Width="600">
     <Grid Margin="4">
         <Grid.RowDefinitions>
@@ -52,10 +53,15 @@
                                          Content="{DynamicResource set_default}"  Margin="0,8,0,0" />
                             <StackPanel Orientation="Horizontal"   Margin="0,0,0,0">
                                 <RadioButton x:Name="rbtnRingCustom" VerticalAlignment="Center" GroupName="ring" />
-                                <TextBox VerticalAlignment="Center" MinWidth="216" Margin="8,0" Text="{Binding Config.RingPath}"/>
-                                <Button VerticalAlignment="Center" Click="Button_Click" 
-    Style="{StaticResource MaterialDesignFlatButton}">
+                                <TextBox IsEnabled="{Binding ElementName=rbtnRingCustom, Path=IsChecked}" VerticalAlignment="Center" 
+                                         MinWidth="216" Margin="8,0" Text="{Binding Config.CustomRingName}" IsReadOnly="True"/>
+                                <Button VerticalAlignment="Center" Click="Button_Click"   ToolTip="{DynamicResource set_browse}"
+                                            Style="{StaticResource MaterialDesignFlatButton}" IsEnabled="{Binding ElementName=rbtnRingCustom, Path=IsChecked}">
                                     <materialDesign:PackIcon Kind="FileFindOutline"/>
+                                </Button>
+                                <Button VerticalAlignment="Center" Click="Button_Click_1" ToolTip="{DynamicResource set_play}"
+                                            Style="{StaticResource MaterialDesignFlatButton}" IsEnabled="{Binding ElementName=rbtnRingCustom, Path=IsChecked}">
+                                    <materialDesign:PackIcon Kind="Play"/>
                                 </Button>
                             </StackPanel>
                         </StackPanel>

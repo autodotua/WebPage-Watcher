@@ -29,6 +29,9 @@ xmlns:system="clr-namespace:System;assembly=mscorlib">
     <system:String x:Key="button_save" >Save</system:String>
     <system:String x:Key="button_reset" >Reset</system:String>
     <system:String x:Key="button_new" >New</system:String>
+    <system:String x:Key="button_importHTTPHeader" >Identity HTTP Header Automatically</system:String>
+    <system:String x:Key="label_HTTPHeaderInput" >Please paste HTTP header here</system:String>
+    <system:String x:Key="hint_HTTPHeader" >HTTP Header</system:String>
 
     <system:String x:Key="check_innerTextOnly" >Compare inner text only</system:String>
     <system:String x:Key="check_ignoreWhiteSpace" >Ignore white space</system:String>
@@ -110,5 +113,16 @@ xmlns:system="clr-namespace:System;assembly=mscorlib">
     <system:String x:Key="set_disabled">Disabled</system:String>
     <system:String x:Key="set_default">Default</system:String>
     <system:String x:Key="set_browse">Browse..</system:String>
+    <system:String x:Key="set_play">Play</system:String>
+
+    <system:String x:Key="dialog_ok">OK</system:String>
+    <system:String x:Key="dialog_yes">Yes</system:String>
+    <system:String x:Key="dialog_no">No</system:String>
+    <system:String x:Key="dialog_cancel">Cancel</system:String>
+    
+    <system:String x:Key="label_error">Error</system:String>
+    <system:String x:Key="label_information">Information</system:String>
+    
+    <system:String x:Key="label_headerError">Parse Complete with following errors:</system:String>
 
 </ResourceDictionary>

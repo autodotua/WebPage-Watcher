@@ -22,7 +22,7 @@ namespace WebPageWatcher.UI
     {
         public WebPage WebPage { get; private set; }
         private HtmlDocument htmlDoc;
-        private JObject jsonObject;
+        private JToken jsonObject;
         //private HtmlNodeCollection nodes;
         public HtmlNodeCollection HtmlNodes { get; private set; }// { get => nodes; private set => SetValueAndNotify(ref nodes, value, nameof(HtmlNodes)); }
         public List<JToken> JsonTokens { get; private set; }// { get => nodes; private set => SetValueAndNotify(ref nodes, value, nameof(HtmlNodes)); }
@@ -47,7 +47,7 @@ namespace WebPageWatcher.UI
                     await LoadJsonAsync();
                     break;
             }
-            progressDialog?.Close();
+            progressDialog.Close();
         }
 
         private async Task LoadJsonAsync()

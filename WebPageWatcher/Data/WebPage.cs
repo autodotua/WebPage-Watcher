@@ -42,7 +42,7 @@ namespace WebPageWatcher.Data
         public bool IgnoreWhiteSpace { get; set; } = true;
 
         [Computed]
-        public List<Cookie> Request_Cookies { get; set; }
+        public List<Cookie> Request_Cookies { get; set; } = new List<Cookie>();
         public string Request_CookiesJson
         {
             get => JsonConvert.SerializeObject(Request_Cookies);
@@ -74,6 +74,11 @@ namespace WebPageWatcher.Data
                 webPage.Request_Cookies = new List<Cookie>(Request_Cookies);
             }
             return webPage;
+        }
+
+        public override string ToString()
+        {
+            return Name + ":" + Url;
         }
     }
 

@@ -52,7 +52,9 @@ namespace WebPageWatcher
         /// 0为不播放，1为默认，2为
         /// </summary>
         public int Ring { get; set; } = 0;
-        public string RingPath { get; set; } = @"C:\Users\admin\Desktop\notifications\Antimony.ogg";
+        public string CustomRingName { get; set; } = null;
+        [Newtonsoft.Json.JsonIgnore]
+        public string CustomRingPath => IOPath.Combine(DataPath, CustomRingName);
 
     }
 }
