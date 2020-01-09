@@ -15,19 +15,22 @@ namespace WebPageWatcher.UI
     /// </summary>
     public partial class PreviewWindow : WindowBase
     {
-        public PreviewWindow(WebPage webPage)
+        public PreviewWindow(WebPage webPage):this(webPage.LatestDocument,webPage.Response_Type)
+        {
+        }
+        public PreviewWindow (string text,string type)
         {
             InitializeComponent();
-            switch (webPage.Response_Type)
+            switch (type)
             {
                 case "HTML":
-                    web.NavigateToString(webPage.LatestDocument);
+                    web.NavigateToString(text);
 
                     web.Navigated += (p1, p2) => WebBrowserHelper.SetSilent(web, true);
 
                     code.SyntaxHighlighting = HighlightingManager.Instance.GetDefinitionByExtension(".html");
 
-                    code.Text = webPage.LatestDocument;
+                    code.Text = text;
                     break;
                 case "JSON":
 
@@ -37,12 +40,10 @@ namespace WebPageWatcher.UI
 
                     code.SyntaxHighlighting = HighlightingManager.Instance.GetDefinitionByExtension(".json");
 
-                    code.Text = webPage.LatestDocument;
+                    code.Text = text;
 
                     break;
             }
-
-
         }
     }
 }

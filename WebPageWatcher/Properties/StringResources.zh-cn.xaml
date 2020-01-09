@@ -26,6 +26,8 @@
 
     <system:String x:Key="button_setting" >设置</system:String>
     <system:String x:Key="button_view" >查看</system:String>
+    <system:String x:Key="label_forceGet" >立即获取查看：</system:String>
+    <system:String x:Key="label_forceCompare" >立即进行对比：</system:String>
 
     <system:String x:Key="button_save" >保存</system:String>
     <system:String x:Key="button_reset" >重置</system:String>
@@ -93,11 +95,14 @@
     <system:String x:Key="error_title_getHtmlFailed">获取网页失败</system:String>
     <system:String x:Key="error_notGetYet">还未曾进行获取</system:String>
     <system:String x:Key="error_textTypeNotSupport">文本不支持黑白名单设置</system:String>
+    <system:String x:Key="error_forceCompare">对比失败</system:String>
+    <system:String x:Key="error_forceGet">获取失败</system:String>
 
     <system:String x:Key="menu_program">程序</system:String>
     <system:String x:Key="menu_setting">设置</system:String>
     <system:String x:Key="menu_help">帮助</system:String>
     <system:String x:Key="menu_about">关于</system:String>
+    <system:String x:Key="menu_close">完全关闭</system:String>
 
     <system:String x:Key="set_general">一般</system:String>
     <system:String x:Key="set_launch">启动</system:String>
@@ -122,5 +127,6 @@
     <system:String x:Key="label_information">提示</system:String>
     
     <system:String x:Key="label_headerError">解析完成，以下行无法解析：</system:String>
+    <system:String x:Key="label_compareComplete">对比完成，没有发生变化</system:String>
 
 </ResourceDictionary>

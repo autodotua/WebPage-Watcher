@@ -33,6 +33,7 @@ namespace WebPageWatcher.UI
                 title = FindResource("label_error") as string;
             }
             tbkDialogTitle.Foreground = Brushes.Red;
+            iconError.Visibility = Visibility.Visible;
             await ShowOk(message, title);
         }       
         public async Task ShowInfomationAsync(string message, string title=null)
@@ -42,6 +43,7 @@ namespace WebPageWatcher.UI
                 title = FindResource("label_information") as string;
             }
             tbkDialogTitle.Foreground = FindResource("MaterialDesignBody") as Brush;
+            iconError.Visibility = Visibility.Collapsed;
             await ShowOk(message, title);
         }
 
@@ -52,7 +54,6 @@ namespace WebPageWatcher.UI
             btnYes.Visibility = Visibility.Collapsed;
             btnNo.Visibility = Visibility.Collapsed;
 
-            iconError.Visibility = Visibility.Visible;
             iconQuestion.Visibility = Visibility.Collapsed;
 
             tbkDialogMessage.Text = message;

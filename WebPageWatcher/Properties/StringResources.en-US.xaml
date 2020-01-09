@@ -25,6 +25,8 @@ xmlns:system="clr-namespace:System;assembly=mscorlib">
 
     <system:String x:Key="button_setting" >Set..</system:String>
     <system:String x:Key="button_view" >View..</system:String>
+    <system:String x:Key="label_forceGet" >Get and view immediately:</system:String>
+    <system:String x:Key="label_forceCompare" >Compare immediately:</system:String>
 
     <system:String x:Key="button_save" >Save</system:String>
     <system:String x:Key="button_reset" >Reset</system:String>
@@ -95,11 +97,14 @@ xmlns:system="clr-namespace:System;assembly=mscorlib">
     <system:String x:Key="error_title_getHtmlFailed">Get webpage failed</system:String>
     <system:String x:Key="error_notGetYet">Not get webpage yet</system:String>
     <system:String x:Key="error_textTypeNotSupport">Text type not support black or white list</system:String>
+    <system:String x:Key="error_forceCompare">Compare Failed</system:String>
+    <system:String x:Key="error_forceGet">Get Failed</system:String>
 
     <system:String x:Key="menu_program">Program</system:String>
     <system:String x:Key="menu_setting">Settings</system:String>
     <system:String x:Key="menu_help">Help</system:String>
     <system:String x:Key="menu_about">About</system:String>
+    <system:String x:Key="menu_close">Close (include backgroun task)</system:String>
 
     <system:String x:Key="set_general">General</system:String>
     <system:String x:Key="set_launch">Launch</system:String>
@@ -122,7 +127,8 @@ xmlns:system="clr-namespace:System;assembly=mscorlib">
     
     <system:String x:Key="label_error">Error</system:String>
     <system:String x:Key="label_information">Information</system:String>
-    
+
     <system:String x:Key="label_headerError">Parse Complete with following errors:</system:String>
+    <system:String x:Key="label_compareComplete">Compare Complete, NoChange</system:String>
 
 </ResourceDictionary>

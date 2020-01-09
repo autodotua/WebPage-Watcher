@@ -50,7 +50,7 @@ namespace WebPageWatcher.UI
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            new CookieWindow(WebPage) { Owner = Window.GetWindow(this) }.ShowDialog();
+            new CookieWindow(WebPage) { Owner = MainWindow }.ShowDialog();
             Notify(nameof(WebPage));
         }
 
@@ -88,7 +88,7 @@ namespace WebPageWatcher.UI
 
         private async void Button_Click_5(object sender, RoutedEventArgs e)
         {
-            var dialog = (Window.GetWindow(this) as MainWindow).dialog;
+            var dialog = MainWindow.dialog;
             if (WebPage.LatestDocument == null)
             {
                 await dialog.ShowErrorAsync(FindResource("error_notGetYet") as string);
@@ -110,16 +110,53 @@ namespace WebPageWatcher.UI
 
         private async void Button_Click_6(object sender, RoutedEventArgs e)
         {
-            string header = await (Window.GetWindow(this) as MainWindow).inputDialog.ShowAsync(FindResource("label_HTTPHeaderInput") as string, true, TryFindResource("hint_HTTPHeader") as string);
+            string header = await MainWindow.inputDialog.ShowAsync(FindResource("label_HTTPHeaderInput") as string, true, TryFindResource("hint_HTTPHeader") as string);
             if (header != null)
             {
                 string[] errors = RequestParser.Parse(WebPage, header);
-                await (Window.GetWindow(this) as MainWindow).dialog.ShowInfomationAsync(FindResource("label_headerError")
+                await MainWindow.dialog.ShowInfomationAsync(FindResource("label_headerError")
                        + Environment.NewLine + string.Join(Environment.NewLine, errors));
 
                 Notify(nameof(WebPage));
             }
         }
+
+        private async void Button_Click_7(object sender, RoutedEventArgs e)
+        {
+            ButtonProgressAssist.SetIsIndicatorVisible(btnCompare, true);
+            try
+            {
+              bool result=  await BackgroundTask.Excute(WebPage, true);
+                if(!result)
+                {
+                    await MainWindow.dialog.ShowInfomationAsync(FindResource("label_compareComplete") as string);
+                }
+                Notify(nameof(WebPage));
+            }
+            catch (Exception ex)
+            {
+                await MainWindow.dialog.ShowErrorAsync(ex.ToString(), FindResource("error_forceCompare") as string);
+            }
+            ButtonProgressAssist.SetIsIndicatorVisible(btnCompare, false);
+        }
+
+        private async void btnGet_Click(object sender, RoutedEventArgs e)
+        {
+            ButtonProgressAssist.SetIsIndicatorVisible(btnGet, true);
+            try
+            {
+                string content = await HtmlGetter.GetResponseTextAsync(webPage);
+                PreviewWindow win = new PreviewWindow(content, WebPage.Response_Type) { Owner = MainWindow };
+                win.ShowDialog();
+            }
+            catch (Exception ex)
+            {
+                await MainWindow.dialog.ShowErrorAsync(ex.ToString(), FindResource("error_forceGet") as string);
+            }
+            ButtonProgressAssist.SetIsIndicatorVisible(btnGet, false);
+        }
+
+        private MainWindow MainWindow => Window.GetWindow(this) as MainWindow;
     }
 
     public class IsNotNullToBoolConverter : IValueConverter

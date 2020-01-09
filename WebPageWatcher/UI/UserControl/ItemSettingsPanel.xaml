@@ -35,6 +35,10 @@
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="8"/>
                             <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="8"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="8"/>
+                            <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto"/>
@@ -55,6 +59,16 @@
                    HorizontalAlignment="Right" Text="{DynamicResource label_lastUpdateContent}"/>
                         <Button Grid.Row="4" Grid.Column="2"  VerticalAlignment="Center"
                                 HorizontalAlignment="Right" Content="{DynamicResource button_view}" Click="Button_Click_5"/>
+
+                        <TextBlock Grid.Row="6" VerticalAlignment="Center" 
+                   HorizontalAlignment="Right" Text="{DynamicResource label_forceCompare}"/>
+                        <Button x:Name="btnCompare" Grid.Row="6" Grid.Column="2"  VerticalAlignment="Center" HorizontalAlignment="Right"
+                                Content="{DynamicResource button_view}" Click="Button_Click_7"/>
+                        
+                        <TextBlock Grid.Row="8" VerticalAlignment="Center" 
+                   HorizontalAlignment="Right" Text="{DynamicResource label_forceGet}"/>
+                        <Button x:Name="btnGet" Grid.Row="8" Grid.Column="2"  VerticalAlignment="Center" HorizontalAlignment="Right"
+                                Content="{DynamicResource button_view}" Click="btnGet_Click"/>
 
                     </Grid>
 

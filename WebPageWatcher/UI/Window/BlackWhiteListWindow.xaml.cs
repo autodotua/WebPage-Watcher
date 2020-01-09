@@ -156,23 +156,9 @@ namespace WebPageWatcher.UI
         {
             try
             {
-                Exception ex = null;
-                await Task.Run(() =>
-                {
-                    try
-                    {
-                        jsonObject = HtmlGetter.GetJsonObject(WebPage);
-                    }
-                    catch (Exception ex2)
-                    {
-                        ex = ex2;
-                    }
-                });
-                if (ex != null)
-                {
-                    throw ex;
-                }
+                jsonObject = await HtmlGetter.GetJsonAsync(WebPage);
             }
+
             catch (Exception ex)
             {
                 progressDialog.Close();

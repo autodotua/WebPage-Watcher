@@ -44,7 +44,7 @@ namespace WebPageWatcher
 
             WebPages = new ExtendedObservableCollection<WebPage>(await DbHelper.GetWebPagesAsync());
 #if (TEST && DEBUG)
-            timer = new Timer(new TimerCallback(p => Do()), null, 0, 1000 * 10);
+            timer = new Timer(new TimerCallback(p => Do()), null, 0, 1000 * 60);
 #else
             timer = new Timer(new TimerCallback(p => Do()), null, 0, 1000 * 60);
 #endif
@@ -52,41 +52,11 @@ namespace WebPageWatcher
 
         private static async Task Do()
         {
-            DateTime now = DateTime.Now;
             foreach (var webPage in WebPages.ToArray())
             {
                 try
                 {
-                    if (webPage.LatestDocument == null)
-                    {
-                        webPage.LatestDocument = HtmlGetter.GetResponse(webPage);
-                        webPage.LastCheckTime = now;
-
-                        await UpdateDbAndUI(webPage, null);
-                    }
-                    else
-#if (!TEST || !DEBUG)
-                    if (webPage.LastCheckTime + TimeSpan.FromMilliseconds(webPage.Interval) < now)
-#endif
-                    {
-
-                        CompareResult result = ComparerBase.Compare(webPage);
-                        if (result.Same == false)
-                        {
-                            App.Current.Dispatcher.Invoke(() =>
-                            {
-                                WebPageChangedNotificationWindow win = new WebPageChangedNotificationWindow(webPage, result);
-                                win.Closed += (p1, p2) => StopPlayRing();
-                                win.PopUp();
-                            });
-                            webPage.LastUpdateTime = now;
-                            webPage.LatestDocument = result.NewContent;
-                            PlayRing();
-                        }
-
-                        webPage.LastCheckTime = now;
-                        await UpdateDbAndUI(webPage, result);
-                    }
+                    await Excute(webPage);
                 }
                 catch (Exception ex)
                 {
@@ -98,6 +68,43 @@ namespace WebPageWatcher
                     CheckExceptions(webPage);
                 }
 
+            }
+        }
+
+        public static async Task<bool> Excute(WebPage webPage, bool force = false)
+        {
+            DateTime now = DateTime.Now;
+            if (webPage.LatestDocument == null)
+            {
+                webPage.LatestDocument =await HtmlGetter.GetResponseTextAsync(webPage);
+                webPage.LastCheckTime = now;
+
+                await UpdateDbAndUI(webPage, null);
+                return false;
+            }
+            else
+#if (!TEST || !DEBUG)
+                    if (webPage.LastCheckTime + TimeSpan.FromMilliseconds(webPage.Interval) < now || force)
+#endif
+            {
+
+                CompareResult result =await ComparerBase.CompareAsync(webPage);
+                if (result.Same == false)
+                {
+                    App.Current.Dispatcher.Invoke(() =>
+                    {
+                        WebPageChangedNotificationWindow win = new WebPageChangedNotificationWindow(webPage, result);
+                        win.Closed += (p1, p2) => StopPlayRing();
+                        win.PopUp();
+                    });
+                    webPage.LastUpdateTime = now;
+                    webPage.LatestDocument = result.NewContent;
+                    PlayRing();
+                }
+
+                webPage.LastCheckTime = now;
+                await UpdateDbAndUI(webPage, result);
+                return result.Same == false;
             }
         }
 
@@ -162,6 +169,14 @@ namespace WebPageWatcher
                 mciSendString("stop ring", null, 0, 0);
                 mciSendString("close ring", null, 0, 0);
             });
+        }
+
+        public static void Stop()
+        {
+            if (timer != null)
+            {
+                timer.Dispose();
+            }
         }
     }
 

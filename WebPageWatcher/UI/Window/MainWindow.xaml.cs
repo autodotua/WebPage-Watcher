@@ -100,6 +100,12 @@ namespace WebPageWatcher.UI
             SettingWindow win = new SettingWindow() { Owner = this };
             win.ShowDialog();
         }
+
+        private void MenuItem_Click_1(object sender, RoutedEventArgs e)
+        {
+            BackgroundTask.Stop();
+            Application.Current.Shutdown();
+        }
     }
 
 }

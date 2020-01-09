@@ -29,7 +29,15 @@ namespace WebPageWatcher.Web
             doc.LoadHtml(html);
             return doc;
         }
-        public static JToken GetJsonObject(WebPage webPage)
+        public async static Task<HtmlDocument> GetHtmlDocumentAsync(WebPage webPage)
+        {
+            HtmlGetter parser = new HtmlGetter(webPage);
+            string html =await parser.GetResponseTextAsync();
+            var doc = new HtmlDocument();
+            doc.LoadHtml(html);
+            return doc;
+        }
+        public static JToken GetJson(WebPage webPage)
         {
             HtmlGetter parser = new HtmlGetter(webPage);
             string json = parser.GetResponseText();
@@ -37,19 +45,42 @@ namespace WebPageWatcher.Web
             {
                 return JToken.Parse(json);
             }
-            catch(Exception ex)
+            catch (Exception ex)
+            {
+                throw new Exception("转换为JSON失败", ex);
+            }
+        }   
+        public async static Task<JToken> GetJsonAsync(WebPage webPage)
+        {
+            HtmlGetter parser = new HtmlGetter(webPage);
+            string json =await parser.GetResponseTextAsync();
+            try
+            {
+                return JToken.Parse(json);
+            }
+            catch (Exception ex)
             {
                 throw new Exception("转换为JSON失败", ex);
             }
         }
-        public static string GetResponse(WebPage webPage)
+        public static string GetResponseText(WebPage webPage)
         {
             HtmlGetter parser = new HtmlGetter(webPage);
             return parser.GetResponseText();
         }
+        public async static Task<string> GetResponseTextAsync(WebPage webPage)
+        {
+            HtmlGetter parser = new HtmlGetter(webPage);
+            return await parser.GetResponseTextAsync();
+        }
         private string GetResponseText()
         {
             byte[] response = GetResponse();
+            return Encoding.UTF8.GetString(response);
+        } 
+        private async Task<string> GetResponseTextAsync()
+        {
+            byte[] response = await GetResponseAsync();
             return Encoding.UTF8.GetString(response);
         }
         private byte[] GetResponse()
@@ -110,6 +141,10 @@ namespace WebPageWatcher.Web
             }
         }
 
+        private Task<byte[]> GetResponseAsync()
+        {
+            return Task.Run(GetResponse);
+        }
 
 
         private CookieContainer GetCookies()

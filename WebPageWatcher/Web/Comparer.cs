@@ -22,7 +22,7 @@ namespace WebPageWatcher.Web
             string newContent;
             try
             {
-                newContent = HtmlGetter.GetResponse(webPage);
+                newContent = HtmlGetter.GetResponseText(webPage);
             }
             catch (Exception ex)
             {
@@ -37,6 +37,35 @@ namespace WebPageWatcher.Web
                     JsonComparer jsonComparer = new JsonComparer(webPage);
                     return jsonComparer.CompareWith(newContent);
             }
+            throw new NotImplementedException();
+        }
+        public async static Task<CompareResult> CompareAsync(WebPage webPage)
+        {
+            string newContent;
+            try
+            {
+                newContent = await HtmlGetter.GetResponseTextAsync(webPage);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("获取最新的内容失败", ex);
+            }
+            CompareResult result = null;
+            await Task.Run(() =>
+             {
+                 switch (webPage.Response_Type)
+                 {
+                     case "HTML":
+                         HtmlComparer htmlComparer = new HtmlComparer(webPage);
+                         result = htmlComparer.CompareWith(newContent);
+                         break;
+                     case "JSON":
+                         JsonComparer jsonComparer = new JsonComparer(webPage);
+                         result = jsonComparer.CompareWith(newContent);
+                         break;
+                 }
+             });
+            return result;
             throw new NotImplementedException();
         }
 
@@ -65,7 +94,7 @@ namespace WebPageWatcher.Web
                 differentElements = BlackListCompare(oldDocument, newDocument);
             }
 
-            return new CompareResult("JSON",differentElements,oldDocument,newDocument, p => (p as JToken).ToString());
+            return new CompareResult("JSON", differentElements, oldDocument, newDocument, p => (p as JToken).ToString());
         }
 
         private List<(object Old, object New)> WhiteListCompare(JToken oldDocument, JToken newDocument)
@@ -93,7 +122,7 @@ namespace WebPageWatcher.Web
         {
             List<(object Old, object New)> differentElements = new List<(object Old, object New)>();
 
-            if (WebPage.BlackWhiteList != null && WebPage.BlackWhiteList.Count>0)
+            if (WebPage.BlackWhiteList != null && WebPage.BlackWhiteList.Count > 0)
             {
                 foreach (var identify in WebPage.BlackWhiteList)
                 {
@@ -104,7 +133,7 @@ namespace WebPageWatcher.Web
                     newNode?.Remove();
                 }
             }
-            if(IsDifferent(oldDocument,newDocument))
+            if (IsDifferent(oldDocument, newDocument))
             {
                 differentElements.Add((oldDocument, newDocument));
             }
@@ -279,7 +308,7 @@ namespace WebPageWatcher.Web
         }
         public string Type { get; }
         public bool Same { get; }
-        public (object Old, object New)[] DifferentNodes { get; } 
+        public (object Old, object New)[] DifferentNodes { get; }
         public object OldDocument { get; }
         public object NewDocument { get; }
         public string OldContent { get; }
