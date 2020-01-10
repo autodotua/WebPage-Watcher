@@ -40,12 +40,14 @@ namespace WebPageWatcher.UI
             cbbBlackWhite.SelectedIndex = WebPage.BlackWhiteListMode;
             switch (WebPage.Response_Type)
             {
-                case "HTML":
+                case  ResponseType.Html:
                     await LoadHtmlAsync();
                     break;
-                case "JSON":
+                case  ResponseType.Json:
                     await LoadJsonAsync();
                     break;
+                default:
+                    throw new NotSupportedException();
             }
             progressDialog.Close();
         }
@@ -119,17 +121,17 @@ namespace WebPageWatcher.UI
             try
             {
                 Exception ex = null;
-                await Task.Run(() =>
-                {
+             
                     try
                     {
-                        htmlDoc = HtmlGetter.GetHtmlDocument(WebPage);
+                        string response =await HtmlGetter.GetResponseTextOrBase64Async(WebPage);
+                    htmlDoc = new HtmlDocument();
+                    htmlDoc.LoadHtml(response);
                     }
                     catch (Exception ex2)
                     {
                         ex = ex2;
                     }
-                });
                 if (ex != null)
                 {
                     throw ex;
@@ -156,9 +158,9 @@ namespace WebPageWatcher.UI
         {
             try
             {
-                jsonObject = await HtmlGetter.GetJsonAsync(WebPage);
+                string response = await HtmlGetter.GetResponseTextOrBase64Async(WebPage);
+                jsonObject = JToken.Parse(response);
             }
-
             catch (Exception ex)
             {
                 progressDialog.Close();
@@ -198,12 +200,14 @@ namespace WebPageWatcher.UI
             IBlackWhiteListItemLine line = null;
             switch (WebPage.Response_Type)
             {
-                case "HTML":
+                case ResponseType.Html:
                     line = new HtmlBlackWhiteListItemLine();
                     break;
-                case "JSON":
+                case   ResponseType.Json:
                     line = new JsonBlackWhiteListItemLine();
                     break;
+                default:
+                    throw new NotSupportedException();
             }
             line.Deleted += Line_Deleted;
             stkIdentifies.Children.Add(line as UIElement);
@@ -216,7 +220,7 @@ namespace WebPageWatcher.UI
             menuPath.Visibility = Visibility.Collapsed;
             switch (WebPage.Response_Type)
             {
-                case "HTML":
+                case ResponseType.Html:
                     HtmlNode node = tree.SelectedItem as HtmlNode;
                     if (!string.IsNullOrEmpty(node.Id))
                     {
@@ -224,11 +228,13 @@ namespace WebPageWatcher.UI
                     }
                     menuXPath.Visibility = Visibility.Visible;
                     break;
-                case "JSON":
+                case ResponseType.Json:
                     menuPath.Visibility = Visibility.Visible;
-
                     break;
+                default:
+                    throw new NotSupportedException();
             }
+            
 
         }
 

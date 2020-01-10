@@ -28,6 +28,10 @@ namespace WebPageWatcher.UI
         }
         public void Show()
         {
+            if(dialog.IsOpen)
+            {
+                return;
+            }
             dialog.ShowDialog(dialog.DialogContent);
         }
 

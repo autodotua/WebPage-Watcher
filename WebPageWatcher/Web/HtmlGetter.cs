@@ -21,67 +21,97 @@ namespace WebPageWatcher.Web
         }
 
 
-        public static HtmlDocument GetHtmlDocument(WebPage webPage)
+        //public static HtmlDocument GetHtmlDocument(WebPage webPage)
+        //{
+        //    HtmlGetter parser = new HtmlGetter(webPage);
+        //    string html = parser.GetResponseText();
+        //    var doc = new HtmlDocument();
+        //    doc.LoadHtml(html);
+        //    return doc;
+        //}
+        //public async static Task<HtmlDocument> GetHtmlDocumentAsync(WebPage webPage)
+        //{
+        //    HtmlGetter parser = new HtmlGetter(webPage);
+        //    string html =await parser.GetResponseTextAsync();
+        //    var doc = new HtmlDocument();
+        //    doc.LoadHtml(html);
+        //    return doc;
+        //}
+        //public static JToken GetJson(WebPage webPage)
+        //{
+        //    HtmlGetter parser = new HtmlGetter(webPage);
+        //    string json = parser.GetResponseText();
+        //    try
+        //    {
+        //        return JToken.Parse(json);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw new Exception("转换为JSON失败", ex);
+        //    }
+        //}   
+        //public async static Task<JToken> GetJsonAsync(WebPage webPage)
+        //{
+        //    HtmlGetter parser = new HtmlGetter(webPage);
+        //    string json =await parser.GetResponseTextAsync();
+        //    try
+        //    {
+        //        return JToken.Parse(json);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw new Exception("转换为JSON失败", ex);
+        //    }
+        //}
+        public static string GetResponseTextOrBase64(WebPage webPage)
         {
             HtmlGetter parser = new HtmlGetter(webPage);
-            string html = parser.GetResponseText();
-            var doc = new HtmlDocument();
-            doc.LoadHtml(html);
-            return doc;
-        }
-        public async static Task<HtmlDocument> GetHtmlDocumentAsync(WebPage webPage)
-        {
-            HtmlGetter parser = new HtmlGetter(webPage);
-            string html =await parser.GetResponseTextAsync();
-            var doc = new HtmlDocument();
-            doc.LoadHtml(html);
-            return doc;
-        }
-        public static JToken GetJson(WebPage webPage)
-        {
-            HtmlGetter parser = new HtmlGetter(webPage);
-            string json = parser.GetResponseText();
-            try
+            byte[] response = parser.GetResponse();
+            if (webPage.Response_Type == ResponseType.Binary)
             {
-                return JToken.Parse(json);
+                return Convert.ToBase64String(response);
             }
-            catch (Exception ex)
+            return Config.Instance.Encoding.GetString(response);
+        }
+        public async static Task<string> GetResponseTextOrBase64Async(WebPage webPage)
+        {
+            HtmlGetter parser = new HtmlGetter(webPage);
+            byte[] response = await parser.GetResponseAsync();
+            if (webPage.Response_Type == ResponseType.Binary)
             {
-                throw new Exception("转换为JSON失败", ex);
+                return Convert.ToBase64String(response) ;
             }
+            return Config.Instance.Encoding.GetString(response);
         }   
-        public async static Task<JToken> GetJsonAsync(WebPage webPage)
+        public static byte[] GetResponseBinary(WebPage webPage)
         {
             HtmlGetter parser = new HtmlGetter(webPage);
-            string json =await parser.GetResponseTextAsync();
-            try
+            return parser.GetResponse();
+        }
+        public async static Task<byte[]> GetResponseBinaryAsync(WebPage webPage)
+        {
+            HtmlGetter parser = new HtmlGetter(webPage);
+            return await parser.GetResponseAsync();
+        }   
+        public static object GetResponseBySetting(WebPage webPage)
+        {
+            HtmlGetter parser = new HtmlGetter(webPage);
+            byte[] response = parser.GetResponse();
+            if (webPage.Response_Type==ResponseType.Binary)
             {
-                return JToken.Parse(json);
+                return response;
             }
-            catch (Exception ex)
+            return Config.Instance.Encoding.GetString(response);
+        }
+        public async static Task<object> GetResponseBySettingAsync(WebPage webPage)
+        {
+            HtmlGetter parser = new HtmlGetter(webPage);
+            byte[] response =await parser.GetResponseAsync();
+            if (webPage.Response_Type == ResponseType.Binary)
             {
-                throw new Exception("转换为JSON失败", ex);
+                return response;
             }
-        }
-        public static string GetResponseText(WebPage webPage)
-        {
-            HtmlGetter parser = new HtmlGetter(webPage);
-            return parser.GetResponseText();
-        }
-        public async static Task<string> GetResponseTextAsync(WebPage webPage)
-        {
-            HtmlGetter parser = new HtmlGetter(webPage);
-            return await parser.GetResponseTextAsync();
-        }
-        private string GetResponseText()
-        {
-            byte[] response = GetResponse();
-            return Encoding.UTF8.GetString(response);
-        } 
-        private async Task<string> GetResponseTextAsync()
-        {
-            byte[] response = await GetResponseAsync();
-            return Encoding.UTF8.GetString(response);
+            return Config.Instance.Encoding.GetString(response);
         }
         private byte[] GetResponse()
         {
@@ -130,7 +160,15 @@ namespace WebPageWatcher.Web
                 }
             }
             //request.CookieContainer = GetCookie();
-            HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+            HttpWebResponse response=null;
+            try
+            {
+                response = (HttpWebResponse)request.GetResponse();
+            }
+            catch(Exception ex)
+            {
+                throw new Exception(App.Current.FindResource("ex_GetResponse") as string, ex);
+            }
             using (Stream stream = response.GetResponseStream())
             {
                 using (var mS = new MemoryStream())

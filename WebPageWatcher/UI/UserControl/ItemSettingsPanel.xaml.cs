@@ -5,6 +5,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -66,18 +67,19 @@ namespace WebPageWatcher.UI
             WebPage = rawWebPage;
         }
 
-        private void Button_Click_3(object sender, RoutedEventArgs e)
-        {
-            MessageBox.Show(WebPage.LatestDocument);
 
-        }
 
-        private async void Button_Click_4(object sender, RoutedEventArgs e)
+        private async void BlackWhiteListButton_Click(object sender, RoutedEventArgs e)
         {
             var dialog = (Window.GetWindow(this) as MainWindow).dialog;
-            if (WebPage.Response_Type == "TEXT")
+            if (WebPage.Response_Type == ResponseType.Text)
             {
                 await dialog.ShowErrorAsync(FindResource("error_textTypeNotSupport") as string);
+                return;
+            }
+            if (WebPage.Response_Type == ResponseType.Binary)
+            {
+                await dialog.ShowErrorAsync(FindResource("error_binaryTypeNotSupport") as string);
                 return;
             }
 
@@ -86,10 +88,10 @@ namespace WebPageWatcher.UI
             Notify(nameof(WebPage));
         }
 
-        private async void Button_Click_5(object sender, RoutedEventArgs e)
+        private async void ViewLatestButton_Click(object sender, RoutedEventArgs e)
         {
             var dialog = MainWindow.dialog;
-            if (WebPage.LatestDocument == null)
+            if (WebPage.LatestContent == null)
             {
                 await dialog.ShowErrorAsync(FindResource("error_notGetYet") as string);
                 return;
@@ -104,12 +106,13 @@ namespace WebPageWatcher.UI
             WebPage.LastCheckTime = webPage.LastCheckTime;
 
             WebPage.LastUpdateTime = webPage.LastUpdateTime;
-            WebPage.LatestDocument = webPage.LatestDocument;
+            WebPage.LatestContent = webPage.LatestContent;
             Notify(nameof(WebPage));
         }
 
-        private async void Button_Click_6(object sender, RoutedEventArgs e)
+        private async void ParseHTTPHeaderButton_Click(object sender, RoutedEventArgs e)
         {
+
             string header = await MainWindow.inputDialog.ShowAsync(FindResource("label_HTTPHeaderInput") as string, true, TryFindResource("hint_HTTPHeader") as string);
             if (header != null)
             {
@@ -121,13 +124,14 @@ namespace WebPageWatcher.UI
             }
         }
 
-        private async void Button_Click_7(object sender, RoutedEventArgs e)
+        private async void ForceCompareButton_Click(object sender, RoutedEventArgs e)
         {
-            ButtonProgressAssist.SetIsIndicatorVisible(btnCompare, true);
+            MainWindow.progressDialog.Show();
             try
             {
-              bool result=  await BackgroundTask.Excute(WebPage, true);
-                if(!result)
+                bool result = await BackgroundTask.Excute(WebPage, true);
+                MainWindow.progressDialog.Close();
+                if (!result)
                 {
                     await MainWindow.dialog.ShowInfomationAsync(FindResource("label_compareComplete") as string);
                 }
@@ -135,25 +139,51 @@ namespace WebPageWatcher.UI
             }
             catch (Exception ex)
             {
+                MainWindow.progressDialog.Close();
                 await MainWindow.dialog.ShowErrorAsync(ex.ToString(), FindResource("error_forceCompare") as string);
             }
-            ButtonProgressAssist.SetIsIndicatorVisible(btnCompare, false);
         }
 
-        private async void btnGet_Click(object sender, RoutedEventArgs e)
+        private async void ForceGetButton_Click(object sender, RoutedEventArgs e)
         {
-            ButtonProgressAssist.SetIsIndicatorVisible(btnGet, true);
+
+
+            MainWindow.progressDialog.Show();
             try
             {
-                string content = await HtmlGetter.GetResponseTextAsync(webPage);
-                PreviewWindow win = new PreviewWindow(content, WebPage.Response_Type) { Owner = MainWindow };
+                byte[] content = await HtmlGetter.GetResponseBinaryAsync(webPage);
+
+                MainWindow.progressDialog.Close();
+                if (WebPage.Response_Type == ResponseType.Binary)
+                {
+                    bool yes = await MainWindow.dialog.ShowYesNoAsync(FindResource("label_binaryTypePreview") as string, FindResource("label_binaryTypePreviewTitle") as string);
+                    if(yes)
+                    {
+                        string defaultName = "";
+                        string url = WebPage.Url.TrimEnd('/');
+                        int index = url.LastIndexOf('/')+1;
+                        if(index>0 && index<WebPage.Url.Length)
+                        {
+                            defaultName = url.Substring(index);
+                        }
+                        string path = FzLib.Control.Dialog.FileSystemDialog.GetSaveFile(null, false, false, defaultName);
+                        if(path!=null)
+                        {
+                            File.WriteAllBytes(path, content);
+                        }
+                    }
+
+                    return;
+                }
+                PreviewWindow win = new PreviewWindow(content.ToEncodedString(), WebPage.Response_Type) { Owner = MainWindow };
                 win.ShowDialog();
             }
             catch (Exception ex)
             {
+                MainWindow.progressDialog.Close();
                 await MainWindow.dialog.ShowErrorAsync(ex.ToString(), FindResource("error_forceGet") as string);
             }
-            ButtonProgressAssist.SetIsIndicatorVisible(btnGet, false);
+
         }
 
         private MainWindow MainWindow => Window.GetWindow(this) as MainWindow;
@@ -169,6 +199,43 @@ namespace WebPageWatcher.UI
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
             throw new NotSupportedException();
+        }
+
+    }
+    public class ResponseTypeConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            return (int)(ResponseType)value;
+            //switch(value )
+            //{
+            //    case ResponseType.Html:
+            //        return 0;
+            //    case ResponseType.Json:
+            //        return 1;
+            //    case ResponseType.Text:
+            //        return 2;
+            //    case ResponseType.Binary:
+            //        return 3;
+            //}
+            //throw new ArgumentOutOfRangeException();
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            return (ResponseType)(int)value;
+            //switch((int)value)
+            //{
+            //    case 0:
+            //        return ResponseType.Html;
+            //    case 1:
+            //        return ResponseType.Json;
+            //    case 2:
+            //        return ResponseType.Text;
+            //    case 3:
+            //        return ResponseType.Binary;
+            //}
+            //throw new ArgumentOutOfRangeException();
         }
 
     }

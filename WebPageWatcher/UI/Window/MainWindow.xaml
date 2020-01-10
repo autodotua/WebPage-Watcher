@@ -26,13 +26,13 @@
                     <MenuItem.Icon>
                         <materialDesign:PackIcon Kind="Settings" />
                     </MenuItem.Icon>
-                </MenuItem>      
+                </MenuItem>
                 <MenuItem  Header="{DynamicResource menu_close}" Click="MenuItem_Click_1">
                     <MenuItem.Icon>
                         <materialDesign:PackIcon Kind="Shutdown" />
                     </MenuItem.Icon>
                 </MenuItem>
-                
+
             </MenuItem>
             <MenuItem    Header="{DynamicResource menu_help}">
                 <MenuItem      Header="{DynamicResource menu_about}">
@@ -74,6 +74,7 @@
             </Grid>
             <local:Dialog Grid.RowSpan="999" Margin="-4" Grid.ColumnSpan="999" x:Name="dialog"/>
             <local:InputDialog x:Name="inputDialog" Width="{ Binding ElementName=win, Path=ActualWidth }"/>
+            <local:ProgressDialog x:Name="progressDialog" Width="{ Binding ElementName=win, Path=ActualWidth }"/>
 
         </Grid>
 

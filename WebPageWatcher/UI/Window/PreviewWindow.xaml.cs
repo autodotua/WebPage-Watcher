@@ -15,15 +15,15 @@ namespace WebPageWatcher.UI
     /// </summary>
     public partial class PreviewWindow : WindowBase
     {
-        public PreviewWindow(WebPage webPage):this(webPage.LatestDocument,webPage.Response_Type)
+        public PreviewWindow(WebPage webPage) : this(webPage.LatestContent.ToEncodedString(), webPage.Response_Type)
         {
         }
-        public PreviewWindow (string text,string type)
+        public PreviewWindow(string text, ResponseType type)
         {
             InitializeComponent();
             switch (type)
             {
-                case "HTML":
+                case ResponseType.Html:
                     web.NavigateToString(text);
 
                     web.Navigated += (p1, p2) => WebBrowserHelper.SetSilent(web, true);
@@ -32,17 +32,23 @@ namespace WebPageWatcher.UI
 
                     code.Text = text;
                     break;
-                case "JSON":
+                case ResponseType.Text:
+                    goto a;
+                case ResponseType.Json:
 
+                    code.SyntaxHighlighting = HighlightingManager.Instance.GetDefinitionByExtension(".json");
+
+                a:
                     grd.Children.Remove(web);
                     grd.ColumnDefinitions.RemoveAt(0);
                     grd.ColumnDefinitions.RemoveAt(0);
 
-                    code.SyntaxHighlighting = HighlightingManager.Instance.GetDefinitionByExtension(".json");
 
                     code.Text = text;
 
                     break;
+                default:
+                    throw new NotSupportedException();
             }
         }
     }

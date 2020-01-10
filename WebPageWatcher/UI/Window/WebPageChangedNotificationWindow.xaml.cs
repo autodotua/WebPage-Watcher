@@ -31,14 +31,23 @@ namespace WebPageWatcher.UI
             CompareResult = compareResult;
             InitializeComponent();
             IEnumerable<string> strs=null;
-            switch (compareResult.Type)
+            switch (compareResult.WebPage.Response_Type)
             {
-                case "HTML":
+                case ResponseType.Html:
                     strs = compareResult.DifferentNodes.Select(p => Regex.Replace((p.New as HtmlNode) .InnerText.Trim(), "\\s+", " "));
                     break;
-                case "JSON":
+                case ResponseType.Json:
                     strs = compareResult.DifferentNodes.Select(p => Regex.Replace((p.New as JToken).ToString().Trim(), "\\s+", " "));
                     break;
+                case ResponseType.Text:
+                    strs = new string[] { compareResult.NewContent.ToEncodedString() };
+                    break;
+                case ResponseType.Binary:
+                    btnView.IsEnabled = false;
+                    strs = new string[] {$"{FindResource("type_binary") as string} ({CompareResult.NewContent.Length})" };
+                    break;
+                default:
+                    throw new NotSupportedException();
             }
             
             tbkContent.Text = string.Join(Environment.NewLine + Environment.NewLine, strs);
@@ -59,6 +68,7 @@ namespace WebPageWatcher.UI
             try
             {
                 System.Diagnostics.Process.Start(WebPage.Url);
+                TakeBack();
             }
             catch (Exception ex)
             {
@@ -70,6 +80,7 @@ namespace WebPageWatcher.UI
         {
             ComparisonWindow win = new ComparisonWindow(CompareResult);
             win.Show();
+            TakeBack();
         }
     }
 }

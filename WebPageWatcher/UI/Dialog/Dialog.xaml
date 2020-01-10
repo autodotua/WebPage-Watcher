@@ -28,10 +28,14 @@
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
                 <TextBlock FontSize="20" Grid.ColumnSpan="999" x:Name="tbkDialogTitle">警告</TextBlock>
-                <TextBlock MaxWidth="{Binding ElementName=uc, Path=ActualWidth, Converter={StaticResource minus}, ConverterParameter=200}" 
-                               Grid.Row="2" TextWrapping="Wrap"  FontSize="16"
-                               Grid.Column="2" Margin="16,0,16,0" x:Name="tbkDialogMessage"
+                <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto"
+                              MaxWidth="{Binding ElementName=uc, Path=ActualWidth, Converter={StaticResource minus}, ConverterParameter=200}" 
+                                  Grid.Row="2" Grid.Column="2" MaxHeight="144" Margin="16,0,16,0">
+                <TextBlock 
+                            TextWrapping="Wrap"  FontSize="16"
+                                x:Name="tbkDialogMessage"
                                VerticalAlignment="Center">这里显示警dsahjsajdbsabdahdkjsanjnsajdsadnsakjdnsadjdsakjnjkdnsakjndjsanjndadnsajnjsadkn告或错误内容<LineBreak/></TextBlock>
+                </ScrollViewer>
                 <StackPanel  Grid.Row="4" Orientation="Horizontal"  HorizontalAlignment="Right"  Grid.ColumnSpan="999" >
                     <Button x:Name="btnOk" Style="{StaticResource MaterialDesignFlatButton}" Width="96" 
                         Click="Button_Click_1" Margin="16,0,0,0" Content="{DynamicResource dialog_ok}"/>

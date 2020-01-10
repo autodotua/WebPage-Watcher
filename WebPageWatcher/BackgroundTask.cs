@@ -1,4 +1,5 @@
 ﻿#define TEST
+#define DISABLED
 
 using System;
 using System.Collections.Generic;
@@ -37,14 +38,18 @@ namespace WebPageWatcher
 
         public static async Task Load()
         {
+
             if (timer != null)
             {
                 timer.Dispose();
             }
 
             WebPages = new ExtendedObservableCollection<WebPage>(await DbHelper.GetWebPagesAsync());
+#if (DISABLED && DEBUG)
+            return;
+#endif
 #if (TEST && DEBUG)
-            timer = new Timer(new TimerCallback(p => Do()), null, 0, 1000 * 60);
+            timer = new Timer(new TimerCallback(async p =>await Do()), null, 0, 1000 * 10);
 #else
             timer = new Timer(new TimerCallback(p => Do()), null, 0, 1000 * 60);
 #endif
@@ -74,9 +79,9 @@ namespace WebPageWatcher
         public static async Task<bool> Excute(WebPage webPage, bool force = false)
         {
             DateTime now = DateTime.Now;
-            if (webPage.LatestDocument == null)
+            if (webPage.LatestContent == null)
             {
-                webPage.LatestDocument =await HtmlGetter.GetResponseTextAsync(webPage);
+                webPage.LatestContent =await HtmlGetter.GetResponseBinaryAsync(webPage);
                 webPage.LastCheckTime = now;
 
                 await UpdateDbAndUI(webPage, null);
@@ -98,7 +103,7 @@ namespace WebPageWatcher
                         win.PopUp();
                     });
                     webPage.LastUpdateTime = now;
-                    webPage.LatestDocument = result.NewContent;
+                    webPage.LatestContent = result.NewContent;
                     PlayRing();
                 }
 
@@ -106,6 +111,7 @@ namespace WebPageWatcher
                 await UpdateDbAndUI(webPage, result);
                 return result.Same == false;
             }
+            return false;
         }
 
         private async static Task UpdateDbAndUI(WebPage page, CompareResult result)

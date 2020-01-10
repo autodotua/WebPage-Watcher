@@ -22,8 +22,9 @@ namespace WebPageWatcher.Data
         public  DateTime LastUpdateTime { get; set; }=DateTime.MinValue;
         public DateTime LastCheckTime { get; set; } = DateTime.MinValue;
         public int Interval { get; set; } = 1000 * 60*15;
-        public string LatestDocument { get; set; }
-
+        public byte[] LatestContent { get; set; }
+        public string GetLatestContentText() => Config.Instance.Encoding.GetString(LatestContent);
+        public string GetLatestContentBase64() => Convert.ToBase64String(LatestContent);
 
 
 
@@ -59,8 +60,7 @@ namespace WebPageWatcher.Data
         /// <summary>
         /// 响应格式，支持HTML、JSON
         /// </summary>
-        public string Response_Type { get; set; } = "HTML";
-
+        public ResponseType Response_Type { get; set; } = ResponseType.Html;
 
         public WebPage Clone()
         {
@@ -82,5 +82,12 @@ namespace WebPageWatcher.Data
         }
     }
 
+   public enum ResponseType
+    {
+        Html,
+        Json,
+        Text,
+        Binary
+    }
     
 }

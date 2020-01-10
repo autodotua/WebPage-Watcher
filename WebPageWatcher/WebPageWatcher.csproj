@@ -125,6 +125,8 @@
     </ApplicationDefinition>
     <Compile Include="BackgroundTask.cs" />
     <Compile Include="Data\Cookie.cs" />
+    <Compile Include="Data\Helper.cs" />
+    <Compile Include="Data\WebPageUpdate.cs" />
     <Compile Include="UI\Dialog\InputDialog.xaml.cs">
       <DependentUpon>InputDialog.xaml</DependentUpon>
     </Compile>

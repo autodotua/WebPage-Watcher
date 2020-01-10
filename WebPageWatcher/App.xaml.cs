@@ -201,6 +201,8 @@ namespace WebPageWatcher
         private void Application_Exit(object sender, ExitEventArgs e)
         {
             DbHelper.Dispose();
+            BackgroundTask.Stop();
+            notifyIcon.Dispose();
         }
 
         public void SetCulture()

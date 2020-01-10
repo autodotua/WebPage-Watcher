@@ -14,6 +14,7 @@
     <extension:ExtendedUserControl.Resources>
         <local:IsNotNullToBoolConverter x:Key="notNull2Enable" />
         <local:ValueMinusConverter x:Key="minus"/>
+        <local:ResponseTypeConverter x:Key="responseType"/>
 
         <local:TimeSpan2Ms x:Key="timeSpan2Ms" />
     </extension:ExtendedUserControl.Resources>
@@ -58,17 +59,17 @@
                         <TextBlock Grid.Row="4" VerticalAlignment="Center" 
                    HorizontalAlignment="Right" Text="{DynamicResource label_lastUpdateContent}"/>
                         <Button Grid.Row="4" Grid.Column="2"  VerticalAlignment="Center"
-                                HorizontalAlignment="Right" Content="{DynamicResource button_view}" Click="Button_Click_5"/>
+                                HorizontalAlignment="Right" Content="{DynamicResource button_view}" Click="ViewLatestButton_Click"/>
 
                         <TextBlock Grid.Row="6" VerticalAlignment="Center" 
                    HorizontalAlignment="Right" Text="{DynamicResource label_forceCompare}"/>
                         <Button x:Name="btnCompare" Grid.Row="6" Grid.Column="2"  VerticalAlignment="Center" HorizontalAlignment="Right"
-                                Content="{DynamicResource button_view}" Click="Button_Click_7"/>
+                                Content="{DynamicResource button_view}" Click="ForceCompareButton_Click"/>
                         
                         <TextBlock Grid.Row="8" VerticalAlignment="Center" 
                    HorizontalAlignment="Right" Text="{DynamicResource label_forceGet}"/>
                         <Button x:Name="btnGet" Grid.Row="8" Grid.Column="2"  VerticalAlignment="Center" HorizontalAlignment="Right"
-                                Content="{DynamicResource button_view}" Click="btnGet_Click"/>
+                                Content="{DynamicResource button_view}" Click="ForceGetButton_Click"/>
 
                     </Grid>
 
@@ -119,7 +120,7 @@
                    HorizontalAlignment="Right" Text="{DynamicResource label_blackWhiteList}"/>
                         <TextBlock x:Name="tbkBlackWhiteList" Grid.Row="0" Grid.Column="2"
                 VerticalAlignment="Center"   Text="{Binding WebPage.BlackWhiteList.Count, Mode=OneWay}"/>
-                        <Button Grid.Row="0" Grid.Column="4"  Click="Button_Click_4" Content="{DynamicResource button_setting}"/>
+                        <Button Grid.Row="0" Grid.Column="4"  Click="BlackWhiteListButton_Click" Content="{DynamicResource button_setting}"/>
 
                         <TextBlock Grid.Row="2" VerticalAlignment="Bottom" 
                    HorizontalAlignment="Right" Text="{DynamicResource label_updateInterval}"/>
@@ -174,7 +175,7 @@
 
                         <TextBlock Grid.Row="0" VerticalAlignment="Center" 
                    HorizontalAlignment="Right" Text="{DynamicResource label_url}"/>
-                        <TextBox Grid.Row="0" Grid.Column="2"  Grid.ColumnSpan="3"
+                        <TextBox Grid.Row="0" Grid.Column="2"  Grid.ColumnSpan="3" TextWrapping="Wrap"
                  VerticalAlignment="Center" Text="{Binding WebPage.Url}"/>
 
                         <TextBlock Grid.Row="2" VerticalAlignment="Center" 
@@ -210,7 +211,7 @@
                         <TextBox Grid.Row="12" Grid.Column="2"  Grid.ColumnSpan="3"
                  VerticalAlignment="Center" Text="{Binding WebPage.Request_Refer}"/>
 
-                        <Button Grid.Row="14" Grid.ColumnSpan="999" Content="{DynamicResource button_importHTTPHeader}" Click="Button_Click_6"/>
+                        <Button Grid.Row="14" Grid.ColumnSpan="999" Content="{DynamicResource button_importHTTPHeader}" Click="ParseHTTPHeaderButton_Click"/>
                     </Grid>
 
                 </GroupBox >
@@ -232,10 +233,11 @@
 
                         <TextBlock Grid.Row="0" VerticalAlignment="Center" 
                    HorizontalAlignment="Right" Text="{DynamicResource label_responseType}"/>
-                        <ComboBox Grid.Row="0"  Grid.Column="2" Grid.ColumnSpan="99"  SelectedItem="{Binding WebPage.Response_Type}">
-                            <system:String>HTML</system:String>
-                            <system:String>JSON</system:String>
-                            <system:String>TEXT</system:String>
+                        <ComboBox Grid.Row="0"  Grid.Column="2" Grid.ColumnSpan="99"  SelectedIndex="{Binding WebPage.Response_Type, Converter={StaticResource responseType}}">
+                            <ComboBoxItem>HTML</ComboBoxItem>
+                            <ComboBoxItem>JSON</ComboBoxItem>
+                            <ComboBoxItem Content="{DynamicResource type_text}"/>
+                            <ComboBoxItem Content="{DynamicResource type_binary}"/>
                         </ComboBox>
                     </Grid>
 

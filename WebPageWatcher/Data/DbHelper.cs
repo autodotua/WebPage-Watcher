@@ -37,7 +37,7 @@ namespace WebPageWatcher.Data
                        new SQLiteColumn(nameof(WebPage.LastUpdateTime), SQLiteDataType.Text),
                        new SQLiteColumn(nameof(WebPage.LastCheckTime), SQLiteDataType.Text),
                        new SQLiteColumn(nameof(WebPage.Interval), SQLiteDataType.Integer),
-                       new SQLiteColumn(nameof(WebPage.LatestDocument), SQLiteDataType.Text),
+                       new SQLiteColumn(nameof(WebPage.LatestContent), SQLiteDataType.Blob),
                        new SQLiteColumn(nameof(WebPage.BlackWhiteListJson), SQLiteDataType.Text),
                        new SQLiteColumn(nameof(WebPage.BlackWhiteListMode), SQLiteDataType.Integer),
                        new SQLiteColumn(nameof(WebPage.InnerTextOnly), SQLiteDataType.Integer),
@@ -52,7 +52,7 @@ namespace WebPageWatcher.Data
                        new SQLiteColumn(nameof(WebPage.Request_UserAgent), SQLiteDataType.Text),
                        new SQLiteColumn(nameof(WebPage.Request_Body), SQLiteDataType.Text),
 
-                       new SQLiteColumn(nameof(WebPage.Response_Type), SQLiteDataType.Text)
+                       new SQLiteColumn(nameof(WebPage.Response_Type), SQLiteDataType.Integer)
                        );
                 }
             }

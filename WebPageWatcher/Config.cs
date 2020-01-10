@@ -55,6 +55,8 @@ namespace WebPageWatcher
         public string CustomRingName { get; set; } = null;
         [Newtonsoft.Json.JsonIgnore]
         public string CustomRingPath => IOPath.Combine(DataPath, CustomRingName);
+        [Newtonsoft.Json.JsonIgnore]
+        public Encoding Encoding => Encoding.UTF8;
 
     }
 }

@@ -9,7 +9,7 @@
     xmlns:avalonEdit="http://icsharpcode.net/sharpdevelop/avalonedit"
     mc:Ignorable="d"
     WindowStartupLocation="CenterOwner"
-        Title="{DynamicResource win_compare}" Height="450" Width="600">
+        Title="{DynamicResource win_preview}" Height="450" Width="600">
     <Grid x:Name="grd" Margin="4">
         <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>

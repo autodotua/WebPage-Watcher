@@ -17,13 +17,13 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <TextBlock FontWeight="Bold" Margin="8,0,0,0" Text="{DynamicResource win_main}"/>
-        <TextBlock  VerticalAlignment="Center" FontSize="18" Grid.Row="2">
+        <TextBlock  VerticalAlignment="Center" FontSize="18" Grid.Row="2" Margin="0,0,120,0">
             <Run Text="{DynamicResource label_changed1}"/>
             <Run Text="{Binding WebPage.Name}" FontWeight="Bold"/>
             <Run Text="{DynamicResource label_changed2}"/>
         </TextBlock>
         <TextBlock x:Name="tbkTime" HorizontalAlignment="Right" 
-                   VerticalAlignment="Center" Grid.Row="2"/>
+                   VerticalAlignment="Center" Grid.Row="2" />
         <ScrollViewer Grid.Row="4" MaxHeight="80"
                       HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Hidden">
             <TextBlock x:Name="tbkContent" TextWrapping="Wrap"  MaxWidth="360">这里里显示变里显示变里显示变里显示变里显示变里显
@@ -43,7 +43,7 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <Button x:Name="btnOpen" Click="OpenButton_Click" Content="{DynamicResource button_openWebPage}" Style="{StaticResource NotificationButton}"/>
-            <Button  Click="ViewButton_Click" Grid.Column="2" Content="{DynamicResource button_getMore}" Style="{StaticResource NotificationButton}"/>
+            <Button x:Name="btnView" Click="ViewButton_Click" Grid.Column="2" Content="{DynamicResource button_getMore}" Style="{StaticResource NotificationButton}"/>
             <Button Grid.Column="4"  Style="{StaticResource NotificationButton}" Click="CloseButton_Click"   Content="{DynamicResource button_close}"/>
         </Grid>
         <local:Dialog x:Name="dialog" Margin="-12"/>

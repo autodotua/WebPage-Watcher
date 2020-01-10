@@ -49,6 +49,10 @@ namespace WebPageWatcher.UI
 
         private async Task ShowOk(string message, string title)
         {
+            while (dialog.IsOpen)
+            {
+                await Task.Delay(100);
+            }
             tbkDialogTitle.Foreground = FindResource("MaterialDesignBody") as Brush;
             btnOk.Visibility = Visibility.Visible;
             btnYes.Visibility = Visibility.Collapsed;
@@ -63,6 +67,10 @@ namespace WebPageWatcher.UI
 
         public async Task<bool> ShowYesNoAsync(string message, string title)
         {
+            while (dialog.IsOpen)
+            {
+                await Task.Delay(100);
+            }
             tbkDialogTitle.Foreground = Brushes.Red;
             btnOk.Visibility = Visibility.Collapsed;
             btnYes.Visibility = Visibility.Visible;

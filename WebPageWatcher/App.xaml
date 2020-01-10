@@ -38,6 +38,9 @@
                                 </Trigger>
                                 <Trigger Property="IsPressed" Value="true">
                                     <Setter Property="Background" TargetName="border" Value="#555555"/>
+                                </Trigger>       
+                                <Trigger Property="IsEnabled" Value="false">
+                                    <Setter Property="Foreground" Value="#888888"/>
                                 </Trigger>
 
                             </ControlTemplate.Triggers>

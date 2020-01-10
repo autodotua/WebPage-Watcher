@@ -97,6 +97,7 @@ xmlns:system="clr-namespace:System;assembly=mscorlib">
     <system:String x:Key="error_title_getHtmlFailed">Get webpage failed</system:String>
     <system:String x:Key="error_notGetYet">Not get webpage yet</system:String>
     <system:String x:Key="error_textTypeNotSupport">Text type not support black or white list</system:String>
+    <system:String x:Key="error_binaryTypeNotSupport">Binary type not support black or white list</system:String>
     <system:String x:Key="error_forceCompare">Compare Failed</system:String>
     <system:String x:Key="error_forceGet">Get Failed</system:String>
 
@@ -131,4 +132,10 @@ xmlns:system="clr-namespace:System;assembly=mscorlib">
     <system:String x:Key="label_headerError">Parse Complete with following errors:</system:String>
     <system:String x:Key="label_compareComplete">Compare Complete, NoChange</system:String>
 
+    <system:String x:Key="ex_GetResponse">Get HTTP response failed</system:String>
+
+    <system:String x:Key="type_text">Text</system:String>
+    <system:String x:Key="type_binary">Binary</system:String>
+    <system:String x:Key="label_binaryTypePreview">Can't preview binary, do you want to save and open later? </system:String>
+    <system:String x:Key="label_binaryTypePreviewTitle">Preview Binary</system:String>
 </ResourceDictionary>

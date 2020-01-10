@@ -23,7 +23,7 @@
                 <ColumnDefinition Width="8"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <DataGrid x:Name="lvw" ItemsSource="{Binding Cookies}" Grid.ColumnSpan="5" 
+            <DataGrid x:Name="lvw" ItemsSource="{Binding Cookies}" Grid.ColumnSpan="5" SelectionMode="Single"
                   CanUserAddRows="False" CanUserDeleteRows="True" AutoGenerateColumns="False">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="{DynamicResource list_Key}" MinWidth="108" Binding="{Binding Key}"/>
