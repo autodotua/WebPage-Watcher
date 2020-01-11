@@ -124,7 +124,7 @@ namespace WebPageWatcher.UI
              
                     try
                     {
-                        string response =await HtmlGetter.GetResponseTextOrBase64Async(WebPage);
+                        string response =await HtmlGetter.GetResponseTextAsync(WebPage);
                     htmlDoc = new HtmlDocument();
                     htmlDoc.LoadHtml(response);
                     }
@@ -158,7 +158,7 @@ namespace WebPageWatcher.UI
         {
             try
             {
-                string response = await HtmlGetter.GetResponseTextOrBase64Async(WebPage);
+                string response = await HtmlGetter.GetResponseTextAsync(WebPage);
                 jsonObject = JToken.Parse(response);
             }
             catch (Exception ex)

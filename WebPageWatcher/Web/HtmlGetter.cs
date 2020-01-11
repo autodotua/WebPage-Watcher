@@ -63,7 +63,7 @@ namespace WebPageWatcher.Web
         //        throw new Exception("转换为JSON失败", ex);
         //    }
         //}
-        public static string GetResponseTextOrBase64(WebPage webPage)
+        public static string GetResponseText(WebPage webPage)
         {
             HtmlGetter parser = new HtmlGetter(webPage);
             byte[] response = parser.GetResponse();
@@ -73,7 +73,7 @@ namespace WebPageWatcher.Web
             }
             return Config.Instance.Encoding.GetString(response);
         }
-        public async static Task<string> GetResponseTextOrBase64Async(WebPage webPage)
+        public async static Task<string> GetResponseTextAsync(WebPage webPage)
         {
             HtmlGetter parser = new HtmlGetter(webPage);
             byte[] response = await parser.GetResponseAsync();

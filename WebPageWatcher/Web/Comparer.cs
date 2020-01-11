@@ -101,7 +101,7 @@ namespace WebPageWatcher.Web
             bool same;
             if (WebPage.IgnoreWhiteSpace)
             {
-                same = rWhiteSpace.Replace(Config.Instance.Encoding.GetString(newContent), "") == rWhiteSpace.Replace(WebPage.GetLatestContentText(), "");
+                same = rWhiteSpace.Replace(newContent.ToEncodedString(), "") == rWhiteSpace.Replace(WebPage.LatestContent.ToEncodedString(), "");
             }
             else
             {
@@ -132,7 +132,7 @@ namespace WebPageWatcher.Web
 
         public override CompareResult CompareWith(byte[] newContent)
         {
-            JToken oldDocument = JToken.Parse(WebPage.GetLatestContentText());
+            JToken oldDocument = JToken.Parse(WebPage.LatestContent.ToEncodedString());
             JToken newDocument = JToken.Parse(newContent.ToEncodedString());
 
             List<(object Old, object New)> differentElements = null;
@@ -223,7 +223,7 @@ namespace WebPageWatcher.Web
             newDocument.LoadHtml(newContent.ToEncodedString());
 
             HtmlDocument oldDocument = new HtmlDocument();
-            oldDocument.LoadHtml(WebPage.GetLatestContentText());
+            oldDocument.LoadHtml(WebPage.LatestContent.ToEncodedString());
 
             List<(object Old, object New)> differentElements = null;
 
@@ -235,7 +235,7 @@ namespace WebPageWatcher.Web
             {
                 differentElements = BlackListCompare(oldDocument, newDocument);
             }
-            return new CompareResult(WebPage, differentElements, oldDocument, newDocument, WebPage.LatestContent,newContent);
+            return new CompareResult(WebPage, differentElements, oldDocument, newDocument, WebPage.LatestContent, newContent);
 
         }
 
@@ -346,34 +346,93 @@ namespace WebPageWatcher.Web
     {
         public CompareResult(WebPage webPage,
             IEnumerable<(object Old, object New)> differentElements,
-       object oldDocument, object newDocument,
-       byte[] oldContent, byte[] newContent)
+       HtmlDocument oldDocument, HtmlDocument newDocument,
+       byte[] oldContent, byte[] newContent) : this(webPage)
         {
-            Same = !differentElements.Any();
-            DifferentNodes = differentElements.ToArray();
-            WebPage = webPage;
+            Same = differentElements == null || !differentElements.Any();
+            DifferentNodes = differentElements?.ToArray();
             OldDocument = oldDocument;
             NewDocument = newDocument;
 
             OldContent = oldContent;
-            NewContent =newContent;
+            NewContent = newContent;
 
         }
+        public CompareResult(WebPage webPage,
+            IEnumerable<(object Old, object New)> differentElements,
+       JToken oldToken, JToken newToken,
+       byte[] oldContent, byte[] newContent) : this(webPage)
+        {
+            Same = differentElements == null || !differentElements.Any();
+            DifferentNodes = differentElements?.ToArray();
+            OldDocument = oldToken;
+            NewDocument = newToken;
+
+            OldContent = oldContent;
+            NewContent = newContent;
+
+        }
+
         public CompareResult(WebPage webPage, bool same,
-       byte[] oldContent, byte[] newContent)
+       byte[] oldContent, byte[] newContent):this(webPage)
         {
             Same = same;
             OldContent = oldContent;
             NewContent = newContent;
+        }
+
+        private CompareResult(WebPage webPage)
+        {
             WebPage = webPage;
+            Type = webPage.Response_Type;
         }
         public bool Same { get; }
         public (object Old, object New)[] DifferentNodes { get; }
         public WebPage WebPage { get; }
+        public ResponseType Type { get; }
         public object OldDocument { get; }
         public object NewDocument { get; }
         public byte[] OldContent { get; }
         public byte[] NewContent { get; }
+
+        public Diff[] GetDifferences()
+        {
+            StringBuilder text1 = new StringBuilder();
+            StringBuilder text2 = new StringBuilder();
+            switch (Type)
+            {
+                case ResponseType.Html:
+                    foreach ((object oldNode, object newNode) in DifferentNodes)
+                    {
+                        if (WebPage.InnerTextOnly)
+                        {
+                            text1.AppendLine((oldNode as HtmlNode).InnerText);
+                            text2.AppendLine((newNode as HtmlNode).InnerText);
+                        }
+                        else
+                        {
+                            text1.AppendLine((oldNode as HtmlNode).OuterHtml);
+                            text2.AppendLine((newNode as HtmlNode).OuterHtml);
+                        }
+                    }
+                    break;
+                case ResponseType.Json:
+                    foreach ((object oldNode, object newNode) in DifferentNodes)
+                    {
+                        text1.AppendLine((oldNode as JToken).ToString());
+                        text2.AppendLine((newNode as JToken).ToString());
+                    }
+                    break;
+                case ResponseType.Text:
+                    text1.Append(OldContent.ToEncodedString());
+                    text2.Append(NewContent.ToEncodedString());
+                    break;
+                default:
+                    throw new NotSupportedException();
+            }
+
+            return new diff_match_patch().diff_main(text1.ToString(), text2.ToString()).ToArray();
+        }
     }
 
     //public  class HtmlCompareResult: CompareResult<HtmlDocument,HtmlNode>
@@ -392,4 +451,6 @@ namespace WebPageWatcher.Web
     //    public override HtmlDocument OldDocument { get; }
     //    public override HtmlDocument NewDocument { get; }
     //}
+
+
 }

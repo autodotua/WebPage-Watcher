@@ -23,8 +23,6 @@ namespace WebPageWatcher.Data
         public DateTime LastCheckTime { get; set; } = DateTime.MinValue;
         public int Interval { get; set; } = 1000 * 60*15;
         public byte[] LatestContent { get; set; }
-        public string GetLatestContentText() => Config.Instance.Encoding.GetString(LatestContent);
-        public string GetLatestContentBase64() => Convert.ToBase64String(LatestContent);
 
 
 

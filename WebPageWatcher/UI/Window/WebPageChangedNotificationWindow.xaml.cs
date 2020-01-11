@@ -30,29 +30,67 @@ namespace WebPageWatcher.UI
             WebPage = webPage;
             CompareResult = compareResult;
             InitializeComponent();
-            IEnumerable<string> strs=null;
+            //IEnumerable<string> strs = null;
             switch (compareResult.WebPage.Response_Type)
             {
                 case ResponseType.Html:
-                    strs = compareResult.DifferentNodes.Select(p => Regex.Replace((p.New as HtmlNode) .InnerText.Trim(), "\\s+", " "));
-                    break;
+                    //strs = compareResult.DifferentNodes.Select(p => Regex.Replace((p.New as HtmlNode).InnerText.Trim(), "\\s+", " "));
+                    //break;
                 case ResponseType.Json:
-                    strs = compareResult.DifferentNodes.Select(p => Regex.Replace((p.New as JToken).ToString().Trim(), "\\s+", " "));
-                    break;
+                    //strs = compareResult.DifferentNodes.Select(p => Regex.Replace((p.New as JToken).ToString().Trim(), "\\s+", " "));
+                    //break;
                 case ResponseType.Text:
-                    strs = new string[] { compareResult.NewContent.ToEncodedString() };
+                    //strs = new string[] { compareResult.NewContent.ToEncodedString() };
+                    SetDifferencesText(compareResult);
                     break;
                 case ResponseType.Binary:
                     btnView.IsEnabled = false;
-                    strs = new string[] {$"{FindResource("type_binary") as string} ({CompareResult.NewContent.Length})" };
+                    //strs = new string[] { $"{FindResource("type_binary") as string} ({CompareResult.NewContent.Length})" };
+                    rtb.Document.Blocks.Add(new Paragraph(new Run($"{FindResource("type_binary") as string} ({CompareResult.NewContent.Length})")));
                     break;
                 default:
                     throw new NotSupportedException();
             }
-            
-            tbkContent.Text = string.Join(Environment.NewLine + Environment.NewLine, strs);
+
             tbkTime.Text = DateTime.Now.ToString("t", CultureInfo.CurrentUICulture);
             btnOpen.IsEnabled = webPage.Request_Method == "GET";
+        }
+
+        private void SetDifferencesText(CompareResult compareResult)
+        {
+            var diffs = compareResult.GetDifferences();
+            foreach (var diff in diffs)
+            {
+                switch (diff.operation)
+                {
+                    case Operation.DELETE:
+                        {
+                            Paragraph paragraph = new Paragraph();
+                            rtb.Document.Blocks.Add(paragraph);
+
+                            Run run = new Run(diff.text);
+                            paragraph.Inlines.Add(run);
+
+                            TextRange range = new TextRange(run.ContentStart, run.ContentEnd);
+                            range.ApplyPropertyValue(Inline.TextDecorationsProperty, TextDecorations.Strikethrough);
+                        }
+                        break;
+                    case Operation.INSERT:
+                        {
+                            Paragraph paragraph = new Paragraph();
+                            rtb.Document.Blocks.Add(paragraph);
+
+                            Run run = new Run(diff.text);
+                            paragraph.Inlines.Add(run);
+
+                            TextRange range = new TextRange(run.ContentStart, run.ContentEnd);
+                            //range.ApplyPropertyValue(Inline.TextDecorationsProperty, TextDecorations.Strikethrough);
+                        }
+                        break;
+                    case Operation.EQUAL:
+                        break;
+                }
+            }
         }
 
         public WebPage WebPage { get; }

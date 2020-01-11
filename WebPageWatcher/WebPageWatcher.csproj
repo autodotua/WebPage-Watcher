@@ -104,6 +104,7 @@
       <HintPath>..\packages\System.Data.SQLite.Core.1.0.112.0\lib\net46\System.Data.SQLite.dll</HintPath>
     </Reference>
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
@@ -125,6 +126,7 @@
     </ApplicationDefinition>
     <Compile Include="BackgroundTask.cs" />
     <Compile Include="Data\Cookie.cs" />
+    <Compile Include="Web\Diff.cs" />
     <Compile Include="Data\Helper.cs" />
     <Compile Include="Data\WebPageUpdate.cs" />
     <Compile Include="UI\Dialog\InputDialog.xaml.cs">
