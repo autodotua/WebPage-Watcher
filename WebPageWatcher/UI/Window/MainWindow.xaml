@@ -14,7 +14,7 @@
     Closing="win_Closing"
     WindowStartupLocation="CenterScreen"
         Title="{DynamicResource win_main}" Height="600" Width="1200" x:Name="win">
-    <Grid Margin="4">
+    <Grid x:Name="outGrd" Margin="4">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="0"/>
@@ -73,8 +73,8 @@
                 <Button Grid.Row="2" Click="Button_Click" Content="{DynamicResource button_new}"/>
             </Grid>
             <local:Dialog Grid.RowSpan="999" Margin="-4" Grid.ColumnSpan="999" x:Name="dialog"/>
-            <local:InputDialog x:Name="inputDialog" Width="{ Binding ElementName=win, Path=ActualWidth }"/>
-            <local:ProgressDialog x:Name="progressDialog" Width="{ Binding ElementName=win, Path=ActualWidth }"/>
+            <local:InputDialog x:Name="inputDialog" Grid.RowSpan="999" Grid.ColumnSpan="999"  Margin="-4" Width="{ Binding ElementName=win, Path=ActualWidth }"/>
+            <local:ProgressDialog x:Name="progressDialog" Grid.RowSpan="999" Grid.ColumnSpan="999"  Margin="-4" Width="{ Binding ElementName=win, Path=ActualWidth }"/>
 
         </Grid>
 

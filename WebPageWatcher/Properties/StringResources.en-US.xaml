@@ -13,10 +13,12 @@ xmlns:system="clr-namespace:System;assembly=mscorlib">
     <system:String x:Key="label_lastUpdateContent" >Last update content:</system:String>
 
     <system:String x:Key="label_name" >Name:</system:String>
+    <system:String x:Key="label_enabled" >Enabled：</system:String>
 
     <system:String x:Key="label_blackWhiteList" >Black and white list:</system:String>
     <system:String x:Key="label_updateInterval" >Update interval:</system:String>
     <system:String x:Key="label_compareOptions" >Compare options:</system:String>
+    <system:String x:Key="label_serverPointOptions" >Server point options:</system:String>
 
     <system:String x:Key="label_url" >Url:</system:String>
     <system:String x:Key="label_method" >Method:</system:String>
@@ -133,9 +135,26 @@ xmlns:system="clr-namespace:System;assembly=mscorlib">
     <system:String x:Key="label_compareComplete">Compare Complete, NoChange</system:String>
 
     <system:String x:Key="ex_GetResponse">Get HTTP response failed</system:String>
+    <system:String x:Key="ex_cannotFindWebPageByName">Can't Find Web Page：</system:String>
+    <system:String x:Key="ex_webPageNameNotUnique">The Web Page Is Not Unique：</system:String>
+    <system:String x:Key="ex_syntaxError">Syntax error</system:String>
+    <system:String x:Key="ex_cannotFindVariable">Can't find variable：</system:String>
+    <system:String x:Key="ex_wrongType">The type of variable is wrong：</system:String>
+    <system:String x:Key="ex_jsonPathError">JSON path is wrong, can't find target element：</system:String>
+    <system:String x:Key="ex_cannotFindProperty">Can't find property：</system:String>
+    <system:String x:Key="ex_invalidPropertyType">The type of property is invalid：</system:String>
+    <system:String x:Key="ex_wrongPropertyValue">Fail to set value for the property：</system:String>
+    <system:String x:Key="ex_CommandAndLine">Line {0}: {1}</system:String>
+
 
     <system:String x:Key="type_text">Text</system:String>
     <system:String x:Key="type_binary">Binary</system:String>
     <system:String x:Key="label_binaryTypePreview">Can't preview binary, do you want to save and open later? </system:String>
     <system:String x:Key="label_binaryTypePreviewTitle">Preview Binary</system:String>
+    <system:String x:Key="label_responseIsEmpty">Succeed, but response content is empty</system:String>
+    <system:String x:Key="label_allowAutoRedirect">Allow auto redirect by Location</system:String>
+    <system:String x:Key="label_keepAlive">Keep Alive</system:String>
+    <system:String x:Key="label_otherOptions">Other options</system:String>
+    <system:String x:Key="label_variableExist">The name of variable {0} has been exist</system:String>
+
 </ResourceDictionary>

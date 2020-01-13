@@ -34,6 +34,7 @@ namespace WebPageWatcher.Data
                     fzDb.CreateTable(WebPagesTableName, "ID",
                        new SQLiteColumn(nameof(WebPage.Name), SQLiteDataType.Text),
                        new SQLiteColumn(nameof(WebPage.Url), SQLiteDataType.Text),
+                       new SQLiteColumn(nameof(WebPage.Enabled), SQLiteDataType.Integer),
                        new SQLiteColumn(nameof(WebPage.LastUpdateTime), SQLiteDataType.Text),
                        new SQLiteColumn(nameof(WebPage.LastCheckTime), SQLiteDataType.Text),
                        new SQLiteColumn(nameof(WebPage.Interval), SQLiteDataType.Integer),
@@ -51,6 +52,9 @@ namespace WebPageWatcher.Data
                        new SQLiteColumn(nameof(WebPage.Request_ContentType), SQLiteDataType.Text),
                        new SQLiteColumn(nameof(WebPage.Request_UserAgent), SQLiteDataType.Text),
                        new SQLiteColumn(nameof(WebPage.Request_Body), SQLiteDataType.Text),
+                       new SQLiteColumn(nameof(WebPage.Request_Expect100Continue), SQLiteDataType.Integer),
+                       new SQLiteColumn(nameof(WebPage.Request_KeepAlive), SQLiteDataType.Integer),
+                       new SQLiteColumn(nameof(WebPage.Request_AllowAutoRedirect), SQLiteDataType.Integer),
 
                        new SQLiteColumn(nameof(WebPage.Response_Type), SQLiteDataType.Integer)
                        );

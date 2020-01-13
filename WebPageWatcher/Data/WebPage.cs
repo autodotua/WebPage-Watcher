@@ -7,7 +7,7 @@ using WebPageWatcher.Web;
 
 namespace WebPageWatcher.Data
 {
-  public  class WebPage
+    public class WebPage
     {
         public WebPage()
         {
@@ -19,9 +19,10 @@ namespace WebPageWatcher.Data
         public int ID { get; set; }
         public string Name { get; set; }
         public string Url { get; set; }
-        public  DateTime LastUpdateTime { get; set; }=DateTime.MinValue;
+        public bool Enabled { get; set; }
+        public DateTime LastUpdateTime { get; set; } = DateTime.MinValue;
         public DateTime LastCheckTime { get; set; } = DateTime.MinValue;
-        public int Interval { get; set; } = 1000 * 60*15;
+        public int Interval { get; set; } = 1000 * 60 * 15;
         public byte[] LatestContent { get; set; }
 
 
@@ -54,6 +55,9 @@ namespace WebPageWatcher.Data
         public string Request_UserAgent { get; set; }
         public string Request_ContentType { get; set; }
         public string Request_Body { get; set; }
+        public bool Request_Expect100Continue { get; set; } = false;
+        public bool Request_KeepAlive { get; set; } = true;
+        public bool Request_AllowAutoRedirect { get; set; } = false;
 
         /// <summary>
         /// 响应格式，支持HTML、JSON
@@ -80,12 +84,12 @@ namespace WebPageWatcher.Data
         }
     }
 
-   public enum ResponseType
+    public enum ResponseType
     {
         Html,
         Json,
         Text,
         Binary
     }
-    
+
 }

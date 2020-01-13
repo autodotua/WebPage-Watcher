@@ -57,7 +57,7 @@ namespace WebPageWatcher
 
         private static async Task Do()
         {
-            foreach (var webPage in WebPages.ToArray())
+            foreach (var webPage in WebPages.Where(p=>p.Enabled).ToArray())
             {
                 try
                 {

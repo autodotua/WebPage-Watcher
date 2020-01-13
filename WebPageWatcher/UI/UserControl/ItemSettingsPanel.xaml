@@ -25,8 +25,10 @@
             <RowDefinition Height="8"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
+        <TextBlock Text="{Binding WebPage.Name}" FontSize="24" Margin="8,-42,0,0"/>
         <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
             <StackPanel Margin="0,0,8,0" >
+
                 <GroupBox BorderThickness="0" Header="{DynamicResource expander_runningStatus}" 
   materialDesign:ColorZoneAssist.Mode="Accent">
                     <Grid>
@@ -74,6 +76,9 @@
                     </Grid>
 
                 </GroupBox >
+
+                <FrameworkElement Height="4"/>
+
                 <GroupBox BorderThickness="0" Header="{DynamicResource expander_basicInfo}"  
   materialDesign:ColorZoneAssist.Mode="Accent">
                     <Grid>
@@ -94,10 +99,19 @@
                    HorizontalAlignment="Right" Text="{DynamicResource label_name}"/>
                         <TextBox Grid.Row="0" Grid.Column="2"  Grid.ColumnSpan="3" 
                 VerticalAlignment="Center" Text="{Binding WebPage.Name}"/>
+                       
+                        <TextBlock Grid.Row="2" VerticalAlignment="Center" 
+                   HorizontalAlignment="Left" Text="{DynamicResource label_enabled}"/>
+                        <ToggleButton  Grid.Row="2" Grid.Column="2" Grid.ColumnSpan="999" 
+                                       VerticalAlignment="Center" HorizontalAlignment="Right" 
+                                   IsChecked="{Binding WebPage.Enabled}"/>
 
                     </Grid>
 
                 </GroupBox >
+               
+                <FrameworkElement Height="4"/>
+
                 <GroupBox BorderThickness="0" Header="{DynamicResource expander_getAndCompare}"  
   materialDesign:ColorZoneAssist.Mode="Accent">
                     <Grid>
@@ -144,10 +158,17 @@
                     </Grid>
 
                 </GroupBox >
+               
+                <FrameworkElement Height="4"/>
+                
                 <GroupBox BorderThickness="0" Header="{DynamicResource expander_httpRequest}" 
   materialDesign:ColorZoneAssist.Mode="Accent">
                     <Grid>
                         <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="8"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="8"/>
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="8"/>
                             <RowDefinition Height="Auto"/>
@@ -195,7 +216,8 @@
                         <TextBlock Grid.Row="6" VerticalAlignment="Center" 
                    HorizontalAlignment="Right">Body：</TextBlock>
                         <TextBox Grid.Row="6" Grid.Column="2"  Grid.ColumnSpan="3"
-                 VerticalAlignment="Center" Text="{Binding WebPage.Body}"/>
+                                 AcceptsReturn="True" MaxHeight="80" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto"
+                 VerticalAlignment="Center" Text="{Binding WebPage.Request_Body}"/>
 
                         <TextBlock Grid.Row="8" VerticalAlignment="Center" 
                    HorizontalAlignment="Right">Accept：</TextBlock>
@@ -203,18 +225,36 @@
                  VerticalAlignment="Center" Text="{Binding WebPage.Request_Accept}"/>
                         <TextBlock Grid.Row="10" VerticalAlignment="Center" 
                    HorizontalAlignment="Right">ContentType：</TextBlock>
-                        <TextBox Grid.Row="10" Grid.Column="2"  Grid.ColumnSpan="3"
-                 VerticalAlignment="Center" Text="{Binding WebPage.Request_ContentType}"/>
+                        <ComboBox Grid.Row="10" Grid.Column="2"  Grid.ColumnSpan="3" IsEditable="True"
+                 VerticalAlignment="Center" Text="{Binding WebPage.Request_ContentType}">
+                            <system:String>application/x-www-form-urlencoded</system:String>
+                            <system:String>application/json</system:String>
+                        </ComboBox>
 
                         <TextBlock Grid.Row="12" VerticalAlignment="Center" 
                    HorizontalAlignment="Right">Refer：</TextBlock>
                         <TextBox Grid.Row="12" Grid.Column="2"  Grid.ColumnSpan="3"
                  VerticalAlignment="Center" Text="{Binding WebPage.Request_Refer}"/>
 
-                        <Button Grid.Row="14" Grid.ColumnSpan="999" Content="{DynamicResource button_importHTTPHeader}" Click="ParseHTTPHeaderButton_Click"/>
+                        <TextBlock Grid.Row="14" VerticalAlignment="Center" HorizontalAlignment="Right" Text="{DynamicResource label_otherOptions}"/>
+                        <StackPanel Grid.Row="14" Grid.Column="2"  Grid.ColumnSpan="3" >
+                            <CheckBox IsChecked="{Binding WebPage.KeepAlive}" Content="{DynamicResource label_keepAlive}"/>
+                            <FrameworkElement Height="4"/>
+                            <CheckBox IsChecked="{Binding WebPage.AllowAutoRedirect}" Content="{DynamicResource label_allowAutoRedirect}"/>
+                        </StackPanel>
+                        
+                        <TextBlock Grid.Row="16" VerticalAlignment="Center" HorizontalAlignment="Right" Text="{DynamicResource label_serverPointOptions}"/>
+                        <StackPanel Grid.Row="16" Grid.Column="2"  Grid.ColumnSpan="3" >
+                            <CheckBox IsChecked="{Binding WebPage.Request_Expect100Continue}" Content="Expect: 100-continue"/>
+                            <FrameworkElement Height="4"/>
+                        </StackPanel>
+                        <Button Grid.Row="18" Grid.ColumnSpan="999" Content="{DynamicResource button_importHTTPHeader}" Click="ParseHTTPHeaderButton_Click"/>
                     </Grid>
 
                 </GroupBox >
+              
+                <FrameworkElement Height="4"/>
+                
                 <GroupBox BorderThickness="0" Header="{DynamicResource expander_httpResponse}" 
   materialDesign:ColorZoneAssist.Mode="Accent">
                     <Grid>

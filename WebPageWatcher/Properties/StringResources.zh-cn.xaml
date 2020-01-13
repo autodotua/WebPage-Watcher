@@ -14,10 +14,12 @@
     <system:String x:Key="label_lastUpdateContent" >上一次更新内容：</system:String>
 
     <system:String x:Key="label_name" >名称：</system:String>
+    <system:String x:Key="label_enabled" >启用：</system:String>
 
     <system:String x:Key="label_blackWhiteList" >黑白名单：</system:String>
     <system:String x:Key="label_updateInterval" >更新间隔：</system:String>
     <system:String x:Key="label_compareOptions" >对比选项：</system:String>
+    <system:String x:Key="label_serverPointOptions" >服务端选项：</system:String>
 
     <system:String x:Key="label_url" >网址：</system:String>
     <system:String x:Key="label_method" >请求方法：</system:String>
@@ -131,10 +133,26 @@
     <system:String x:Key="label_compareComplete">对比完成，没有发生变化</system:String>
     
     <system:String x:Key="ex_GetResponse">获取HTTP响应失败</system:String>
+    <system:String x:Key="ex_cannotFindWebPageByName">找不到指定名称的任务：</system:String>
+    <system:String x:Key="ex_webPageNameNotUnique">该名称的任务不唯一：</system:String>
+    <system:String x:Key="ex_syntaxError">语法错误</system:String>
+    <system:String x:Key="ex_cannotFindVariable">找不到指定变量：</system:String>
+    <system:String x:Key="ex_cannotFindProperty">找不到指定属性：</system:String>
+    <system:String x:Key="ex_invalidPropertyType">无效的属性类型：</system:String>
+    <system:String x:Key="ex_wrongType">变量类型错误：</system:String>
+    <system:String x:Key="ex_wrongPropertyValue">属性赋值错误：</system:String>
+    <system:String x:Key="ex_jsonPathError">JSON路径错误，无法找到指定元素：</system:String>
+    <system:String x:Key="ex_CommandAndLine">第{0}行：{1}</system:String>
     
     <system:String x:Key="type_text">文本</system:String>
     <system:String x:Key="type_binary">二进制</system:String>
     <system:String x:Key="label_binaryTypePreview">二进制格式无法进行预览，是否保存？</system:String>
     <system:String x:Key="label_binaryTypePreviewTitle">二进制预览</system:String>
+    <system:String x:Key="label_responseIsEmpty">获取成功，但响应内容为空</system:String>
+    <system:String x:Key="label_otherOptions">其他选项</system:String>
+    <system:String x:Key="label_allowAutoRedirect">允许使用Location进行跳转</system:String>
+    <system:String x:Key="label_keepAlive">保持连接</system:String>
+    <system:String x:Key="label_variableExist">变量名 {0} 已存在</system:String>
+
 
 </ResourceDictionary>

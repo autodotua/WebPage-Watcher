@@ -126,6 +126,7 @@
     </ApplicationDefinition>
     <Compile Include="BackgroundTask.cs" />
     <Compile Include="Data\Cookie.cs" />
+    <Compile Include="Web\ScriptParser.cs" />
     <Compile Include="Web\Diff.cs" />
     <Compile Include="Data\Helper.cs" />
     <Compile Include="Data\WebPageUpdate.cs" />

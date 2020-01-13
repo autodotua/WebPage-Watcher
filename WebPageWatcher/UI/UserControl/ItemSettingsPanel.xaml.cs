@@ -175,8 +175,15 @@ namespace WebPageWatcher.UI
 
                     return;
                 }
-                PreviewWindow win = new PreviewWindow(content.ToEncodedString(), WebPage.Response_Type) { Owner = MainWindow };
-                win.ShowDialog();
+                if (content.Length == 0)
+                {
+                    await MainWindow.dialog.ShowInfomationAsync(FindResource("label_responseIsEmpty") as string, FindResource("error_forceGet") as string);
+                }
+                else
+                {
+                    PreviewWindow win = new PreviewWindow(content.ToEncodedString(), WebPage.Response_Type) { Owner = MainWindow };
+                    win.ShowDialog();
+                }
             }
             catch (Exception ex)
             {

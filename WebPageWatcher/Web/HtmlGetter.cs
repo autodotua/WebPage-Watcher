@@ -7,6 +7,8 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
+using System.Text.RegularExpressions;
+using System.Threading;
 using System.Threading.Tasks;
 using WebPageWatcher.Data;
 
@@ -66,7 +68,7 @@ namespace WebPageWatcher.Web
         public static string GetResponseText(WebPage webPage)
         {
             HtmlGetter parser = new HtmlGetter(webPage);
-            byte[] response = parser.GetResponse();
+            byte[] response = parser.GetResponseBinary();
             if (webPage.Response_Type == ResponseType.Binary)
             {
                 return Convert.ToBase64String(response);
@@ -76,7 +78,7 @@ namespace WebPageWatcher.Web
         public async static Task<string> GetResponseTextAsync(WebPage webPage)
         {
             HtmlGetter parser = new HtmlGetter(webPage);
-            byte[] response = await parser.GetResponseAsync();
+            byte[] response = await parser.GetResponseBinaryAsync();
             if (webPage.Response_Type == ResponseType.Binary)
             {
                 return Convert.ToBase64String(response) ;
@@ -86,9 +88,19 @@ namespace WebPageWatcher.Web
         public static byte[] GetResponseBinary(WebPage webPage)
         {
             HtmlGetter parser = new HtmlGetter(webPage);
-            return parser.GetResponse();
+            return parser.GetResponseBinary();
         }
         public async static Task<byte[]> GetResponseBinaryAsync(WebPage webPage)
+        {
+            HtmlGetter parser = new HtmlGetter(webPage);
+            return await parser.GetResponseBinaryAsync();
+        }           
+        public static HttpWebResponse GetResponse(WebPage webPage)
+        {
+            HtmlGetter parser = new HtmlGetter(webPage);
+            return parser.GetResponse();
+        }
+        public async static Task<HttpWebResponse> GetResponseAsync(WebPage webPage)
         {
             HtmlGetter parser = new HtmlGetter(webPage);
             return await parser.GetResponseAsync();
@@ -96,7 +108,7 @@ namespace WebPageWatcher.Web
         public static object GetResponseBySetting(WebPage webPage)
         {
             HtmlGetter parser = new HtmlGetter(webPage);
-            byte[] response = parser.GetResponse();
+            byte[] response = parser.GetResponseBinary();
             if (webPage.Response_Type==ResponseType.Binary)
             {
                 return response;
@@ -106,14 +118,25 @@ namespace WebPageWatcher.Web
         public async static Task<object> GetResponseBySettingAsync(WebPage webPage)
         {
             HtmlGetter parser = new HtmlGetter(webPage);
-            byte[] response =await parser.GetResponseAsync();
+            byte[] response =await parser.GetResponseBinaryAsync();
             if (webPage.Response_Type == ResponseType.Binary)
             {
                 return response;
             }
             return Config.Instance.Encoding.GetString(response);
         }
-        private byte[] GetResponse()
+        private byte[] GetResponseBinary()
+        {
+            using (Stream stream = GetResponse().GetResponseStream())
+            {
+                using (var mS = new MemoryStream())
+                {
+                    stream.CopyTo(mS);
+                    return mS.ToArray();
+                }
+            }
+        }
+        private HttpWebResponse GetResponse(Action<HttpWebRequest> requestSettings=null)
         {
             if (string.IsNullOrEmpty(WebPage.Url))
             {
@@ -145,22 +168,29 @@ namespace WebPageWatcher.Web
             {
                 request.Referer = WebPage.Request_Referer;
             }
+            request.ServicePoint.Expect100Continue = WebPage.Request_Expect100Continue;
+
+            request.AllowAutoRedirect = WebPage.Request_AllowAutoRedirect;
+
+            request.KeepAlive = WebPage.Request_KeepAlive; 
             if (request.Method == "POST")
             {
+                //request.ContentLength = Config.Instance.Encoding.GetByteCount(WebPage.Request_Body);
+
                 if (WebPage.Request_Body != null && WebPage.Request_Body.Length > 0)
                 {
-                    using (StreamWriter streamWriter = new StreamWriter(request.GetRequestStream()))
-                    {
-                        streamWriter.Write(WebPage.Request_Body);
-                    }
+                    using StreamWriter streamWriter = new StreamWriter(request.GetRequestStream());
+                    streamWriter.Write(WebPage.Request_Body);
                 }
                 else
                 {
                     request.ContentLength = 0;
                 }
             }
+            System.Net.ServicePointManager.DefaultConnectionLimit = 50;
+            requestSettings?.Invoke(request);
             //request.CookieContainer = GetCookie();
-            HttpWebResponse response=null;
+            HttpWebResponse response;
             try
             {
                 response = (HttpWebResponse)request.GetResponse();
@@ -169,21 +199,19 @@ namespace WebPageWatcher.Web
             {
                 throw new Exception(App.Current.FindResource("ex_GetResponse") as string, ex);
             }
-            using (Stream stream = response.GetResponseStream())
-            {
-                using (var mS = new MemoryStream())
-                {
-                    stream.CopyTo(mS);
-                    return mS.ToArray();
-                }
-            }
+            FixResponseCookies(request, response);
+            return response;
         }
 
-        private Task<byte[]> GetResponseAsync()
+        private Task<byte[]> GetResponseBinaryAsync()
         {
-            return Task.Run(GetResponse);
+            return Task.Run(GetResponseBinary);
+        }      
+        private Task<HttpWebResponse> GetResponseAsync(Action<HttpWebRequest> requestSettings = null)
+        {
+            return Task.Run(()=> GetResponse(requestSettings));
         }
-
+       
 
         private CookieContainer GetCookies()
         {
@@ -197,6 +225,28 @@ namespace WebPageWatcher.Web
                 }
             }
             return cookies;
+        }
+        private static void FixResponseCookies(HttpWebRequest request, HttpWebResponse response)
+        {
+            for (int i = 0; i < response.Headers.Count; i++)
+            {
+                string name = response.Headers.GetKey(i);
+                if (name != "Set-Cookie")
+                    continue;
+                string value = response.Headers.Get(i);
+                foreach (var singleCookie in value.Split(','))
+                {
+                    Match match = Regex.Match(singleCookie, "(.+?)=(.+?);");
+                    if (match.Captures.Count == 0)
+                        continue;
+                    response.Cookies.Add(
+                        new System.Net.Cookie(
+                            match.Groups[1].ToString(),
+                            match.Groups[2].ToString(),
+                            "/",
+                            request.Host.Split(':')[0]));
+                }
+            }
         }
     }
 }
