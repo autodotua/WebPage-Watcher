@@ -24,7 +24,8 @@ namespace WebPageWatcher.UI
     {
         public Dialog()
         {
-            InitializeComponent();
+            InitializeComponent(); 
+
         }
         public async Task ShowErrorAsync(string message, string title=null)
         {
@@ -42,18 +43,18 @@ namespace WebPageWatcher.UI
             {
                 title = FindResource("label_information") as string;
             }
-            tbkDialogTitle.Foreground = FindResource("MaterialDesignBody") as Brush;
+            tbkDialogTitle.Foreground = Brushes.Black;
             iconError.Visibility = Visibility.Collapsed;
             await ShowOk(message, title);
         }
 
         private async Task ShowOk(string message, string title)
         {
+
             while (dialog.IsOpen)
             {
                 await Task.Delay(100);
             }
-            tbkDialogTitle.Foreground = FindResource("MaterialDesignBody") as Brush;
             btnOk.Visibility = Visibility.Visible;
             btnYes.Visibility = Visibility.Collapsed;
             btnNo.Visibility = Visibility.Collapsed;

@@ -12,9 +12,16 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Defaults.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignExtensions;component/Themes/Generic.xaml" />
                 <ResourceDictionary Source="/Properties/StringResources.zh-CN.xaml"/>
                 <ResourceDictionary Source="/Properties/StringResources.en-US.xaml"/>
             </ResourceDictionary.MergedDictionaries>
+            <Style TargetType="{x:Type TextElement }">
+                <Setter Property="FontFamily" Value="微软雅黑"/>
+            </Style>
+            <Style TargetType="{x:Type TextBlock }">
+                <Setter Property="FontFamily" Value="微软雅黑"/>
+            </Style>
             <Style x:Key="NotificationButton" TargetType="{x:Type Button}">
                 <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
                 <Setter Property="Background" Value="#222222"/>

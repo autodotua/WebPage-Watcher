@@ -86,6 +86,7 @@ namespace WebPageWatcher.Web
                         foreach (System.Net.Cookie cookie in response.Cookies)
                         {
                             webPage.Request_Cookies.Add(new Data.Cookie(cookie.Name, cookie.Value));
+                            Output?.Invoke(this, $"set cookie {cookie.Name} = {cookie.Value}");
                         }
                     }
                     break;

@@ -4,7 +4,9 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"             
+    xmlns:mde="clr-namespace:MaterialDesignExtensions.Controls;assembly=MaterialDesignExtensions"
+
         xmlns:local="clr-namespace:WebPageWatcher.UI"
          xmlns:glo="clr-namespace:System.Globalization;assembly=mscorlib"
 
@@ -17,10 +19,27 @@
     <Grid x:Name="outGrd" Margin="4">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="0"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <Menu  IsMainMenu="True" >
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <TabControl Style="{StaticResource MaterialDesignTabControl}" 
+                    Grid.RowSpan="2" Grid.ColumnSpan="2"
+                    mde:TabControlAssist.TabHeaderHorizontalAlignment="Center">
+            <TabItem Header="{DynamicResource tab_webpage}" >
+                <local:WebPagePanel x:Name="webPagePanel"/>
+
+            </TabItem>
+            <TabItem Header="{DynamicResource tab_script}">
+                
+            </TabItem>
+            <TabItem Header="{DynamicResource tab_trigger}">
+                
+            </TabItem>
+        </TabControl>
+        <Menu  IsMainMenu="True" HorizontalAlignment="Left" >
             <MenuItem    Header="{DynamicResource menu_program}">
                 <MenuItem  Header="{DynamicResource menu_setting}" Click="MenuItem_Click">
                     <MenuItem.Icon>
@@ -35,48 +54,23 @@
 
             </MenuItem>
             <MenuItem    Header="{DynamicResource menu_help}">
-                <MenuItem      Header="{DynamicResource menu_about}">
+                <MenuItem     Click="MenuItem_Click_2"    Header="{DynamicResource menu_scriptGrammar}">
+                    <MenuItem.Icon>
+                        <materialDesign:PackIcon  Kind="Help" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem  Click="MenuItem_Click_3" Header="{DynamicResource menu_about}">
                     <MenuItem.Icon>
                         <materialDesign:PackIcon  Kind="About" />
                     </MenuItem.Icon>
                 </MenuItem>
             </MenuItem>
         </Menu>
-        <Grid Grid.Row="2">
-            <Grid.ColumnDefinitions >
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="20"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
-            <GridSplitter Grid.Column="1" VerticalAlignment="Stretch" HorizontalAlignment="Center" Width="6"/>
-            <local:ItemSettingsPanel x:Name="item" Grid.Column="2"/>
 
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="8"/>
-                    <RowDefinition Height="Auto"/>
-                </Grid.RowDefinitions>
-                <ListView x:Name="lvwWebPages" ItemsSource="{Binding WebPages}"
-                  SelectedItem="{Binding ElementName=item, Path=WebPage, Mode=OneWayToSource}"
-                      SelectionChanged="lvwWebPages_SelectionChanged">
-                    <ListView.View>
-                        <GridView>
-                            <GridViewColumn Header="{DynamicResource list_title}" DisplayMemberBinding="{Binding Name}"/>
-                            <GridViewColumn Header="{DynamicResource list_url}"  Width="108" DisplayMemberBinding="{Binding Url}"/>
-                            <GridViewColumn Header="{DynamicResource list_lastUpdateTime}"  DisplayMemberBinding="{Binding LastUpdateTime ,ConverterCulture={x:Static glo:CultureInfo.CurrentUICulture}}"/>
-                            <GridViewColumn Header="{DynamicResource list_lastCheckTime}"  DisplayMemberBinding="{Binding LastCheckTime,ConverterCulture={x:Static glo:CultureInfo.CurrentUICulture}}"/>
-                        </GridView>
-                    </ListView.View>
-                </ListView>
-
-                <Button Grid.Row="2" Click="Button_Click" Content="{DynamicResource button_new}"/>
-            </Grid>
-            <local:Dialog Grid.RowSpan="999" Margin="-4" Grid.ColumnSpan="999" x:Name="dialog"/>
-            <local:InputDialog x:Name="inputDialog" Grid.RowSpan="999" Grid.ColumnSpan="999"  Margin="-4" Width="{ Binding ElementName=win, Path=ActualWidth }"/>
-            <local:ProgressDialog x:Name="progressDialog" Grid.RowSpan="999" Grid.ColumnSpan="999"  Margin="-4" Width="{ Binding ElementName=win, Path=ActualWidth }"/>
-
-        </Grid>
+        <local:Dialog Grid.RowSpan="999" Margin="-4" Grid.ColumnSpan="999" x:Name="dialog"/>
+        <local:InputDialog x:Name="inputDialog" Grid.RowSpan="999" Grid.ColumnSpan="999"  Margin="-4" Width="{ Binding ElementName=win, Path=ActualWidth }"/>
+        <local:ProgressDialog x:Name="progressDialog" Grid.RowSpan="999" Grid.ColumnSpan="999"  Margin="-4" Width="{ Binding ElementName=win, Path=ActualWidth }"/>
+        <local:AboutDialog  x:Name="aboutDialog" Grid.RowSpan="999" Grid.ColumnSpan="999"  Margin="-4" Width="{ Binding ElementName=win, Path=ActualWidth }"/>
 
     </Grid>
 </local:WindowBase>

@@ -238,9 +238,9 @@
 
                         <TextBlock Grid.Row="14" VerticalAlignment="Center" HorizontalAlignment="Right" Text="{DynamicResource label_otherOptions}"/>
                         <StackPanel Grid.Row="14" Grid.Column="2"  Grid.ColumnSpan="3" >
-                            <CheckBox IsChecked="{Binding WebPage.KeepAlive}" Content="{DynamicResource label_keepAlive}"/>
+                            <CheckBox IsChecked="{Binding WebPage.Request_KeepAlive}" Content="{DynamicResource label_keepAlive}"/>
                             <FrameworkElement Height="4"/>
-                            <CheckBox IsChecked="{Binding WebPage.AllowAutoRedirect}" Content="{DynamicResource label_allowAutoRedirect}"/>
+                            <CheckBox IsChecked="{Binding WebPage.Request_AllowAutoRedirect}" Content="{DynamicResource label_allowAutoRedirect}"/>
                         </StackPanel>
                         
                         <TextBlock Grid.Row="16" VerticalAlignment="Center" HorizontalAlignment="Right" Text="{DynamicResource label_serverPointOptions}"/>

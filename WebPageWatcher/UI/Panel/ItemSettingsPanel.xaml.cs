@@ -146,8 +146,6 @@ namespace WebPageWatcher.UI
 
         private async void ForceGetButton_Click(object sender, RoutedEventArgs e)
         {
-
-
             MainWindow.progressDialog.Show();
             try
             {

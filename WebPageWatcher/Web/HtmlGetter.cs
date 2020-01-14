@@ -127,14 +127,10 @@ namespace WebPageWatcher.Web
         }
         private byte[] GetResponseBinary()
         {
-            using (Stream stream = GetResponse().GetResponseStream())
-            {
-                using (var mS = new MemoryStream())
-                {
-                    stream.CopyTo(mS);
-                    return mS.ToArray();
-                }
-            }
+            using Stream stream = GetResponse().GetResponseStream();
+            using var mS = new MemoryStream();
+            stream.CopyTo(mS);
+            return mS.ToArray();
         }
         private HttpWebResponse GetResponse(Action<HttpWebRequest> requestSettings=null)
         {

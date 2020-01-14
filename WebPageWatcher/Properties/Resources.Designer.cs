@@ -63,9 +63,49 @@ namespace WebPageWatcher.Properties {
         /// <summary>
         ///   查找类似于 (图标) 的 System.Drawing.Icon 类型的本地化资源。
         /// </summary>
-        internal static System.Drawing.Icon trayIcon {
+        internal static System.Drawing.Icon app_icon {
             get {
-                object obj = ResourceManager.GetObject("trayIcon", resourceCulture);
+                object obj = ResourceManager.GetObject("app_icon", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        internal static System.Drawing.Bitmap app_png {
+            get {
+                object obj = ResourceManager.GetObject("app_png", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Byte[] 类型的本地化资源。
+        /// </summary>
+        internal static byte[] script_help_en_US {
+            get {
+                object obj = ResourceManager.GetObject("script_help_en_US", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Byte[] 类型的本地化资源。
+        /// </summary>
+        internal static byte[] script_help_zh_CN {
+            get {
+                object obj = ResourceManager.GetObject("script_help_zh_CN", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似于 (图标) 的 System.Drawing.Icon 类型的本地化资源。
+        /// </summary>
+        internal static System.Drawing.Icon tray_icon {
+            get {
+                object obj = ResourceManager.GetObject("tray_icon", resourceCulture);
                 return ((System.Drawing.Icon)(obj));
             }
         }
@@ -73,9 +113,9 @@ namespace WebPageWatcher.Properties {
         /// <summary>
         ///   查找类似于 (图标) 的 System.Drawing.Icon 类型的本地化资源。
         /// </summary>
-        internal static System.Drawing.Icon trayIcon_dark {
+        internal static System.Drawing.Icon tray_icon_dark {
             get {
-                object obj = ResourceManager.GetObject("trayIcon_dark", resourceCulture);
+                object obj = ResourceManager.GetObject("tray_icon_dark", resourceCulture);
                 return ((System.Drawing.Icon)(obj));
             }
         }

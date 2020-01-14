@@ -13,12 +13,12 @@
     Loaded="WindowBase_Loaded"
     WindowStartupLocation="CenterOwner"
         Title="{DynamicResource win_blackWhiteList}" Height="450" Width="600">
-    <extension:ExtendedWindow.Resources>
+    <Window.Resources>
         <local:AttributesConvert x:Key="attr2str"/>
         <local:HtmlNodeConvert x:Key="node2str"/>
         <local:HtmlChildNodesFilterConvert x:Key="nodesFilter"/>
         <local:MethodToValueConverter x:Key="MethodToValueConverter"/>
-    </extension:ExtendedWindow.Resources>
+    </Window.Resources>
     <Grid>
         <Button x:Name="btnSave" HorizontalAlignment="Right" 
      VerticalAlignment="Top"       Margin="4" Click="btnSave_Click" Content="{DynamicResource button_save}"/>

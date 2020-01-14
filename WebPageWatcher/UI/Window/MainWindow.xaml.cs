@@ -1,23 +1,6 @@
-﻿using FzLib.Basic.Collection;
-using FzLib.Control.Extension;
-using HtmlAgilityPack;
-using MaterialDesignThemes.Wpf;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using WebPageWatcher.Data;
 using WebPageWatcher.Web;
 
@@ -35,10 +18,7 @@ namespace WebPageWatcher.UI
         }
         public MainWindow()
         {
-            BackgroundTask.WebPagesChanged += (p1, p2) => Notify(nameof(WebPages));
             InitializeComponent();
-            UIHelper.SetContextMenuForSelector(lvwWebPages, WebPages, (p1, p2) => DbHelper.DeleteAsync(p2));
-            item.Update = UpdateItem;
             //item.Reset = ResetItem;
 
 #if DEBUG
@@ -46,7 +26,10 @@ namespace WebPageWatcher.UI
             btn.Content = "测试";
             outGrd.Children.Add(btn);
             btn.HorizontalAlignment = HorizontalAlignment.Right;
+            btn.VerticalAlignment = VerticalAlignment.Top;
             btn.Click += TestButton_Click;
+            Grid.SetColumn(btn, 2);
+            Grid.SetRow(btn, 2);
 #endif
         }
 
@@ -81,56 +64,30 @@ cp a4";
             }
 
         }
-
-        private async Task UpdateItem(WebPage oldItem, WebPage newItem)
+        public void UpdateDisplay(object item)
         {
-            int index = WebPages.IndexOf(oldItem);
-            WebPages.Remove(oldItem);
-            WebPages.Insert(index, newItem);
-            await DbHelper.UpdateAsync(newItem);
-            lvwWebPages.SelectedItem = newItem;
-
-        }
-
-        public void UpdateDisplay(WebPage webPage)
-        {
-            WebPage webPage2 = WebPages.FirstOrDefault(p => p.ID == webPage.ID);
-            if (webPage2 != null)
-            {
-                if (item.WebPage != null && webPage2.ID == item.WebPage.ID)
+            IListAndSettingPanel panel = null;
+            if (item is WebPage)
                 {
-                    item.UpdateDisplay(webPage);
-                }
+                panel = webPagePanel;
             }
+            panel.UpdateDisplay(item);
         }
 
-        public void SelectItem(WebPage webPage)
+        public void SelectItem(object item)
         {
-            lvwWebPages.SelectedItem = webPage;
+            IListAndSettingPanel panel = null;
+            if (item is WebPage)
+            {
+                panel = webPagePanel;
+            }
+            panel.SelectItem(item);
         }
-        //private ExtendedObservableCollection<WebPage> webPages;
-        //public ExtendedObservableCollection<WebPage> WebPages
-        //{
-        //    get => webPages;
-        //    set => SetValueAndNotify(ref webPages, value, nameof(WebPages));
-        //}
-        public ExtendedObservableCollection<WebPage> WebPages => BackgroundTask.WebPages;
+
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
         }
 
-        private async void Button_Click(object sender, RoutedEventArgs e)
-        {
-            WebPage webPage = await DbHelper.AddWebPageAsync();
-            WebPages.Add(webPage);
-            lvwWebPages.SelectedItem = webPage;
-
-        }
-
-        private void lvwWebPages_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            //item.WebPage = lvwWebPages.SelectedItem as WebPage;
-        }
 
         private void win_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
@@ -147,6 +104,16 @@ cp a4";
         {
             BackgroundTask.Stop();
             Application.Current.Shutdown();
+        }
+
+        private void MenuItem_Click_2(object sender, RoutedEventArgs e)
+        {
+            new ScriptHelpWindow() { Owner = this }.ShowDialog();
+        }
+
+        private async void MenuItem_Click_3(object sender, RoutedEventArgs e)
+        {
+            await aboutDialog.Show();
         }
     }
 

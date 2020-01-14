@@ -182,11 +182,11 @@ namespace WebPageWatcher
             System.Drawing.Icon icon;
             if (SystemUsesLightTheme)
             {
-                icon = WebPageWatcher.Properties.Resources.trayIcon_dark;
+                icon = WebPageWatcher.Properties.Resources.tray_icon_dark;
             }
             else
             {
-                icon = WebPageWatcher.Properties.Resources.trayIcon;
+                icon = WebPageWatcher.Properties.Resources.tray_icon;
             }
             notifyIcon = new FzLib.Program.Runtime.TrayIcon(icon, "网页内容变动提醒");
             notifyIcon.ClickToOpenOrHideWindow(this);

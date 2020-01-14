@@ -41,6 +41,7 @@ xmlns:system="clr-namespace:System;assembly=mscorlib">
     <system:String x:Key="check_ignoreWhiteSpace" >Ignore white space</system:String>
 
 
+    <system:String x:Key="app_name" >Webpage Watcher</system:String>
     <system:String x:Key="win_main" >Webpage Watcher</system:String>
     <system:String x:Key="win_blackWhiteList" >Black and white list settings</system:String>
     <system:String x:Key="win_compare" >Content compare</system:String>
@@ -108,6 +109,8 @@ xmlns:system="clr-namespace:System;assembly=mscorlib">
     <system:String x:Key="menu_help">Help</system:String>
     <system:String x:Key="menu_about">About</system:String>
     <system:String x:Key="menu_close">Close (include backgroun task)</system:String>
+    <system:String x:Key="menu_scriptGrammar">Script grammar</system:String>
+    <system:String x:Key="win_scriptGrammar">Script grammar</system:String>
 
     <system:String x:Key="set_general">General</system:String>
     <system:String x:Key="set_launch">Launch</system:String>
@@ -157,4 +160,10 @@ xmlns:system="clr-namespace:System;assembly=mscorlib">
     <system:String x:Key="label_otherOptions">Other options</system:String>
     <system:String x:Key="label_variableExist">The name of variable {0} has been exist</system:String>
 
+    <system:String x:Key="label_programBy">Program by autodotua</system:String>
+
+    <system:String x:Key="tab_webpage">Web Page</system:String>
+    <system:String x:Key="tab_script">Script</system:String>
+    <system:String x:Key="tab_trigger">Trigger</system:String>
+    
 </ResourceDictionary>

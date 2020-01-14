@@ -79,9 +79,10 @@ namespace WebPageWatcher
         public static async Task<bool> Excute(WebPage webPage, bool force = false)
         {
             DateTime now = DateTime.Now;
-            if (webPage.LatestContent == null)
+            if (webPage.LatestContent == null || webPage.LatestContent.Length==0)
             {
-                webPage.LatestContent =await HtmlGetter.GetResponseBinaryAsync(webPage);
+                byte[] content= await HtmlGetter.GetResponseBinaryAsync(webPage);
+                webPage.LatestContent = content;
                 webPage.LastCheckTime = now;
 
                 await UpdateDbAndUI(webPage, null);

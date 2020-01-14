@@ -4,9 +4,6 @@
 
 这是一款支持当指定的网页或接口响应发生变化时在桌面右下角弹出提醒框的小程序
 
-## 截图
-
-![image](/Screenshots/MainWindow.png)
 
 ## 特性
 
@@ -161,13 +158,3 @@
 新增选项：Keep-Alive和是否允许跳转
 
 基本完成了用于自动化处理的脚本语言的逻辑部分
-
-### 2020-01-14
-
-新增了脚本语法的查看入口和MarkDown显示功能（暂无内容）
-
-新增主界面TabControl，用于切换WebPage页和之后将加入的脚本编辑、触发器页
-
-使用了Material Design Extensions的Material Window窗体
-
-新增了APP和窗体图标

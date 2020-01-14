@@ -1,4 +1,5 @@
-﻿using HtmlAgilityPack;
+﻿using FzLib.Basic;
+using HtmlAgilityPack;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
@@ -65,24 +66,14 @@ namespace WebPageWatcher.Web
             CompareResult result = null;
             await Task.Run(() =>
              {
-                 ComparerBase comparer;
-                 switch (webPage.Response_Type)
+                 ComparerBase comparer = webPage.Response_Type switch
                  {
-                     case ResponseType.Html:
-                         comparer = new HtmlComparer(webPage);
-                         break;
-                     case ResponseType.Json:
-                         comparer = new JsonComparer(webPage);
-                         break;
-                     case ResponseType.Text:
-                         comparer = new TextComparer(webPage);
-                         break;
-                     case ResponseType.Binary:
-                         comparer = new BinaryComparer(webPage);
-                         break;
-                     default:
-                         throw new NotSupportedException();
-                 }
+                     ResponseType.Html => new HtmlComparer(webPage),
+                     ResponseType.Json => new JsonComparer(webPage),
+                     ResponseType.Text => new TextComparer(webPage),
+                     ResponseType.Binary => new BinaryComparer(webPage),
+                     _ => throw new NotSupportedException(),
+                 };
                  result = comparer.CompareWith(newContent);
              });
             return result;
@@ -132,6 +123,7 @@ namespace WebPageWatcher.Web
 
         public override CompareResult CompareWith(byte[] newContent)
         {
+
             JToken oldDocument = JToken.Parse(WebPage.LatestContent.ToEncodedString());
             JToken newDocument = JToken.Parse(newContent.ToEncodedString());
 
