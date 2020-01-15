@@ -13,6 +13,7 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Defaults.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignExtensions;component/Themes/Generic.xaml" />
+    
                 <ResourceDictionary Source="/Properties/StringResources.zh-CN.xaml"/>
                 <ResourceDictionary Source="/Properties/StringResources.en-US.xaml"/>
             </ResourceDictionary.MergedDictionaries>

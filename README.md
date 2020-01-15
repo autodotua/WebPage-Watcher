@@ -171,3 +171,9 @@
 使用了Material Design Extensions的Material Window窗体
 
 新增了APP和窗体图标
+
+### 2020-01-15
+
+新增WebPage的Clone功能
+
+基本完成Script界面，并把两个面板的功能做了提取

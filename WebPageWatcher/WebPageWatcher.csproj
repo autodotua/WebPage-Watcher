@@ -135,10 +135,17 @@
     </ApplicationDefinition>
     <Compile Include="BackgroundTask.cs" />
     <Compile Include="Data\Cookie.cs" />
+    <Compile Include="Data\IDbModel.cs" />
+    <Compile Include="Data\Trigger.cs" />
+    <Compile Include="Data\Script.cs" />
+    <Compile Include="UI\Converters.cs" />
     <Compile Include="UI\Dialog\AboutDialog.xaml.cs">
       <DependentUpon>AboutDialog.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UI\Panel\IListAndSettingPanel.cs" />
+    <Compile Include="UI\Panel\PanelBase.cs" />
+    <Compile Include="UI\Panel\ScriptPanel.xaml.cs">
+      <DependentUpon>ScriptPanel.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UI\Panel\WebPagePanel.xaml.cs">
       <DependentUpon>WebPagePanel.xaml</DependentUpon>
     </Compile>
@@ -187,7 +194,7 @@
     <Compile Include="UI\Window\CookieWindow.xaml.cs">
       <DependentUpon>CookieWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UI\UIHelper.cs" />
+    <Compile Include="UI\SelectorHelper.cs" />
     <Compile Include="UI\Window\WindowBase.cs" />
     <Compile Include="Web\Comparer.cs" />
     <Compile Include="Data\BlackWhiteListItem.cs" />
@@ -206,6 +213,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="UI\Dialog\InputDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\Panel\ScriptPanel.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -261,10 +272,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UI\Panel\ItemSettingsPanel.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="UI\Window\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -276,9 +283,6 @@
     <Compile Include="Config.cs" />
     <Compile Include="Data\DbHelper.cs" />
     <Compile Include="Data\WebPage.cs" />
-    <Compile Include="UI\Panel\ItemSettingsPanel.xaml.cs">
-      <DependentUpon>ItemSettingsPanel.xaml</DependentUpon>
-    </Compile>
     <Compile Include="UI\Window\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>

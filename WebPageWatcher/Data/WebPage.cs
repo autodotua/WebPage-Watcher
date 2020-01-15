@@ -7,7 +7,7 @@ using WebPageWatcher.Web;
 
 namespace WebPageWatcher.Data
 {
-    public class WebPage
+    public class WebPage : IDbModel
     {
         public WebPage()
         {
@@ -23,9 +23,7 @@ namespace WebPageWatcher.Data
         public DateTime LastUpdateTime { get; set; } = DateTime.MinValue;
         public DateTime LastCheckTime { get; set; } = DateTime.MinValue;
         public int Interval { get; set; } = 1000 * 60 * 15;
-#pragma warning disable CA1819 // Properties should not return arrays
         public byte[] LatestContent { get; set; }
-#pragma warning restore CA1819 // Properties should not return arrays
 
 
 
@@ -79,11 +77,16 @@ namespace WebPageWatcher.Data
             }
             return webPage;
         }
-
+        object ICloneable.Clone()
+        {
+            return Clone();
+        }
         public override string ToString()
         {
             return Name + ":" + Url;
         }
+
+         
     }
 
     public enum ResponseType

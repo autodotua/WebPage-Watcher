@@ -20,7 +20,9 @@ namespace WebPageWatcher
 {
     public static class BackgroundTask
     {
-        private static Timer timer;
+        private static Timer timer; 
+        
+        private static ExtendedObservableCollection<WebPage> webPages;
         public static ExtendedObservableCollection<WebPage> WebPages
         {
             get => webPages;
@@ -31,10 +33,35 @@ namespace WebPageWatcher
             }
         }
         public static EventHandler<ExtendedObservableCollection<WebPage>> WebPagesChanged;
+                
+        private static ExtendedObservableCollection<Script> scripts;
+        public static ExtendedObservableCollection<Script> Scripts
+        {
+            get => scripts;
+            private set
+            {
+                scripts = value;
+                ScriptsChanged?.Invoke(null, Scripts);
+            }
+        }
+        public static EventHandler<ExtendedObservableCollection<Script>> ScriptsChanged;
+                        
+        private static ExtendedObservableCollection<Trigger> triggers;
+        public static ExtendedObservableCollection<Trigger> Triggers
+        {
+            get => triggers;
+            private set
+            {
+                triggers = value;
+                TriggersChanged?.Invoke(null, Triggers);
+            }
+        }
+        public static EventHandler<ExtendedObservableCollection<Trigger>> TriggersChanged;
+
 
         private static ExtendedDictionary<WebPage, int> exceptionsCount = new ExtendedDictionary<WebPage, int>();
         private static ExtendedDictionary<WebPage, Exception> exceptions = new ExtendedDictionary<WebPage, Exception>();
-        private static ExtendedObservableCollection<WebPage> webPages;
+
 
         public static async Task Load()
         {
@@ -45,6 +72,8 @@ namespace WebPageWatcher
             }
 
             WebPages = new ExtendedObservableCollection<WebPage>(await DbHelper.GetWebPagesAsync());
+            Scripts = new ExtendedObservableCollection<Script>(await DbHelper.GetScriptsAsync());
+            Triggers = new ExtendedObservableCollection<Trigger>(await DbHelper.GetTriggersAsync());
 #if (DISABLED && DEBUG)
             return;
 #endif

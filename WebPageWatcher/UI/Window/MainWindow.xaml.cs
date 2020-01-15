@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Documents;
 using WebPageWatcher.Data;
 using WebPageWatcher.Web;
 
@@ -28,9 +29,11 @@ namespace WebPageWatcher.UI
             btn.HorizontalAlignment = HorizontalAlignment.Right;
             btn.VerticalAlignment = VerticalAlignment.Top;
             btn.Click += TestButton_Click;
-            Grid.SetColumn(btn, 2);
-            Grid.SetRow(btn, 2);
+            Grid.SetColumn(btn, 1);
 #endif
+
+            //tab.SetResourceReference(BackgroundProperty, "MaterialDesignPaper");
+            //tab.SetResourceReference(TextElement.ForegroundProperty, "MaterialDesignBody");
         }
 
         private async void TestButton_Click(object sender, RoutedEventArgs e)
@@ -64,22 +67,22 @@ cp a4";
             }
 
         }
-        public void UpdateDisplay(object item)
+        public void UpdateDisplay<T>(T item) where T : class, IDbModel, new()
         {
-            IListAndSettingPanel panel = null;
+            TabItemPanelBase<T> panel = null;
             if (item is WebPage)
-                {
-                panel = webPagePanel;
+            {
+                panel = webPagePanel as TabItemPanelBase<T>;
             }
             panel.UpdateDisplay(item);
         }
 
-        public void SelectItem(object item)
+        public void SelectItem<T>(T item) where T : class, IDbModel, new()
         {
-            IListAndSettingPanel panel = null;
+            TabItemPanelBase<T> panel = null;
             if (item is WebPage)
             {
-                panel = webPagePanel;
+                panel = webPagePanel as TabItemPanelBase<T>;
             }
             panel.SelectItem(item);
         }

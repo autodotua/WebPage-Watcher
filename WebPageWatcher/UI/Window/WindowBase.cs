@@ -12,32 +12,32 @@ using System.Runtime.InteropServices;
 using System.Windows.Interop;
 using System.Drawing;
 using System.Windows.Media.Imaging;
+using System.Globalization;
 
 namespace WebPageWatcher.UI
 {
-   public class WindowBase : MaterialWindow, INotifyPropertyChanged
+    public class WindowBase : MaterialWindow, INotifyPropertyChanged
     {
         [DllImport("gdi32.dll", EntryPoint = "DeleteObject")]
         [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool DeleteObject([In] IntPtr hObject);
+        private static extern bool DeleteObject([In] IntPtr hObject);
         public WindowBase()
         {
-            SetResourceReference(BackgroundProperty, "MaterialDesignPaper");
-            SetResourceReference(ForegroundProperty, "MaterialDesignBody");
-            //Background = FindResource("MaterialDesignPaper") as Brush;
-            //TextElement.SetForeground(this, FindResource("MaterialDesignBody") as Brush);
-            if(icon==null)
-            { 
-                    icon= ImageSourceFromBitmap(Properties.Resources.app_png);
+            DataContext = this;
+            if (icon == null)
+            {
+                icon = ImageSourceFromBitmap(Properties.Resources.app_png);
             }
             TitleBarIcon = icon;
+            SetResourceReference(BackgroundProperty, "MaterialDesignPaper");
+            SetResourceReference(TextElement.ForegroundProperty, "MaterialDesignBody");
         }
         private static ImageSource icon;
-        public ImageSource ImageSourceFromBitmap(Bitmap bmp)
+        public static ImageSource ImageSourceFromBitmap(Bitmap bmp)
         {
             var handle = bmp.GetHbitmap();
-     
-                return Imaging.CreateBitmapSourceFromHBitmap(handle, IntPtr.Zero, Int32Rect.Empty,BitmapSizeOptions.FromEmptyOptions());
+
+            return Imaging.CreateBitmapSourceFromHBitmap(handle, IntPtr.Zero, Int32Rect.Empty, BitmapSizeOptions.FromEmptyOptions());
 
         }
         protected void Notify(params string[] names)

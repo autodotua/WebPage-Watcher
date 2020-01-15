@@ -9,11 +9,13 @@ xmlns:system="clr-namespace:System;assembly=mscorlib">
     <system:String x:Key="expander_httpResponse" >HTTP response</system:String>
     
     <system:String x:Key="label_lastCheckTime" >Last check time:</system:String>
+    <system:String x:Key="label_lastExcuteTime" >Last excute time:</system:String>
     <system:String x:Key="label_lastUpdateTime" >Last update time:</system:String>
     <system:String x:Key="label_lastUpdateContent" >Last update content:</system:String>
 
     <system:String x:Key="label_name" >Name:</system:String>
-    <system:String x:Key="label_enabled" >Enabled：</system:String>
+    <system:String x:Key="label_enabled" >Enabled:</system:String>
+    <system:String x:Key="label_code" >Code</system:String>
 
     <system:String x:Key="label_blackWhiteList" >Black and white list:</system:String>
     <system:String x:Key="label_updateInterval" >Update interval:</system:String>
@@ -27,6 +29,7 @@ xmlns:system="clr-namespace:System;assembly=mscorlib">
 
     <system:String x:Key="button_setting" >Set..</system:String>
     <system:String x:Key="button_view" >View..</system:String>
+    <system:String x:Key="button_Excute" >Excute</system:String>
     <system:String x:Key="label_forceGet" >Get and view immediately:</system:String>
     <system:String x:Key="label_forceCompare" >Compare immediately:</system:String>
 
@@ -111,6 +114,8 @@ xmlns:system="clr-namespace:System;assembly=mscorlib">
     <system:String x:Key="menu_close">Close (include backgroun task)</system:String>
     <system:String x:Key="menu_scriptGrammar">Script grammar</system:String>
     <system:String x:Key="win_scriptGrammar">Script grammar</system:String>
+    <system:String x:Key="win_delete">Delete</system:String>
+    <system:String x:Key="win_clone">Clone</system:String>
 
     <system:String x:Key="set_general">General</system:String>
     <system:String x:Key="set_launch">Launch</system:String>
@@ -138,15 +143,15 @@ xmlns:system="clr-namespace:System;assembly=mscorlib">
     <system:String x:Key="label_compareComplete">Compare Complete, NoChange</system:String>
 
     <system:String x:Key="ex_GetResponse">Get HTTP response failed</system:String>
-    <system:String x:Key="ex_cannotFindWebPageByName">Can't Find Web Page：</system:String>
-    <system:String x:Key="ex_webPageNameNotUnique">The Web Page Is Not Unique：</system:String>
+    <system:String x:Key="ex_cannotFindWebPageByName">Can't Find Web Page:</system:String>
+    <system:String x:Key="ex_webPageNameNotUnique">The Web Page Is Not Unique:</system:String>
     <system:String x:Key="ex_syntaxError">Syntax error</system:String>
-    <system:String x:Key="ex_cannotFindVariable">Can't find variable：</system:String>
-    <system:String x:Key="ex_wrongType">The type of variable is wrong：</system:String>
-    <system:String x:Key="ex_jsonPathError">JSON path is wrong, can't find target element：</system:String>
-    <system:String x:Key="ex_cannotFindProperty">Can't find property：</system:String>
-    <system:String x:Key="ex_invalidPropertyType">The type of property is invalid：</system:String>
-    <system:String x:Key="ex_wrongPropertyValue">Fail to set value for the property：</system:String>
+    <system:String x:Key="ex_cannotFindVariable">Can't find variable:</system:String>
+    <system:String x:Key="ex_wrongType">The type of variable is wrong:</system:String>
+    <system:String x:Key="ex_jsonPathError">JSON path is wrong, can't find target element:</system:String>
+    <system:String x:Key="ex_cannotFindProperty">Can't find property:</system:String>
+    <system:String x:Key="ex_invalidPropertyType">The type of property is invalid:</system:String>
+    <system:String x:Key="ex_wrongPropertyValue">Fail to set value for the property:</system:String>
     <system:String x:Key="ex_CommandAndLine">Line {0}: {1}</system:String>
 
 

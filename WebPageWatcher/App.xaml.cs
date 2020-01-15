@@ -152,17 +152,15 @@ namespace WebPageWatcher
                 case 0:
                     if (AppsUseLightTheme)
                     {
-                        theme.BaseTheme = MaterialDesignThemes.Wpf.BaseTheme.Light;
+                        goto l;
                     }
-                    else
-                    {
-                        theme.BaseTheme = MaterialDesignThemes.Wpf.BaseTheme.Dark;
-                    }
-                    break;
+                    goto d;
                 case -1:
+                d:
                     theme.BaseTheme = MaterialDesignThemes.Wpf.BaseTheme.Dark;
                     break;
                 case 1:
+                l:
                     theme.BaseTheme = MaterialDesignThemes.Wpf.BaseTheme.Light;
                     break;
             }
@@ -192,9 +190,9 @@ namespace WebPageWatcher
             notifyIcon.ClickToOpenOrHideWindow(this);
             notifyIcon.AddContextMenuItem("退出", () =>
             {
-                notifyIcon.Dispose();
                 Application.Current.Shutdown();
             });
+            notifyIcon.ReShowWhenDisplayChanged = true;
             notifyIcon.Show();
 
         }

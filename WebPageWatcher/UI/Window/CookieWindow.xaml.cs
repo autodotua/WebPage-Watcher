@@ -31,7 +31,8 @@ namespace WebPageWatcher.UI
             {
                 return;
             }
-            UIHelper.SetContextMenuForSelector(lvw, Cookies);
+            var helper = new SelectorHelper<Cookie>(lvw, Cookies);
+            helper.SetContextMenu();
             Reset();
         }
 

@@ -25,7 +25,7 @@
             <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <TabControl Style="{StaticResource MaterialDesignTabControl}" 
+        <TabControl x:Name="tab" Style="{StaticResource MaterialDesignTabControl}" 
                     Grid.RowSpan="2" Grid.ColumnSpan="2"
                     mde:TabControlAssist.TabHeaderHorizontalAlignment="Center">
             <TabItem Header="{DynamicResource tab_webpage}" >
@@ -33,7 +33,7 @@
 
             </TabItem>
             <TabItem Header="{DynamicResource tab_script}">
-                
+                <local:ScriptPanel x:Name="scriptPanel"/>
             </TabItem>
             <TabItem Header="{DynamicResource tab_trigger}">
                 

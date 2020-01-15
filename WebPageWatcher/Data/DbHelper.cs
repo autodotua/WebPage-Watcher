@@ -13,9 +13,11 @@ namespace WebPageWatcher.Data
 {
     public class DbHelper
     {
-        public static string DbPath =>Path.Combine(Config.DataPath,"db.db");
+        public static string DbPath => Path.Combine(Config.DataPath, "db.db");
         public const string WebPagesTableName = "WebPages";
-        public const string CookiesTableName = "Cookies";
+        public const string ScriptsTableName = "Scripts";
+        public const string TriggersTableName = "Triggers";
+        public const string WebPageUpdatesTableName = "WebPageUpdates";
         private static IDbConnection db;
 
 
@@ -30,7 +32,7 @@ namespace WebPageWatcher.Data
                     {
                         Directory.CreateDirectory(Config.DataPath);
                     }
-                    var fzDb = SQLiteDatabaseHelper.OpenOrCreate(DbPath);
+                    using var fzDb = SQLiteDatabaseHelper.OpenOrCreate(DbPath);
                     fzDb.CreateTable(WebPagesTableName, "ID",
                        new SQLiteColumn(nameof(WebPage.Name), SQLiteDataType.Text),
                        new SQLiteColumn(nameof(WebPage.Url), SQLiteDataType.Text),
@@ -58,6 +60,23 @@ namespace WebPageWatcher.Data
 
                        new SQLiteColumn(nameof(WebPage.Response_Type), SQLiteDataType.Integer)
                        );
+                    fzDb.CreateTable(ScriptsTableName, "ID",
+                       new SQLiteColumn(nameof(Script.Name), SQLiteDataType.Text),
+                       new SQLiteColumn(nameof(Script.Code), SQLiteDataType.Text),
+                       new SQLiteColumn(nameof(Script.Enabled), SQLiteDataType.Integer),
+                       new SQLiteColumn(nameof(Script.Interval), SQLiteDataType.Integer),
+                       new SQLiteColumn(nameof(Script.LastExcuteTime), SQLiteDataType.Text)
+                       );
+                    fzDb.CreateTable(WebPageUpdatesTableName, "ID",
+                       new SQLiteColumn(nameof(WebPageUpdate.WebPage_ID), SQLiteDataType.Integer),
+                       new SQLiteColumn(nameof(WebPageUpdate.Time), SQLiteDataType.Text),
+                       new SQLiteColumn(nameof(WebPageUpdate.NewContent), SQLiteDataType.Blob)
+                       );    
+                    fzDb.CreateTable(TriggersTableName, "ID",
+                       new SQLiteColumn(nameof(Trigger.Name), SQLiteDataType.Text),
+                       new SQLiteColumn(nameof(Trigger.Enabled), SQLiteDataType.Integer),
+                       new SQLiteColumn(nameof(Trigger.LastExcuteTime), SQLiteDataType.Text)
+                       );
                 }
             }
 
@@ -65,34 +84,48 @@ namespace WebPageWatcher.Data
         }
 
 
-
-
-
         public async static Task<IEnumerable<WebPage>> GetWebPagesAsync()
         {
             EnsureDb();
             return await db.QueryAsync<WebPage>($"select * from {WebPagesTableName}");
         }
-
-        public async static Task<WebPage> AddWebPageAsync()
+        public async static Task<IEnumerable<WebPageUpdate>> GetWebPageUpdatesAsync()
         {
-            string a = nameof(WebPage.Name);
             EnsureDb();
-            var webpage = new WebPage();
-            //string sql = $"insert into {WebPagesTableName}(Name) " +
-            //    $"values(@Name)";
-            //await db.ExecuteAsync(sql, webpage);
-            int id = await db.InsertAsync(webpage);
-            webpage.ID = id;
-            return webpage;
+            return await db.QueryAsync<WebPageUpdate>($"select * from {WebPageUpdatesTableName}");
+        }
+        public async static Task<IEnumerable<Trigger>> GetTriggersAsync()
+        {
+            EnsureDb();
+            return await db.QueryAsync<Trigger>($"select * from {TriggersTableName}");
+        }
+        public async static Task<IEnumerable<Script>> GetScriptsAsync()
+        {
+            EnsureDb();
+            return await db.QueryAsync<Script>($"select * from {ScriptsTableName}");
         }
 
-        public async static Task UpdateAsync(WebPage webPage)
+        public async static Task<T> InsertAsync<T>() where T:class,IDbModel,new()
+        {
+            EnsureDb();
+            var item = new T();
+            int id = await db.InsertAsync(item);
+            return item;
+        }
+
+        public async static Task UpdateAsync<T>(T webPage) where T : class, IDbModel, new()
         {
             EnsureDb();
             await db.UpdateAsync(webPage);
         }
-        public async static Task DeleteAsync(WebPage webPage)
+        public async static Task<T> CloneAsync<T>(T webPage) where T : class, IDbModel, new()
+        {
+            EnsureDb();
+            webPage = webPage.Clone() as T;
+            await db.InsertAsync(webPage);
+            return webPage;
+        }
+        public async static Task DeleteAsync<T>(T webPage) where T : class, IDbModel, new()
         {
             EnsureDb();
             await db.DeleteAsync(webPage);

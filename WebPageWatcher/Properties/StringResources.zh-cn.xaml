@@ -11,6 +11,7 @@
 
     <system:String x:Key="label_lastCheckTime" >上一次检查时间：</system:String>
     <system:String x:Key="label_lastUpdateTime" >上一次更新时间：</system:String>
+    <system:String x:Key="label_lastExcuteTime" >上一次执行时间：</system:String>
     <system:String x:Key="label_lastUpdateContent" >上一次更新内容：</system:String>
 
     <system:String x:Key="label_name" >名称：</system:String>
@@ -23,6 +24,7 @@
 
     <system:String x:Key="label_url" >网址：</system:String>
     <system:String x:Key="label_method" >请求方法：</system:String>
+    <system:String x:Key="label_code" >代码</system:String>
 
     <system:String x:Key="label_responseType" >响应类型：</system:String>
 
@@ -34,6 +36,7 @@
     <system:String x:Key="button_save" >保存</system:String>
     <system:String x:Key="button_reset" >重置</system:String>
     <system:String x:Key="button_new" >新增</system:String>
+    <system:String x:Key="button_Excute" >执行</system:String>
     <system:String x:Key="button_importHTTPHeader" >自动识别HTTP头</system:String>
     <system:String x:Key="label_HTTPHeaderInput" >请将HTTP头粘贴至下方文本框</system:String>
     <system:String x:Key="hint_HTTPHeader" >HTTP头</system:String>
@@ -109,6 +112,8 @@
     <system:String x:Key="menu_close">完全关闭</system:String>
     <system:String x:Key="menu_scriptGrammar">脚本语法</system:String>
     <system:String x:Key="win_scriptGrammar">脚本语法</system:String>
+    <system:String x:Key="win_delete">删除</system:String>
+    <system:String x:Key="win_clone">建立副本</system:String>
 
     <system:String x:Key="set_general">一般</system:String>
     <system:String x:Key="set_launch">启动</system:String>
