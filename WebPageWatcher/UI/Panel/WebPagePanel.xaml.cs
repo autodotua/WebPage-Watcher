@@ -132,7 +132,7 @@ namespace WebPageWatcher.UI
             MainWindow.progressDialog.Show();
             try
             {
-                bool result = await BackgroundTask.Excute(Item, true);
+                bool result = await BackgroundTask.CheckAndExcuteWebPageAsync(Item, true);
                 MainWindow.progressDialog.Close();
                 if (!result)
                 {
@@ -193,8 +193,6 @@ namespace WebPageWatcher.UI
             }
 
         }
-
-        private MainWindow MainWindow => Window.GetWindow(this) as MainWindow;
 
         public override ListView List => lvw;
     }

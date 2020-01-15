@@ -114,7 +114,7 @@
                                    IsChecked="{Binding Item.Enabled}"/>
                             <TextBlock Grid.Row="4" VerticalAlignment="Bottom" 
                    HorizontalAlignment="Right" Text="{DynamicResource label_updateInterval}"/>
-                            <materialDesign:TimePicker  Grid.Row="4" Grid.Column="2"  Grid.ColumnSpan="3"
+                            <materialDesign:TimePicker  Grid.Row="4" Grid.Column="2"  Grid.ColumnSpan="3" 
    materialDesign:HintAssist.Hint="{DynamicResource time_hint}"  Is24Hours="True"  SelectedTime="{Binding Item.Interval,Converter={StaticResource timeSpan2Ms}}" />
 
                         </Grid>

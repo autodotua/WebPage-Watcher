@@ -104,6 +104,8 @@
     <system:String x:Key="error_binaryTypeNotSupport">二进制不支持黑白名单设置</system:String>
     <system:String x:Key="error_forceCompare">对比失败</system:String>
     <system:String x:Key="error_forceGet">获取失败</system:String>
+    <system:String x:Key="error_exucteFailed">执行失败</system:String>
+    <system:String x:Key="info_excuteSucceed">执行成功</system:String>
 
     <system:String x:Key="menu_program">程序</system:String>
     <system:String x:Key="menu_setting">设置</system:String>
@@ -144,6 +146,7 @@
     <system:String x:Key="ex_cannotFindWebPageByName">找不到指定名称的任务：</system:String>
     <system:String x:Key="ex_webPageNameNotUnique">该名称的任务不唯一：</system:String>
     <system:String x:Key="ex_syntaxError">语法错误</system:String>
+    <system:String x:Key="ex_unknownCommand">未知命令</system:String>
     <system:String x:Key="ex_cannotFindVariable">找不到指定变量：</system:String>
     <system:String x:Key="ex_cannotFindProperty">找不到指定属性：</system:String>
     <system:String x:Key="ex_invalidPropertyType">无效的属性类型：</system:String>

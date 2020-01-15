@@ -25,9 +25,9 @@ namespace WebPageWatcher.UI
     /// </summary>
     public partial class BackgroundTaskErrorNotificationWindow : NotificationWindowBase
     {
-        public BackgroundTaskErrorNotificationWindow(WebPage webPage, Exception exception)
+        public BackgroundTaskErrorNotificationWindow(IDbModel model, Exception exception)
         {
-            WebPage = webPage;
+            Model = model;
             InitializeComponent();
 
             tbkMessage.Text = exception.Message;
@@ -35,7 +35,7 @@ namespace WebPageWatcher.UI
             tbkTime.Text = DateTime.Now.ToString("t",CultureInfo.CurrentUICulture);
         }
 
-        public WebPage WebPage { get; }
+        public IDbModel Model { get; }
         public CompareResult CompareResult { get; }
         public EventHandler IgnoreOnce;
         public EventHandler Ignore;
@@ -51,12 +51,12 @@ namespace WebPageWatcher.UI
             MainWindow win = App.Current.GetMainWindow();
             if(win!=null)
             {
-                win.SelectItem(WebPage);
+                win.SelectItem(Model);
                 win.BringToFront();
             }
             else
             {
-               App.Current.CreateMainWindow(WebPage);
+               App.Current.CreateMainWindow(Model);
             }
         }
 

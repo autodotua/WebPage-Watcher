@@ -41,13 +41,14 @@ namespace WebPageWatcher.UI
 
         public override void UpdateDisplay(Script item)
         {
-            Script webPage2 = Items.FirstOrDefault(p => p.ID == (item as Script).ID);
-            if (webPage2 != null)
+            Script here = Items.FirstOrDefault(p => p.ID == (item as Script).ID);
+            if (here != null)
             {
-                //if (item.WebPage != null && webPage2.ID == item.WebPage.ID)
-                //{
-                //    item.UpdateDisplay(webPage as WebPage);
-                //}
+                if (Item != null && here.ID == Item.ID)
+                {
+                    Item.LastExcuteTime = item.LastExcuteTime;
+                    Notify(nameof(Item));
+                }
             }
         }
         public override ExtendedObservableCollection<Script> Items => BackgroundTask.Scripts;
@@ -64,8 +65,28 @@ namespace WebPageWatcher.UI
             ResetItem();
         }
 
-        private void ExcuteButton_Click(object sender, RoutedEventArgs e)
+        private async void ExcuteButton_Click(object sender, RoutedEventArgs e)
         {
+            MainWindow.progressDialog.Show();
+            try
+            {
+                ScriptParser parser = new ScriptParser();
+                StringBuilder logs = new StringBuilder();
+                parser.Output += (p1, p2) =>
+                {
+                    logs.AppendLine(p2);
+                };
+                await parser.ParseAsync(Item.Code);
+             
+                MainWindow.progressDialog.Close();
+                await MainWindow.dialog.ShowInfomationAsync(logs.ToString(),FindResource("info_excuteSucceed") as string); ;
+            }
+            catch (Exception ex)
+            {
+                MainWindow.progressDialog.Close();
+                MainWindow.progressDialog.Close();
+                await MainWindow.dialog.ShowErrorAsync(ex.ToString(), FindResource("info_excuteSucceed") as string);
+            }
         }
     }
 }

@@ -115,12 +115,11 @@ namespace WebPageWatcher
 
         }
 
-        public void CreateMainWindow(WebPage para = null)
+        public void CreateMainWindow(IDbModel para = null)
         {
             if (para != null)
             {
                 SingleObject = new MainWindow(para);
-
             }
             else
             {
@@ -232,7 +231,7 @@ namespace WebPageWatcher
             Thread.CurrentThread.CurrentUICulture = c;
         }
 
-        public MainWindow GetMainWindow(bool notUIThread = false)
+        public MainWindow GetMainWindow()
         {
             MainWindow mainWindow = SingleObject;
             if (mainWindow != null && mainWindow.IsLoaded && !mainWindow.IsClosed)

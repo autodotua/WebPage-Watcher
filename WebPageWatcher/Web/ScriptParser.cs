@@ -16,15 +16,19 @@ namespace WebPageWatcher.Web
     {
         private List<ScriptVariable> variables = new List<ScriptVariable>();
         public ReadOnlyCollection<ScriptVariable> Variables => variables.AsReadOnly();
-        public EventHandler<string> Output;
+        public event EventHandler<string> Output;
         private int currentLine;
         private string currentCommand;
         public async Task ParseAsync(string content)
         {
             int index = 0;
-            foreach (var line in content.Split(new string[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries))
+            foreach (var line in content.Split(new string[] { Environment.NewLine }, StringSplitOptions.None))
             {
                 currentLine = ++index;
+                if (string.IsNullOrWhiteSpace(line))
+                {
+                    continue;
+                }
                 currentCommand = line;
                 await ParseLineAsync(line);
             }
@@ -34,7 +38,7 @@ namespace WebPageWatcher.Web
         {
             Debug.Assert(!line.Contains(Environment.NewLine));
 
-            string[] parts = line.Split(' '); 
+            string[] parts = line.Split(' ');
             if (parts.Length <= 1)
             {
                 throw new ScriptException(App.Current.FindResource("ex_syntaxError") as string, currentCommand, currentLine);
@@ -45,6 +49,8 @@ namespace WebPageWatcher.Web
                 case "let": await ParseLetAsync(parts); break;
                 case "set": ParseSet(parts); break;
                 case "log": ParseLog(parts); break;
+                default: throw new ScriptException(App.Current.FindResource("ex_unknownCommand") as string + " " + parts[0], currentCommand, currentLine);
+
             }
 
         }
@@ -59,7 +65,9 @@ namespace WebPageWatcher.Web
 
             WebPage webPage = GetVariable(webPageName, "webpage") as WebPage;
 
-            await BackgroundTask.Excute(webPage, true);
+            bool result = await BackgroundTask.CheckAndExcuteWebPageAsync(webPage, true);
+            Output?.Invoke(this, $"compare {webPage}, change result is {result}");
+
         }
 
         private void ParseLog(string[] parts)

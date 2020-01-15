@@ -4,6 +4,7 @@ using System.Windows.Controls;
 using System.Windows.Documents;
 using WebPageWatcher.Data;
 using WebPageWatcher.Web;
+using System;
 
 namespace WebPageWatcher.UI
 {
@@ -13,7 +14,7 @@ namespace WebPageWatcher.UI
     public partial class MainWindow : WindowBase
     {
 
-        public MainWindow(WebPage needToSelect) : this()
+        public MainWindow(IDbModel needToSelect) : this()
         {
             SelectItem(needToSelect);
         }
@@ -67,24 +68,37 @@ cp a4";
             }
 
         }
-        public void UpdateDisplay<T>(T item) where T : class, IDbModel, new()
+        public void UpdateDisplay(IDbModel item) 
         {
-            TabItemPanelBase<T> panel = null;
-            if (item is WebPage)
+            switch (item)
             {
-                panel = webPagePanel as TabItemPanelBase<T>;
+                case WebPage webPage:
+                    (webPagePanel as TabItemPanelBase<WebPage>).UpdateDisplay(webPage);
+                    break;
+                case Script script:
+                    (scriptPanel as TabItemPanelBase<Script>).UpdateDisplay(script);
+                    break;
+                case Data.Trigger trigger:
+                    throw new NotImplementedException();
+                    break;
             }
-            panel.UpdateDisplay(item);
         }
 
-        public void SelectItem<T>(T item) where T : class, IDbModel, new()
+        public void SelectItem(IDbModel item)
         {
-            TabItemPanelBase<T> panel = null;
-            if (item is WebPage)
+            switch(item)
             {
-                panel = webPagePanel as TabItemPanelBase<T>;
+                case WebPage webPage:
+                    (webPagePanel as TabItemPanelBase<WebPage>).SelectItem(webPage);
+                    break;     
+                case Script script:
+                    (scriptPanel as TabItemPanelBase<Script>).SelectItem(script);
+                    break;
+                case Data.Trigger trigger:
+                    throw new NotImplementedException();
+                    break;
             }
-            panel.SelectItem(item);
+
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
