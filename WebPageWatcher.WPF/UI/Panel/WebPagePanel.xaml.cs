@@ -48,7 +48,6 @@ namespace WebPageWatcher.UI
                 if (Item != null && webPage2.ID == Item.ID)
                 {
                     Item.LastCheckTime = webPage.LastCheckTime;
-
                     Item.LastUpdateTime = webPage.LastUpdateTime;
                     Item.LatestContent = webPage.LatestContent;
                     Notify(nameof(Item));

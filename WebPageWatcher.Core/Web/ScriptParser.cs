@@ -6,14 +6,17 @@ using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Reflection;
+using System.Resources;
 using System.Text;
 using System.Threading.Tasks;
 using WebPageWatcher.Data;
+using static WebPageWatcher.Web.ScriptException;
 
 namespace WebPageWatcher.Web
 {
     public class ScriptParser
     {
+        
         private List<ScriptVariable> variables = new List<ScriptVariable>();
         public ReadOnlyCollection<ScriptVariable> Variables => variables.AsReadOnly();
         public event EventHandler<string> Output;
@@ -41,7 +44,7 @@ namespace WebPageWatcher.Web
             string[] parts = line.Split(' ');
             if (parts.Length <= 1)
             {
-                throw new ScriptException(App.Current.FindResource("ex_syntaxError") as string, currentCommand, currentLine);
+                throw new ScriptException(Strings.Get("ex_syntaxError"), currentCommand, currentLine);
             }
             switch (parts[0])
             {
@@ -49,7 +52,7 @@ namespace WebPageWatcher.Web
                 case "let": await ParseLetAsync(parts); break;
                 case "set": ParseSet(parts); break;
                 case "log": ParseLog(parts); break;
-                default: throw new ScriptException(App.Current.FindResource("ex_unknownCommand") as string + " " + parts[0], currentCommand, currentLine);
+                default: throw new ScriptException(Strings.Get("ex_unknownCommand") + " " + parts[0], currentCommand, currentLine);
 
             }
 
@@ -59,7 +62,7 @@ namespace WebPageWatcher.Web
         {
             if (parts.Length != 2)
             {
-                throw new ScriptException(App.Current.FindResource("ex_syntaxError") as string, currentCommand, currentLine);
+                throw new ScriptException(Strings.Get("ex_syntaxError"), currentCommand, currentLine);
             }
             string webPageName = parts[1];
 
@@ -78,7 +81,7 @@ namespace WebPageWatcher.Web
         {
             if (parts.Length != 4)
             {
-                throw new ScriptException(App.Current.FindResource("ex_syntaxError") as string, currentCommand, currentLine);
+                throw new ScriptException(Strings.Get("ex_syntaxError"), currentCommand, currentLine);
             }
             WebPage webPage = GetVariable(parts[1], "webpage") as WebPage;
             string propertyName = parts[2];
@@ -88,7 +91,7 @@ namespace WebPageWatcher.Web
                     {
                         if (!(GetVariable(parts[3], "response") is HttpWebResponse response))
                         {
-                            throw new ScriptException(App.Current.FindResource("ex_cannotFindProperty") as string + propertyName, currentCommand, currentLine);
+                            throw new ScriptException(Strings.Get("ex_cannotFindProperty") + propertyName, currentCommand, currentLine);
                         }
                         webPage.Request_Cookies.Clear();
                         foreach (System.Net.Cookie cookie in response.Cookies)
@@ -104,7 +107,7 @@ namespace WebPageWatcher.Web
                         PropertyInfo property = webPage.GetType().GetProperty(propertyName);
                         if (property == null)
                         {
-                            throw new ScriptException(App.Current.FindResource("ex_cannotFindProperty") as string + propertyName, currentCommand, currentLine);
+                            throw new ScriptException(Strings.Get("ex_cannotFindProperty") + propertyName, currentCommand, currentLine);
                         }
                         bool errorType = false;
                         try
@@ -130,11 +133,11 @@ namespace WebPageWatcher.Web
                         }
                         catch (Exception ex)
                         {
-                            throw new ScriptException(App.Current.FindResource("ex_wrongPropertyValue") as string + propertyName, currentCommand, currentLine, ex);
+                            throw new ScriptException(Strings.Get("ex_wrongPropertyValue") + propertyName, currentCommand, currentLine, ex);
                         }
                         if (errorType)
                         {
-                            throw new ScriptException(App.Current.FindResource("ex_invalidPropertyType") as string + propertyName, currentCommand, currentLine);
+                            throw new ScriptException(Strings.Get("ex_invalidPropertyType") + propertyName, currentCommand, currentLine);
                         }
                     }
                     break;
@@ -147,12 +150,12 @@ namespace WebPageWatcher.Web
         {
             if (parts.Length != 4 && parts.Length != 5)
             {
-                throw new ScriptException(App.Current.FindResource("ex_syntaxError") as string, currentCommand, currentLine);
+                throw new ScriptException(Strings.Get("ex_syntaxError"), currentCommand, currentLine);
             }
             string key = parts[1];
             if (variables.Any(p => p.Key == key))
             {
-                throw new ScriptException(string.Format(App.Current.FindResource("label_variableExist") as string, key), currentCommand, currentLine);
+                throw new ScriptException(string.Format(Strings.Get("label_variableExist"), key), currentCommand, currentLine);
             }
             //待加入：重复key
             string type = parts[2];
@@ -165,7 +168,7 @@ namespace WebPageWatcher.Web
                 "responseJsonValue" => GetResponseData(value),
                 //"responseCookie" => GetResponseCookie(value),
                 "webpage" => GetWebPage(value, parts.Length == 5 && parts[4].Contains("clone")),
-                _ => throw new ScriptException(App.Current.FindResource("ex_wrongType") as string, currentCommand, currentLine),
+                _ => throw new ScriptException(Strings.Get("ex_wrongType"), currentCommand, currentLine),
 
             };
             Output?.Invoke(this, $"add new variable: {key} = {realValue.ToString()}");
@@ -194,7 +197,7 @@ namespace WebPageWatcher.Web
             var target = jToken.SelectToken(path);
             if (target == null)
             {
-                throw new ScriptException(App.Current.FindResource("ex_jsonPathError") as string + path, currentCommand, currentLine);
+                throw new ScriptException(Strings.Get("ex_jsonPathError") + path, currentCommand, currentLine);
             }
             string value = target.Value<string>();
             Output?.Invoke(this, $"get response json data of {variableKey}: {value}");
@@ -206,7 +209,7 @@ namespace WebPageWatcher.Web
             ScriptVariable variable = variables.FirstOrDefault(p => p.Key == variableKey && p.Type == type);
             if (variable == null)
             {
-                throw new ScriptException(App.Current.FindResource("ex_cannotFindVariable") as string + variableKey, currentCommand, currentLine);
+                throw new ScriptException(Strings.Get("ex_cannotFindVariable") + variableKey, currentCommand, currentLine);
             }
 
             return variable.Value;
@@ -216,7 +219,7 @@ namespace WebPageWatcher.Web
             ScriptVariable variable = variables.FirstOrDefault(p => p.Key == variableKey && p.Value is T);
             if (variable == null)
             {
-                throw new ScriptException(App.Current.FindResource("ex_cannotFindVariable") as string + variableKey, currentCommand, currentLine);
+                throw new ScriptException(Strings.Get("ex_cannotFindVariable") + variableKey, currentCommand, currentLine);
             }
 
             return (T)variable.Value;
@@ -254,11 +257,11 @@ namespace WebPageWatcher.Web
             var webPages = BackgroundTask.WebPages.Where(p => p.Name == webPageName);
             if (webPages.Count() == 0)
             {
-                throw new ScriptException(App.Current.FindResource("ex_cannotFindWebPageByName") as string + webPageName, currentCommand, currentLine);
+                throw new ScriptException(Strings.Get("ex_cannotFindWebPageByName") + webPageName, currentCommand, currentLine);
             }
             if (webPages.Count() > 1)
             {
-                throw new ScriptException(App.Current.FindResource("ex_webPageNameNotUnique") as string + webPageName, currentCommand, currentLine);
+                throw new ScriptException(Strings.Get("ex_webPageNameNotUnique") + webPageName, currentCommand, currentLine);
             }
 
             Output?.Invoke(this, $"get web page by name \"{webPageName}\"");
@@ -300,6 +303,7 @@ namespace WebPageWatcher.Web
     [Serializable]
     public class ScriptException : Exception
     {
+
         public string Command { get; }
         public int Line { get; }
 
@@ -333,7 +337,7 @@ namespace WebPageWatcher.Web
         }
         public override string ToString()
         {
-            return string.Format(App.Current.FindResource("ex_CommandAndLine") as string, Line, Command) + Environment.NewLine + base.ToString();
+            return string.Format(Strings.Get("ex_CommandAndLine"), Line, Command) + Environment.NewLine + base.ToString();
         }
     }
 }

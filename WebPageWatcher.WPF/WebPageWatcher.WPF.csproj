@@ -134,10 +134,6 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="BackgroundTask.cs" />
-    <Compile Include="Data\Cookie.cs" />
-    <Compile Include="Data\IDbModel.cs" />
-    <Compile Include="Data\Trigger.cs" />
-    <Compile Include="Data\Script.cs" />
     <Compile Include="UI\Converters.cs" />
     <Compile Include="UI\Dialog\AboutDialog.xaml.cs">
       <DependentUpon>AboutDialog.xaml</DependentUpon>
@@ -152,9 +148,6 @@
     <Compile Include="UI\Window\ScriptHelpWindow.xaml.cs">
       <DependentUpon>ScriptHelpWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Web\ScriptParser.cs" />
-    <Compile Include="Data\Helper.cs" />
-    <Compile Include="Data\WebPageUpdate.cs" />
     <Compile Include="UI\Dialog\InputDialog.xaml.cs">
       <DependentUpon>InputDialog.xaml</DependentUpon>
     </Compile>
@@ -196,10 +189,6 @@
     </Compile>
     <Compile Include="UI\SelectorHelper.cs" />
     <Compile Include="UI\Window\WindowBase.cs" />
-    <Compile Include="Web\Comparer.cs" />
-    <Compile Include="Data\BlackWhiteListItem.cs" />
-    <Compile Include="Web\HtmlGetter.cs" />
-    <Compile Include="Web\RequestParser.cs" />
     <Page Include="Properties\StringResources.en-US.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -281,8 +270,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Config.cs" />
-    <Compile Include="Data\DbHelper.cs" />
-    <Compile Include="Data\WebPage.cs" />
     <Compile Include="UI\Window\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -321,9 +308,7 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Libs\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Resource Include="Res\trayIcon.ico" />
   </ItemGroup>
@@ -331,11 +316,17 @@
     <Resource Include="Res\trayIcon_dark.ico" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Audio\ring.mp3">
+    <Content Include="Res\ring.mp3">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Resource Include="Res\app.png" />
     <Resource Include="Res\app.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\WebPageWatcher.Core\WebPageWatcher.Core.csproj">
+      <Project>{9160c78f-d80c-4037-b515-2cc74eecda91}</Project>
+      <Name>WebPageWatcher.Core</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

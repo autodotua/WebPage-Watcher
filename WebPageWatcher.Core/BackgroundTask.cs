@@ -9,10 +9,8 @@ using System.Threading.Tasks;
 using System.Threading;
 using WebPageWatcher.Data;
 using WebPageWatcher.Web;
-using WebPageWatcher.UI;
 using FzLib.Basic.Collection;
 using System.Diagnostics;
-using System.Media;
 using System.IO;
 using System.Runtime.InteropServices;
 
@@ -132,18 +130,18 @@ namespace WebPageWatcher
                 CompareResult result = await ComparerBase.CompareAsync(webPage);
                 if (result.Same == false)
                 {
-                    App.Current.Dispatcher.Invoke(() =>
-                    {
-                        WebPageChangedNotificationWindow win = new WebPageChangedNotificationWindow(webPage, result);
-                        win.Closed += (p1, p2) => StopPlayRing();
-                        win.PopUp();
-                    });
+                    WebPageChanged?.Invoke(null, new WebPageChangedEventArgs(webPage, result));
+                    //App.Current.Dispatcher.Invoke(() =>
+                    //{
+                    //    WebPageChangedNotificationWindow win = new WebPageChangedNotificationWindow(webPage, result);
+                    //    win.Closed += (p1, p2) => StopPlayRing();
+                    //    win.PopUp();
+                    //});
                     webPage.LastUpdateTime = now;
                     webPage.LatestContent = result.NewContent;
-                    PlayRing();
                 }
 
-                webPage.LastCheckTime = now;
+                 webPage.LastCheckTime = now;
                 await UpdateWebPageDbAndUI(webPage, result);
                 return result.Same == false;
             }
@@ -152,14 +150,16 @@ namespace WebPageWatcher
             async static Task UpdateWebPageDbAndUI(WebPage page, CompareResult result)
             {
                 await DbHelper.UpdateAsync(page);
-                App.Current.Dispatcher.Invoke(() =>
-                {
-                    var mainWindow = App.Current.GetMainWindow();
-                    if (mainWindow != null)
-                    {
-                        mainWindow.UpdateDisplay(page);
-                    }
-                });
+                //App.Current.Dispatcher.Invoke(() =>
+                //{
+                //    var mainWindow = App.Current.GetMainWindow();
+                //    if (mainWindow != null)
+                //    {
+                //        mainWindow.UpdateDisplay(page);
+                //    }
+                //});
+                PropertyUpdated?.Invoke(null, new PropertyUpdatedEventArgs(page));
+
             }
         }
         public static async Task CheckAndExcuteScriptAsync(Script script, bool force = false)
@@ -175,14 +175,16 @@ namespace WebPageWatcher
                 await parser.ParseAsync(script.Code);
                 script.LastExcuteTime = now;
                 await DbHelper.UpdateAsync(script);
-                App.Current.Dispatcher.Invoke(() =>
-                {
-                    var mainWindow = App.Current.GetMainWindow();
-                    if (mainWindow != null)
-                    {
-                        mainWindow.UpdateDisplay(script);
-                    }
-                });
+                //App.Current.Dispatcher.Invoke(() =>
+                //{
+                //    var mainWindow = App.Current.GetMainWindow();
+                //    if (mainWindow != null)
+                //    {
+                //        mainWindow.UpdateDisplay(script);
+                //    }
+                //});
+                PropertyUpdated?.Invoke(null, new PropertyUpdatedEventArgs(script));
+
 #if (!CONTINUING || !DEBUG)
             }
 #endif
@@ -202,13 +204,14 @@ namespace WebPageWatcher
             if (exceptionsCount[item] >= 5)
             {
                 exceptionsCount[item] = -1;//暂时先不记录，等关闭窗口以后继续累计
-                App.Current.Dispatcher.Invoke(() =>
-                {
-                    BackgroundTaskErrorNotificationWindow win = new BackgroundTaskErrorNotificationWindow(item, exceptions[item]);
-                    win.Ignore += (p1, p2) => exceptionsCount[item] = -1;
-                    win.IgnoreOnce += (p1, p2) => exceptionsCount[item] = 0;
-                    win.PopUp();
-                });
+                //App.Current.Dispatcher.Invoke(() =>
+                //{
+                //    BackgroundTaskErrorNotificationWindow win = new BackgroundTaskErrorNotificationWindow(item, exceptions[item]);
+                //    win.Ignore += (p1, p2) => exceptionsCount[item] = -1;
+                //    win.IgnoreOnce += (p1, p2) => exceptionsCount[item] = 0;
+                //    win.PopUp();
+                //});
+                ExceptionAlarm?.Invoke(null, new ExceptionAlarmEventArgs(item,exceptions[item],()=> exceptionsCount[item] = 0,()=> exceptionsCount[item] = -1));
             }
         }
         public static uint SND_ASYNC = 0x0001;
@@ -216,37 +219,7 @@ namespace WebPageWatcher
         [DllImport("winmm.dll", CharSet = CharSet.Unicode)]
         private static extern uint mciSendString(string lpstrCommand, string lpstrReturnString, uint uReturnLength, uint hWndCallback);
 
-        public static void PlayRing()
-        {
-            App.Current.Dispatcher.Invoke(() =>
-            {
-                if (Config.Instance.Ring == 0)
-                {
-                    return;
-                }
-                string path;
-                if (Config.Instance.Ring == 1 || !File.Exists(Config.Instance.CustomRingPath))
-                {
-                    path = Path.Combine(FzLib.Program.App.ProgramDirectoryPath, "Audio", "ring.mp3");
-                }
-                else
-                {
-                    path = Config.Instance.CustomRingPath;
-                }
-                mciSendString("close ring", null, 0, 0);
-                mciSendString($"open \"{path}\" alias ring", null, 0, 0); //音乐文件
-                mciSendString("play ring", null, 0, 0);
-            });
-        }
-        public static void StopPlayRing()
-        {
-            App.Current.Dispatcher.Invoke(() =>
-            {
-                mciSendString("stop ring", null, 0, 0);
-                mciSendString("close ring", null, 0, 0);
-            });
-        }
-
+     
         public static void Stop()
         {
             if (timer != null)
@@ -254,6 +227,45 @@ namespace WebPageWatcher
                 timer.Dispose();
             }
         }
+        public static event EventHandler<WebPageChangedEventArgs> WebPageChanged;
+        public static event EventHandler<PropertyUpdatedEventArgs> PropertyUpdated;
+        public static event EventHandler<ExceptionAlarmEventArgs> ExceptionAlarm;
     }
 
+    public class PropertyUpdatedEventArgs : EventArgs
+    {
+        public PropertyUpdatedEventArgs(IDbModel item)
+        {
+            Item = item;
+        }
+
+        public IDbModel Item { get; }
+    }    
+    public class ExceptionAlarmEventArgs : EventArgs
+    {
+        public ExceptionAlarmEventArgs(IDbModel item,Exception exception,Action resetAction,Action disableAction)
+        {
+            Item = item;
+            Exception = exception;
+            ResetAction = resetAction;
+            DisableAction = disableAction;
+        }
+
+        public IDbModel Item { get; }
+        public Exception Exception { get; }
+        public Action ResetAction { get; }
+        public Action DisableAction { get; }
+    }
+
+    public class WebPageChangedEventArgs : EventArgs
+    {
+        public WebPageChangedEventArgs(WebPage webPage,CompareResult compareResult)
+        {
+            WebPage = webPage;
+            CompareResult = compareResult;
+        }
+
+        public WebPage WebPage { get; }
+        public CompareResult CompareResult { get; }
+    }
 }

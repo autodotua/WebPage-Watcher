@@ -6,6 +6,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Reflection;
+using System.Resources;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
@@ -127,16 +129,20 @@ namespace WebPageWatcher.Web
         }
         private byte[] GetResponseBinary()
         {
-            using Stream stream = GetResponse().GetResponseStream();
-            using var mS = new MemoryStream();
-            stream.CopyTo(mS);
-            return mS.ToArray();
+            using (Stream stream = GetResponse().GetResponseStream())
+            {
+                using (var mS = new MemoryStream())
+                {
+                    stream.CopyTo(mS);
+                    return mS.ToArray();
+                }
+            }
         }
         private HttpWebResponse GetResponse(Action<HttpWebRequest> requestSettings=null)
         {
             if (string.IsNullOrEmpty(WebPage.Url))
             {
-                throw new Exception(App.Current.FindResource("error_urlIsEmpty") as string);
+                throw new Exception(Strings.Get("error_urlIsEmpty") );
             }
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(WebPage.Url);
             request.CookieContainer = GetCookies();
@@ -175,8 +181,10 @@ namespace WebPageWatcher.Web
 
                 if (WebPage.Request_Body != null && WebPage.Request_Body.Length > 0)
                 {
-                    using StreamWriter streamWriter = new StreamWriter(request.GetRequestStream());
-                    streamWriter.Write(WebPage.Request_Body);
+                    using (StreamWriter streamWriter = new StreamWriter(request.GetRequestStream()))
+                    {
+                        streamWriter.Write(WebPage.Request_Body);
+                    }
                 }
                 else
                 {
@@ -193,7 +201,7 @@ namespace WebPageWatcher.Web
             }
             catch(Exception ex)
             {
-                throw new Exception(App.Current.FindResource("ex_GetResponse") as string, ex);
+                throw new Exception(Strings.Get("ex_GetResponse") , ex);
             }
             FixResponseCookies(request, response);
             return response;

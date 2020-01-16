@@ -128,12 +128,12 @@ namespace WebPageWatcher.UI
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
-            BackgroundTask.PlayRing();
+            BackgroundTaskHelper.PlayRing();
         }
 
         private void WindowBase_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            BackgroundTask.StopPlayRing();
+            BackgroundTaskHelper.StopPlayingRing();
         }
     }
 }

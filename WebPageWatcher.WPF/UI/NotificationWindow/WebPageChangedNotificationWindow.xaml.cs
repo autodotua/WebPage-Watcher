@@ -35,11 +35,11 @@ namespace WebPageWatcher.UI
             switch (compareResult.WebPage.Response_Type)
             {
                 case ResponseType.Html:
-                    //strs = compareResult.DifferentNodes.Select(p => Regex.Replace((p.New as HtmlNode).InnerText.Trim(), "\\s+", " "));
-                    //break;
+                //strs = compareResult.DifferentNodes.Select(p => Regex.Replace((p.New as HtmlNode).InnerText.Trim(), "\\s+", " "));
+                //break;
                 case ResponseType.Json:
-                    //strs = compareResult.DifferentNodes.Select(p => Regex.Replace((p.New as JToken).ToString().Trim(), "\\s+", " "));
-                    //break;
+                //strs = compareResult.DifferentNodes.Select(p => Regex.Replace((p.New as JToken).ToString().Trim(), "\\s+", " "));
+                //break;
                 case ResponseType.Text:
                     //strs = new string[] { compareResult.NewContent.ToEncodedString() };
                     SetDifferencesText(compareResult);
@@ -59,7 +59,8 @@ namespace WebPageWatcher.UI
 
         private void SetDifferencesText(CompareResult compareResult)
         {
-            var diffs = compareResult.GetDifferences();
+            rtb.Document.Blocks.Clear();
+            Diff[] diffs = compareResult.GetDifferences();
             foreach (var diff in diffs)
             {
                 switch (diff.operation)

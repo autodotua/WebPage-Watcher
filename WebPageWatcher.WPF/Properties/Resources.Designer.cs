@@ -83,6 +83,16 @@ namespace WebPageWatcher.Properties {
         /// <summary>
         ///   查找 System.Byte[] 类型的本地化资源。
         /// </summary>
+        internal static byte[] ring {
+            get {
+                object obj = ResourceManager.GetObject("ring", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Byte[] 类型的本地化资源。
+        /// </summary>
         internal static byte[] script_help_en_US {
             get {
                 object obj = ResourceManager.GetObject("script_help_en_US", resourceCulture);
