@@ -61,6 +61,12 @@ namespace WebPageWatcher.UI
         {
             rtb.Document.Blocks.Clear();
             Diff[] diffs = compareResult.GetDifferences();
+            if(diffs==null)
+            {
+                Paragraph paragraph = new Paragraph(new Run(FindResource("error_cannotGetDiff") as string));
+                rtb.Document.Blocks.Add(paragraph);
+                return;
+            }
             foreach (var diff in diffs)
             {
                 switch (diff.operation)

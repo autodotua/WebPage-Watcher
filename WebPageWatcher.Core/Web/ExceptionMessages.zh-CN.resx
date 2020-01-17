@@ -129,14 +129,26 @@
   <data name="ex_CommandAndLine" xml:space="preserve">
     <value>第{0}行：{1}</value>
   </data>
+  <data name="ex_compareFailed" xml:space="preserve">
+    <value>对比失败</value>
+  </data>
   <data name="ex_GetResponse" xml:space="preserve">
     <value>获取HTTP响应失败</value>
+  </data>
+  <data name="ex_htmlParseError" xml:space="preserve">
+    <value>Html解析失败</value>
   </data>
   <data name="ex_invalidPropertyType" xml:space="preserve">
     <value>无效的属性类型</value>
   </data>
+  <data name="ex_jsonParseError" xml:space="preserve">
+    <value>JSON解析失败</value>
+  </data>
   <data name="ex_jsonPathError" xml:space="preserve">
     <value>JSON路径错误，无法找到指定元素</value>
+  </data>
+  <data name="ex_parseError" xml:space="preserve">
+    <value>解析错误</value>
   </data>
   <data name="ex_syntaxError" xml:space="preserve">
     <value>语法错误</value>
@@ -152,5 +164,8 @@
   </data>
   <data name="ex_wrongType" xml:space="preserve">
     <value>变量类型错误</value>
+  </data>
+  <data name="String1" xml:space="preserve">
+    <value>对比失败</value>
   </data>
 </root>

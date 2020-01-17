@@ -46,7 +46,7 @@ namespace WebPageWatcher.UI
             TakeBack();
         }
 
-        private async void Button_Click_1(object sender, RoutedEventArgs e)
+        private void Button_Click_1(object sender, RoutedEventArgs e)
         {
             MainWindow win = App.Current.GetMainWindow();
             if(win!=null)

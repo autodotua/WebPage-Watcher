@@ -67,6 +67,15 @@
                         </StackPanel>
                     </StackPanel>
                 </GroupBox>
+                <GroupBox Header="{DynamicResource set_compare}" Style="{DynamicResource MaterialDesignGroupBox}" 
+                          BorderThickness="0"  materialDesign:ShadowAssist.ShadowDepth="Depth3" Margin="0,16,0,0">
+                    <StackPanel Orientation="Vertical">
+                        <CheckBox Content="{DynamicResource set_regardOneSideParseErrorAsNotSame}"
+                                  ToolTip="{DynamicResource set_regardOneSideParseErrorAsNotSameHint}"
+                                  Click="RegardOneSideParseErrorAsNotSameCheckBox_Click"
+                                  IsChecked="{Binding Config.RegardOneSideParseErrorAsNotSame}"/>
+                    </StackPanel>
+                </GroupBox>
             </StackPanel>
         </ScrollViewer>
     </Grid>

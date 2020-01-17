@@ -8,10 +8,20 @@ namespace WebPageWatcher.Data
 {
     public class WebPageUpdate : IDbModel
     {
+        public WebPageUpdate()
+        {
+        }
+
+        public WebPageUpdate(int webPageID,byte[] newContent)
+        {
+            WebPage_ID = webPageID;
+            Content = newContent;
+            Time = DateTime.Now;
+        }
         public int ID { get; set; }
         public int WebPage_ID { get; set; }
         public DateTime Time { get; set; }
-        public byte[] NewContent { get; set; }
+        public byte[] Content { get; set; }
 
         public WebPageUpdate Clone()
         {

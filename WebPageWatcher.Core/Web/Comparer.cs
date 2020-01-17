@@ -16,42 +16,8 @@ namespace WebPageWatcher.Web
         protected static readonly Regex rWhiteSpace = new Regex(@"\s+", RegexOptions.Compiled);
 
         public WebPage WebPage { get; protected set; }
-        public abstract CompareResult CompareWith(byte[] newContent);
-        [Obsolete]
-        public static CompareResult Compare(WebPage webPage)
-        {
-            byte[] newContent;
-            try
-            {
-                newContent = HtmlGetter.GetResponseBinary(webPage);
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("获取最新的内容失败", ex);
-            }
-            CompareResult result = null;
-
-            ComparerBase comparer;
-            switch (webPage.Response_Type)
-            {
-                case ResponseType.Html:
-                    comparer = new HtmlComparer(webPage);
-                    break;
-                case ResponseType.Json:
-                    comparer = new JsonComparer(webPage);
-                    break;
-                case ResponseType.Text:
-                    comparer = new TextComparer(webPage);
-                    break;
-                case ResponseType.Binary:
-                    comparer = new BinaryComparer(webPage);
-                    break;
-                default:
-                    throw new NotSupportedException();
-            }
-            result = comparer.CompareWith(newContent);
-            return result;
-        }
+        public abstract CompareResult CompareWith(byte[] oldContent,byte[] newContent);
+ 
         public async static Task<CompareResult> CompareAsync(WebPage webPage)
         {
             byte[] newContent;
@@ -63,6 +29,11 @@ namespace WebPageWatcher.Web
             {
                 throw new Exception("获取最新的内容失败", ex);
             }
+            return await CompareAsync(webPage,webPage.LatestContent, newContent);
+        }
+        public async static Task<CompareResult> CompareAsync(WebPage webPage,byte[] oldContent,byte[] newContent)
+        {
+      
             CompareResult result = null;
             await Task.Run(() =>
              {
@@ -74,11 +45,58 @@ namespace WebPageWatcher.Web
                      ResponseType.Binary => new BinaryComparer(webPage),
                      _ => throw new NotSupportedException(),
                  };
-                 result = comparer.CompareWith(newContent);
+                 try
+                 {
+                     result = comparer.CompareWith(oldContent,newContent);
+                 }
+                 catch (Exception ex)
+                 {
+                     throw new Exception(Strings.Get("ex_compareFailed"), ex);
+                 }
              });
             return result;
         }
 
+        protected object GetDocument<T>(byte[] oldContent, byte[] newContent, Func<string, T> getDoc) where T : class
+        {
+            T oldDocument = null;
+            T newDocument = null;
+            Exception oldEx = null;
+            Exception newEx = null;
+            try
+            {
+                oldDocument = getDoc(WebPage.LatestContent.ToEncodedString());
+            }
+            catch (Exception ex)
+            {
+                oldEx = ex;
+            }
+            try
+            {
+                newDocument = getDoc(newContent.ToEncodedString());
+            }
+            catch (Exception ex)
+            {
+                newEx = ex;
+            }
+            int errorCount = (oldEx != null ? 1 : 0) + (newEx != null ? 1 : 0);
+            if (errorCount == 1)
+            {
+                if (!Config.Instance.RegardOneSideParseErrorAsNotSame)
+                {
+                    throw new Exception(Strings.Get("ex_parseError"), oldEx == null ? newEx : oldEx);
+                }
+                else
+                {
+                    return new CompareResult(WebPage, false, WebPage.LatestContent, newContent);
+                }
+            }
+            else if (errorCount == 2)
+            {
+                throw new Exception(Strings.Get("ex_parseError"), newEx);
+            }
+            return (oldDocument, newDocument);
+        }
     }
     public class TextComparer : ComparerBase
     {
@@ -86,19 +104,19 @@ namespace WebPageWatcher.Web
         {
             WebPage = webPage;
         }
-        public override CompareResult CompareWith(byte[] newContent)
+        public override CompareResult CompareWith(byte[] oldContent, byte[] newContent)
         {
 
             bool same;
             if (WebPage.IgnoreWhiteSpace)
             {
-                same = rWhiteSpace.Replace(newContent.ToEncodedString(), "") == rWhiteSpace.Replace(WebPage.LatestContent.ToEncodedString(), "");
+                same = rWhiteSpace.Replace(newContent.ToEncodedString(), "") == rWhiteSpace.Replace(oldContent.ToEncodedString(), "");
             }
             else
             {
-                same = Enumerable.SequenceEqual(newContent, WebPage.LatestContent);
+                same = Enumerable.SequenceEqual(newContent, oldContent);
             }
-            return new CompareResult(WebPage, same, WebPage.LatestContent, newContent);
+            return new CompareResult(WebPage, same, oldContent, newContent);
         }
     }
     public class BinaryComparer : ComparerBase
@@ -107,10 +125,10 @@ namespace WebPageWatcher.Web
         {
             WebPage = webPage;
         }
-        public override CompareResult CompareWith(byte[] newContent)
+        public override CompareResult CompareWith(byte[] oldContent, byte[] newContent)
         {
-            bool same = Enumerable.SequenceEqual(newContent, WebPage.LatestContent);
-            return new CompareResult(WebPage, same, WebPage.LatestContent, newContent);
+            bool same = Enumerable.SequenceEqual(newContent, oldContent);
+            return new CompareResult(WebPage, same, oldContent, newContent);
         }
     }
     public class JsonComparer : ComparerBase
@@ -121,14 +139,18 @@ namespace WebPageWatcher.Web
             WebPage = webPage;
         }
 
-        public override CompareResult CompareWith(byte[] newContent)
+        public override CompareResult CompareWith(byte[] oldContent, byte[] newContent)
         {
+            object temp = GetDocument(oldContent,newContent, p => JToken.Parse(p));
+            if (temp is CompareResult)
+            {
+                return temp as CompareResult;
+            }
 
-            JToken oldDocument = JToken.Parse(WebPage.LatestContent.ToEncodedString());
-            JToken newDocument = JToken.Parse(newContent.ToEncodedString());
+            JToken oldDocument = (((JToken,JToken))temp).Item1;
+            JToken newDocument = (((JToken, JToken))temp).Item2;
 
-            List<(object Old, object New)> differentElements = null;
-
+            List<(object Old, object New)> differentElements;
             if (WebPage.BlackWhiteListMode == 0)
             {
                 differentElements = WhiteListCompare(oldDocument, newDocument);
@@ -138,7 +160,7 @@ namespace WebPageWatcher.Web
                 differentElements = BlackListCompare(oldDocument, newDocument);
             }
 
-            return new CompareResult(WebPage, differentElements, oldDocument, newDocument, WebPage.LatestContent, newContent);
+            return new CompareResult(WebPage, differentElements, oldDocument, newDocument, oldContent, newContent);
         }
 
         private List<(object Old, object New)> WhiteListCompare(JToken oldDocument, JToken newDocument)
@@ -209,13 +231,21 @@ namespace WebPageWatcher.Web
             WebPage = webPage;
         }
 
-        public override CompareResult CompareWith(byte[] newContent)
+        public override CompareResult CompareWith(byte[] oldContent, byte[] newContent)
         {
-            HtmlDocument newDocument = new HtmlDocument();
-            newDocument.LoadHtml(newContent.ToEncodedString());
 
-            HtmlDocument oldDocument = new HtmlDocument();
-            oldDocument.LoadHtml(WebPage.LatestContent.ToEncodedString());
+            object temp = GetDocument(oldContent,newContent, p => {
+                HtmlDocument doc = new HtmlDocument();
+                doc.LoadHtml(p);
+                return doc;
+            });
+            if (temp is CompareResult)
+            {
+                return temp as CompareResult;
+            }
+
+            HtmlDocument oldDocument = (((HtmlDocument, HtmlDocument))temp).Item1;
+            HtmlDocument newDocument = (((HtmlDocument, HtmlDocument))temp).Item2;
 
             List<(object Old, object New)> differentElements = null;
 
@@ -227,7 +257,7 @@ namespace WebPageWatcher.Web
             {
                 differentElements = BlackListCompare(oldDocument, newDocument);
             }
-            return new CompareResult(WebPage, differentElements, oldDocument, newDocument, WebPage.LatestContent, newContent);
+            return new CompareResult(WebPage, differentElements, oldDocument, newDocument, oldContent, newContent);
 
         }
 
@@ -366,7 +396,7 @@ namespace WebPageWatcher.Web
         }
 
         public CompareResult(WebPage webPage, bool same,
-       byte[] oldContent, byte[] newContent):this(webPage)
+       byte[] oldContent, byte[] newContent) : this(webPage)
         {
             Same = same;
             OldContent = oldContent;
@@ -389,6 +419,10 @@ namespace WebPageWatcher.Web
 
         public Diff[] GetDifferences()
         {
+            if(DifferentNodes==null)
+            {
+                return null;
+            }
             StringBuilder text1 = new StringBuilder();
             StringBuilder text2 = new StringBuilder();
             switch (Type)

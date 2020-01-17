@@ -194,5 +194,11 @@ namespace WebPageWatcher.UI
         }
 
         public override ListView List => lvw;
+
+        private void Button_Click_3(object sender, RoutedEventArgs e)
+        {
+            WebPageHistoryWindow win = new WebPageHistoryWindow(Item) { Owner = MainWindow };
+            win.Show();
+        }
     }
 }

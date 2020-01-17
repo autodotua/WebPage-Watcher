@@ -70,8 +70,8 @@ namespace WebPageWatcher.Data
                     fzDb.CreateTable(WebPageUpdatesTableName, "ID",
                        new SQLiteColumn(nameof(WebPageUpdate.WebPage_ID), SQLiteDataType.Integer),
                        new SQLiteColumn(nameof(WebPageUpdate.Time), SQLiteDataType.Text),
-                       new SQLiteColumn(nameof(WebPageUpdate.NewContent), SQLiteDataType.Blob)
-                       );    
+                       new SQLiteColumn(nameof(WebPageUpdate.Content), SQLiteDataType.Blob)
+                       );
                     fzDb.CreateTable(TriggersTableName, "ID",
                        new SQLiteColumn(nameof(Trigger.Name), SQLiteDataType.Text),
                        new SQLiteColumn(nameof(Trigger.Enabled), SQLiteDataType.Integer),
@@ -89,10 +89,10 @@ namespace WebPageWatcher.Data
             EnsureDb();
             return await db.QueryAsync<WebPage>($"select * from {WebPagesTableName}");
         }
-        public async static Task<IEnumerable<WebPageUpdate>> GetWebPageUpdatesAsync()
+        public async static Task<IEnumerable<WebPageUpdate>> GetWebPageUpdatesAsync(WebPage webPage)
         {
             EnsureDb();
-            return await db.QueryAsync<WebPageUpdate>($"select * from {WebPageUpdatesTableName}");
+            return await db.QueryAsync<WebPageUpdate>($"select * from {WebPageUpdatesTableName} where {nameof(WebPageUpdate.WebPage_ID)}={webPage.ID}");
         }
         public async static Task<IEnumerable<Trigger>> GetTriggersAsync()
         {
@@ -105,11 +105,17 @@ namespace WebPageWatcher.Data
             return await db.QueryAsync<Script>($"select * from {ScriptsTableName}");
         }
 
-        public async static Task<T> InsertAsync<T>() where T:class,IDbModel,new()
+        public async static Task<T> InsertAsync<T>() where T : class, IDbModel, new()
         {
             EnsureDb();
             var item = new T();
-            int id = await db.InsertAsync(item);
+            await db.InsertAsync(item);
+            return item;
+        }
+        public async static Task<T> InsertAsync<T>(T item) where T : class, IDbModel, new()
+        {
+            EnsureDb();
+            await db.InsertAsync(item);
             return item;
         }
 

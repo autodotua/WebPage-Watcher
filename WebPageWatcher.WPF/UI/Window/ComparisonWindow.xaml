@@ -8,9 +8,19 @@
         xmlns:local="clr-namespace:WebPageWatcher.UI"
     xmlns:avalonEdit="http://icsharpcode.net/sharpdevelop/avalonedit"
     mc:Ignorable="d"
+    Loaded="WindowBase_Loaded"
     WindowStartupLocation="CenterScreen"
-        Title="{DynamicResource win_compare}" Height="450" Width="600">
-        <Grid x:Name="grd" Margin="4">
+        Title="{DynamicResource win_compare}" Height="800" Width="1000">
+    <Grid x:Name="grd" Margin="4">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="8"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <local:PreviewBox x:Name="box1"/>
+        <local:PreviewBox x:Name="box2" Grid.Row="2"/>
+    </Grid>
+    <!--<Grid x:Name="grd" Margin="4">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="8"/>
@@ -31,6 +41,8 @@
         <WebBrowser x:Name="web2" Grid.Row="2" Grid.Column="2"/>
         <avalonEdit:TextEditor x:Name="code1" IsReadOnly="True" ShowLineNumbers="True" Grid.Row="4"/>
         <avalonEdit:TextEditor x:Name="code2" IsReadOnly="True" ShowLineNumbers="True" Grid.Row="4" Grid.Column="2"/>
-    </Grid>
+        <local:Dialog x:Name="dialog" Margin="-4" Grid.RowSpan="99" Grid.ColumnSpan="99"/>
+  
+        </Grid>-->
 
 </local:WindowBase>

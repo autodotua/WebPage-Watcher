@@ -135,5 +135,10 @@ namespace WebPageWatcher.UI
         {
             BackgroundTaskHelper.StopPlayingRing();
         }
+
+        private void RegardOneSideParseErrorAsNotSameCheckBox_Click(object sender, RoutedEventArgs e)
+        {
+            Config.Save();
+        }
     }
 }

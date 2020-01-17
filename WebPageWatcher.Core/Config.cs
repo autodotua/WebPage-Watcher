@@ -57,6 +57,6 @@ namespace WebPageWatcher
         public string CustomRingPath => CustomRingName==null?null: IOPath.Combine(DataPath, CustomRingName);
         [Newtonsoft.Json.JsonIgnore]
         public Encoding Encoding => Encoding.UTF8;
-
+        public bool RegardOneSideParseErrorAsNotSame { get; set; } = true;
     }
 }

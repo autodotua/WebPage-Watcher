@@ -1,5 +1,5 @@
-﻿//#define CONTINUING
-//#define DISABLED
+﻿//#define CONTINUING//忽略设置的对比间隔，每次循环进行一次对比
+#define DISABLED//禁止后台任务
 
 using System;
 using System.Collections.Generic;
@@ -117,8 +117,8 @@ namespace WebPageWatcher
                 byte[] content = await HtmlGetter.GetResponseBinaryAsync(webPage);
                 webPage.LatestContent = content;
                 webPage.LastCheckTime = now;
-
                 await UpdateWebPageDbAndUI(webPage, null);
+                await UpdateWebPageUpdateDb(webPage);
                 return false;
             }
             else
@@ -128,20 +128,15 @@ namespace WebPageWatcher
             {
 
                 CompareResult result = await ComparerBase.CompareAsync(webPage);
-                if (result.Same == false)
+                if (result.Same == false)//网页发生变化
                 {
                     WebPageChanged?.Invoke(null, new WebPageChangedEventArgs(webPage, result));
-                    //App.Current.Dispatcher.Invoke(() =>
-                    //{
-                    //    WebPageChangedNotificationWindow win = new WebPageChangedNotificationWindow(webPage, result);
-                    //    win.Closed += (p1, p2) => StopPlayRing();
-                    //    win.PopUp();
-                    //});
                     webPage.LastUpdateTime = now;
                     webPage.LatestContent = result.NewContent;
+                    await UpdateWebPageUpdateDb(webPage);
                 }
 
-                 webPage.LastCheckTime = now;
+                webPage.LastCheckTime = now;
                 await UpdateWebPageDbAndUI(webPage, result);
                 return result.Same == false;
             }
@@ -150,16 +145,13 @@ namespace WebPageWatcher
             async static Task UpdateWebPageDbAndUI(WebPage page, CompareResult result)
             {
                 await DbHelper.UpdateAsync(page);
-                //App.Current.Dispatcher.Invoke(() =>
-                //{
-                //    var mainWindow = App.Current.GetMainWindow();
-                //    if (mainWindow != null)
-                //    {
-                //        mainWindow.UpdateDisplay(page);
-                //    }
-                //});
                 PropertyUpdated?.Invoke(null, new PropertyUpdatedEventArgs(page));
+            }  
+            async static Task UpdateWebPageUpdateDb(WebPage webPage)
+            {
 
+                WebPageUpdate update = new WebPageUpdate(webPage.ID, webPage.LatestContent);
+                await DbHelper.InsertAsync(update);
             }
         }
         public static async Task CheckAndExcuteScriptAsync(Script script, bool force = false)
@@ -168,21 +160,12 @@ namespace WebPageWatcher
 
 #if (!CONTINUING || !DEBUG)
             if (script.LastExcuteTime + TimeSpan.FromMilliseconds(script.Interval) < now || force)
-
             {
 #endif
                 ScriptParser parser = new ScriptParser();
                 await parser.ParseAsync(script.Code);
                 script.LastExcuteTime = now;
                 await DbHelper.UpdateAsync(script);
-                //App.Current.Dispatcher.Invoke(() =>
-                //{
-                //    var mainWindow = App.Current.GetMainWindow();
-                //    if (mainWindow != null)
-                //    {
-                //        mainWindow.UpdateDisplay(script);
-                //    }
-                //});
                 PropertyUpdated?.Invoke(null, new PropertyUpdatedEventArgs(script));
 
 #if (!CONTINUING || !DEBUG)
@@ -204,22 +187,10 @@ namespace WebPageWatcher
             if (exceptionsCount[item] >= 5)
             {
                 exceptionsCount[item] = -1;//暂时先不记录，等关闭窗口以后继续累计
-                //App.Current.Dispatcher.Invoke(() =>
-                //{
-                //    BackgroundTaskErrorNotificationWindow win = new BackgroundTaskErrorNotificationWindow(item, exceptions[item]);
-                //    win.Ignore += (p1, p2) => exceptionsCount[item] = -1;
-                //    win.IgnoreOnce += (p1, p2) => exceptionsCount[item] = 0;
-                //    win.PopUp();
-                //});
-                ExceptionAlarm?.Invoke(null, new ExceptionAlarmEventArgs(item,exceptions[item],()=> exceptionsCount[item] = 0,()=> exceptionsCount[item] = -1));
+                ExceptionAlarm?.Invoke(null, new ExceptionAlarmEventArgs(item, exceptions[item], () => exceptionsCount[item] = 0, () => exceptionsCount[item] = -1));
             }
         }
-        public static uint SND_ASYNC = 0x0001;
-        public static uint SND_FILENAME = 0x00020000;
-        [DllImport("winmm.dll", CharSet = CharSet.Unicode)]
-        private static extern uint mciSendString(string lpstrCommand, string lpstrReturnString, uint uReturnLength, uint hWndCallback);
 
-     
         public static void Stop()
         {
             if (timer != null)
@@ -240,10 +211,10 @@ namespace WebPageWatcher
         }
 
         public IDbModel Item { get; }
-    }    
+    }
     public class ExceptionAlarmEventArgs : EventArgs
     {
-        public ExceptionAlarmEventArgs(IDbModel item,Exception exception,Action resetAction,Action disableAction)
+        public ExceptionAlarmEventArgs(IDbModel item, Exception exception, Action resetAction, Action disableAction)
         {
             Item = item;
             Exception = exception;
@@ -259,7 +230,7 @@ namespace WebPageWatcher
 
     public class WebPageChangedEventArgs : EventArgs
     {
-        public WebPageChangedEventArgs(WebPage webPage,CompareResult compareResult)
+        public WebPageChangedEventArgs(WebPage webPage, CompareResult compareResult)
         {
             WebPage = webPage;
             CompareResult = compareResult;

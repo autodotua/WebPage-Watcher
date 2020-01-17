@@ -15,41 +15,21 @@ namespace WebPageWatcher.UI
     /// </summary>
     public partial class PreviewWindow : WindowBase
     {
-        public PreviewWindow(WebPage webPage) : this(webPage.LatestContent.ToEncodedString(), webPage.Response_Type)
+        public PreviewWindow(WebPage webPage) : this()
         {
+            box.Load(webPage);
         }
-        public PreviewWindow(string text, ResponseType type)
+        public PreviewWindow(string text, ResponseType type):this()
+        {
+            box.Load(text,type);
+        }
+        public PreviewWindow()
         {
             InitializeComponent();
-            switch (type)
-            {
-                case ResponseType.Html:
-                    web.NavigateToString(text);
+        }
 
-                    web.Navigated += (p1, p2) => WebBrowserHelper.SetSilent(web, true);
-
-                    code.SyntaxHighlighting = HighlightingManager.Instance.GetDefinitionByExtension(".html");
-
-                    code.Text = text;
-                    break;
-                case ResponseType.Text:
-                    goto a;
-                case ResponseType.Json:
-
-                    code.SyntaxHighlighting = HighlightingManager.Instance.GetDefinitionByExtension(".json");
-
-                a:
-                    grd.Children.Remove(web);
-                    grd.ColumnDefinitions.RemoveAt(0);
-                    grd.ColumnDefinitions.RemoveAt(0);
-
-
-                    code.Text = text;
-
-                    break;
-                default:
-                    throw new NotSupportedException();
-            }
+        private void WindowBase_Loaded(object sender, System.Windows.RoutedEventArgs e)
+        {
         }
     }
 }

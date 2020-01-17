@@ -32,6 +32,7 @@ xmlns:system="clr-namespace:System;assembly=mscorlib">
     <system:String x:Key="button_Excute" >Excute</system:String>
     <system:String x:Key="label_forceGet" >Get and view immediately:</system:String>
     <system:String x:Key="label_forceCompare" >Compare immediately:</system:String>
+    <system:String x:Key="label_compare" >Compare:</system:String>
 
     <system:String x:Key="button_save" >Save</system:String>
     <system:String x:Key="button_reset" >Reset</system:String>
@@ -132,6 +133,9 @@ xmlns:system="clr-namespace:System;assembly=mscorlib">
     <system:String x:Key="set_default">Default</system:String>
     <system:String x:Key="set_browse">Browse..</system:String>
     <system:String x:Key="set_play">Play</system:String>
+    <system:String x:Key="set_compare">Compare</system:String>
+    <system:String x:Key="set_regardOneSideParseErrorAsNotSame">Regard One Side Parse Error As Not Same</system:String>
+    <system:String x:Key="set_regardOneSideParseErrorAsNotSameHint">When parsing new content error or old content error, think they are different rather than throw exceptions</system:String>
 
     <system:String x:Key="dialog_ok">OK</system:String>
     <system:String x:Key="dialog_yes">Yes</system:String>
@@ -173,5 +177,11 @@ xmlns:system="clr-namespace:System;assembly=mscorlib">
     <system:String x:Key="tab_webpage">Web Page</system:String>
     <system:String x:Key="tab_script">Script</system:String>
     <system:String x:Key="tab_trigger">Trigger</system:String>
-    
+    <system:String x:Key="label_history">History:</system:String>
+    <system:String x:Key="error_cannotGetDiff">Can't Get Differences, maybe Paring is failed</system:String>
+
+    <system:String x:Key="label_updateTime">Update Time:</system:String>
+    <system:String x:Key="error_noHistory">There's no histories</system:String>
+
+
 </ResourceDictionary>

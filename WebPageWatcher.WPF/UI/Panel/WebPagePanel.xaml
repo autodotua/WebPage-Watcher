@@ -33,7 +33,7 @@
                 <ListView.View>
                     <GridView>
                         <GridViewColumn Header="{DynamicResource list_title}" Width="120" DisplayMemberBinding="{Binding Name}"/>
-                        <GridViewColumn Header="{DynamicResource list_url}"  Width="160" DisplayMemberBinding="{Binding Url}"/>
+                        <GridViewColumn Header="{DynamicResource list_url}"  Width="200" DisplayMemberBinding="{Binding Url}"/>
                     </GridView>
                 </ListView.View>
             </ListView>
@@ -60,6 +60,8 @@
   materialDesign:ColorZoneAssist.Mode="Accent">
                         <Grid>
                             <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="8"/>
                                 <RowDefinition Height="Auto"/>
                                 <RowDefinition Height="8"/>
                                 <RowDefinition Height="Auto"/>
@@ -99,6 +101,11 @@
                    HorizontalAlignment="Right" Text="{DynamicResource label_forceGet}"/>
                             <Button x:Name="btnGet" Grid.Row="8" Grid.Column="2"  VerticalAlignment="Center" HorizontalAlignment="Right"
                                 Content="{DynamicResource button_view}" Click="ForceGetButton_Click"/>
+                         
+                            <TextBlock Grid.Row="10" VerticalAlignment="Center" 
+                   HorizontalAlignment="Right" Text="{DynamicResource label_history}"/>
+                            <Button  Grid.Row="10" Grid.Column="2"  VerticalAlignment="Center" HorizontalAlignment="Right"
+                                Content="{DynamicResource button_view}" Click="Button_Click_3"/>
 
                         </Grid>
 

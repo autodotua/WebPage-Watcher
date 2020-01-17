@@ -100,7 +100,7 @@ namespace WebPageWatcher.UI
                 result = false;
             }
 
-            dialog.CurrentSession.Close();
+            dialog.CurrentSession?.Close();
         }
     }
 

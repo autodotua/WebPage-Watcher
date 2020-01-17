@@ -9,16 +9,7 @@
     xmlns:avalonEdit="http://icsharpcode.net/sharpdevelop/avalonedit"
     mc:Ignorable="d"
     WindowStartupLocation="CenterOwner"
-        Title="{DynamicResource win_preview}" Height="450" Width="600">
-    <Grid x:Name="grd" Margin="4">
-        <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="8"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
-        <GridSplitter  Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
-        <WebBrowser x:Name="web"  Grid.Column="0"/>
-        <avalonEdit:TextEditor x:Name="code" IsReadOnly="True" ShowLineNumbers="True" Grid.Column="2"/>
-    </Grid>
-
+    Loaded="WindowBase_Loaded"
+        Title="{DynamicResource win_preview}" Height=" 600" Width="1000">
+    <local:PreviewBox x:Name="box"/>
 </local:WindowBase>

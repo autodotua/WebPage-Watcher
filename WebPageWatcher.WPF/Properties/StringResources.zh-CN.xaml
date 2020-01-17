@@ -32,6 +32,7 @@
     <system:String x:Key="button_view" >查看</system:String>
     <system:String x:Key="label_forceGet" >立即获取查看：</system:String>
     <system:String x:Key="label_forceCompare" >立即进行对比：</system:String>
+    <system:String x:Key="label_compare" >对比：</system:String>
 
     <system:String x:Key="button_save" >保存</system:String>
     <system:String x:Key="button_reset" >重置</system:String>
@@ -130,7 +131,11 @@
     <system:String x:Key="set_default">默认</system:String>
     <system:String x:Key="set_browse">浏览</system:String>
     <system:String x:Key="set_play">试听</system:String>
-    
+    <system:String x:Key="set_compare">对比</system:String>
+    <system:String x:Key="set_regardOneSideParseErrorAsNotSame">视单方解析错误为不同</system:String>
+    <system:String x:Key="set_regardOneSideParseErrorAsNotSameHint">当对比时新旧内容有一方解析错误时，认为内容不同，而不是报错</system:String>
+
+
     <system:String x:Key="dialog_ok">确定</system:String>
     <system:String x:Key="dialog_yes">是</system:String>
     <system:String x:Key="dialog_no">否</system:String>
@@ -170,6 +175,10 @@
     <system:String x:Key="tab_webpage">网页</system:String>
     <system:String x:Key="tab_script">脚本</system:String>
     <system:String x:Key="tab_trigger">触发器</system:String>
+    <system:String x:Key="label_history">历史记录：</system:String>
+    <system:String x:Key="error_cannotGetDiff">无法获取差异，可能是解析失败</system:String>
+    <system:String x:Key="label_updateTime">更新时间：</system:String>
+    <system:String x:Key="error_noHistory">没有历史记录</system:String>
 
 
 </ResourceDictionary>
