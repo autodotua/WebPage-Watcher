@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace WebPageWatcher.Data
 {
-    public class DbHelper
+    public static class DbHelper
     {
         public static string DbPath => Path.Combine(Config.DataPath, "db.db");
         public const string WebPagesTableName = "WebPages";
@@ -40,7 +40,7 @@ namespace WebPageWatcher.Data
                        new SQLiteColumn(nameof(WebPage.LastUpdateTime), SQLiteDataType.Text),
                        new SQLiteColumn(nameof(WebPage.LastCheckTime), SQLiteDataType.Text),
                        new SQLiteColumn(nameof(WebPage.Interval), SQLiteDataType.Integer),
-                       new SQLiteColumn(nameof(WebPage.LatestContent), SQLiteDataType.Blob),
+                       //new SQLiteColumn(nameof(WebPage.LatestContent), SQLiteDataType.Blob),
                        new SQLiteColumn(nameof(WebPage.BlackWhiteListJson), SQLiteDataType.Text),
                        new SQLiteColumn(nameof(WebPage.BlackWhiteListMode), SQLiteDataType.Integer),
                        new SQLiteColumn(nameof(WebPage.InnerTextOnly), SQLiteDataType.Integer),
@@ -93,6 +93,35 @@ namespace WebPageWatcher.Data
         {
             EnsureDb();
             return await db.QueryAsync<WebPageUpdate>($"select * from {WebPageUpdatesTableName} where {nameof(WebPageUpdate.WebPage_ID)}={webPage.ID}");
+        }
+        public static async Task<byte[]> GetLatestContentAsync(this WebPage webPage)
+        {
+            WebPageUpdate update = await GetLatestUpdateAsync(webPage);
+            if (update == null || update.Content == null || update.Content.Length == 0)
+            {
+                return null;
+            }
+            return update.Content;
+        }
+        public static byte[] GetLatestContent(this WebPage webPage)
+        {
+            WebPageUpdate update = GetLatestUpdate(webPage);
+            if (update == null || update.Content == null || update.Content.Length == 0)
+            {
+                return null;
+            }
+            return update.Content;
+        }
+
+        public static WebPageUpdate GetLatestUpdate(WebPage webPage)
+        {
+            EnsureDb();
+            return db.QueryFirstOrDefault<WebPageUpdate>($"select * from {WebPageUpdatesTableName} where {nameof(WebPageUpdate.WebPage_ID)}={webPage.ID} order by ID desc limit 1");
+        }
+        public async static Task<WebPageUpdate> GetLatestUpdateAsync(WebPage webPage)
+        {
+            EnsureDb();
+            return await db.QueryFirstOrDefaultAsync<WebPageUpdate>($"select * from {WebPageUpdatesTableName} where {nameof(WebPageUpdate.WebPage_ID)}={webPage.ID} order by ID desc limit 1");
         }
         public async static Task<IEnumerable<Trigger>> GetTriggersAsync()
         {

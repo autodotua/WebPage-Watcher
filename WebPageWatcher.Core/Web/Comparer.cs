@@ -8,6 +8,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using WebPageWatcher.Data;
+using static WebPageWatcher.Data.DbHelper;
 
 namespace WebPageWatcher.Web
 {
@@ -16,8 +17,8 @@ namespace WebPageWatcher.Web
         protected static readonly Regex rWhiteSpace = new Regex(@"\s+", RegexOptions.Compiled);
 
         public WebPage WebPage { get; protected set; }
-        public abstract CompareResult CompareWith(byte[] oldContent,byte[] newContent);
- 
+        public abstract CompareResult CompareWith(byte[] oldContent, byte[] newContent);
+
         public async static Task<CompareResult> CompareAsync(WebPage webPage)
         {
             byte[] newContent;
@@ -29,11 +30,11 @@ namespace WebPageWatcher.Web
             {
                 throw new Exception("获取最新的内容失败", ex);
             }
-            return await CompareAsync(webPage,webPage.LatestContent, newContent);
+            return await CompareAsync(webPage, webPage.GetLatestContent(), newContent);
         }
-        public async static Task<CompareResult> CompareAsync(WebPage webPage,byte[] oldContent,byte[] newContent)
+        public async static Task<CompareResult> CompareAsync(WebPage webPage, byte[] oldContent, byte[] newContent)
         {
-      
+
             CompareResult result = null;
             await Task.Run(() =>
              {
@@ -47,7 +48,7 @@ namespace WebPageWatcher.Web
                  };
                  try
                  {
-                     result = comparer.CompareWith(oldContent,newContent);
+                     result = comparer.CompareWith(oldContent, newContent);
                  }
                  catch (Exception ex)
                  {
@@ -65,7 +66,7 @@ namespace WebPageWatcher.Web
             Exception newEx = null;
             try
             {
-                oldDocument = getDoc(WebPage.LatestContent.ToEncodedString());
+                oldDocument = getDoc(oldContent.ToEncodedString());
             }
             catch (Exception ex)
             {
@@ -88,7 +89,7 @@ namespace WebPageWatcher.Web
                 }
                 else
                 {
-                    return new CompareResult(WebPage, false, WebPage.LatestContent, newContent);
+                    return new CompareResult(WebPage, false, oldContent, newContent);
                 }
             }
             else if (errorCount == 2)
@@ -141,13 +142,13 @@ namespace WebPageWatcher.Web
 
         public override CompareResult CompareWith(byte[] oldContent, byte[] newContent)
         {
-            object temp = GetDocument(oldContent,newContent, p => JToken.Parse(p));
+            object temp = GetDocument(oldContent, newContent, p => JToken.Parse(p));
             if (temp is CompareResult)
             {
                 return temp as CompareResult;
             }
 
-            JToken oldDocument = (((JToken,JToken))temp).Item1;
+            JToken oldDocument = (((JToken, JToken))temp).Item1;
             JToken newDocument = (((JToken, JToken))temp).Item2;
 
             List<(object Old, object New)> differentElements;
@@ -234,7 +235,8 @@ namespace WebPageWatcher.Web
         public override CompareResult CompareWith(byte[] oldContent, byte[] newContent)
         {
 
-            object temp = GetDocument(oldContent,newContent, p => {
+            object temp = GetDocument(oldContent, newContent, p =>
+            {
                 HtmlDocument doc = new HtmlDocument();
                 doc.LoadHtml(p);
                 return doc;
@@ -419,7 +421,7 @@ namespace WebPageWatcher.Web
 
         public Diff[] GetDifferences()
         {
-            if(DifferentNodes==null)
+            if (DifferentNodes == null)
             {
                 return null;
             }

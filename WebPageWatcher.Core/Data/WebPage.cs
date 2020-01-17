@@ -3,6 +3,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 using WebPageWatcher.Web;
 
 namespace WebPageWatcher.Data
@@ -23,7 +24,6 @@ namespace WebPageWatcher.Data
         public DateTime LastUpdateTime { get; set; } = DateTime.MinValue;
         public DateTime LastCheckTime { get; set; } = DateTime.MinValue;
         public int Interval { get; set; } = 1000 * 60 * 15;
-        public byte[] LatestContent { get; set; }
 
 
 

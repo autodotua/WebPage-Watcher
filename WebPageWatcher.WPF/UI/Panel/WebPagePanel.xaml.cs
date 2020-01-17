@@ -49,7 +49,6 @@ namespace WebPageWatcher.UI
                 {
                     Item.LastCheckTime = webPage.LastCheckTime;
                     Item.LastUpdateTime = webPage.LastUpdateTime;
-                    Item.LatestContent = webPage.LatestContent;
                     Notify(nameof(Item));
                 }
             }
@@ -102,12 +101,13 @@ namespace WebPageWatcher.UI
         private async void ViewLatestButton_Click(object sender, RoutedEventArgs e)
         {
             var dialog = MainWindow.dialog;
-            if (Item.LatestContent == null)
+            byte[] content =await Item.GetLatestContentAsync();
+            if (content == null)
             {
                 await dialog.ShowErrorAsync(FindResource("error_notGetYet") as string);
                 return;
             }
-            PreviewWindow win = new PreviewWindow(Item) { Owner = Window.GetWindow(this) };
+            PreviewWindow win = new PreviewWindow(content.ToEncodedString(), Item.Response_Type) { Owner = Window.GetWindow(this) };
             win.ShowDialog();
         }
 

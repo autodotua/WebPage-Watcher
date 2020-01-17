@@ -112,13 +112,13 @@ namespace WebPageWatcher
         public static async Task<bool> CheckAndExcuteWebPageAsync(WebPage webPage, bool force = false)
         {
             DateTime now = DateTime.Now;
-            if (webPage.LatestContent == null || webPage.LatestContent.Length == 0)
+            byte[] latestContent =await webPage.GetLatestContentAsync();
+            if (latestContent == null)
             {
                 byte[] content = await HtmlGetter.GetResponseBinaryAsync(webPage);
-                webPage.LatestContent = content;
                 webPage.LastCheckTime = now;
                 await UpdateWebPageDbAndUI(webPage, null);
-                await UpdateWebPageUpdateDb(webPage);
+                await UpdateWebPageUpdateDb(webPage,content);
                 return false;
             }
             else
@@ -132,8 +132,7 @@ namespace WebPageWatcher
                 {
                     WebPageChanged?.Invoke(null, new WebPageChangedEventArgs(webPage, result));
                     webPage.LastUpdateTime = now;
-                    webPage.LatestContent = result.NewContent;
-                    await UpdateWebPageUpdateDb(webPage);
+                    await UpdateWebPageUpdateDb(webPage,result.NewContent);
                 }
 
                 webPage.LastCheckTime = now;
@@ -147,10 +146,10 @@ namespace WebPageWatcher
                 await DbHelper.UpdateAsync(page);
                 PropertyUpdated?.Invoke(null, new PropertyUpdatedEventArgs(page));
             }  
-            async static Task UpdateWebPageUpdateDb(WebPage webPage)
+            async static Task UpdateWebPageUpdateDb(WebPage webPage,byte[] content)
             {
 
-                WebPageUpdate update = new WebPageUpdate(webPage.ID, webPage.LatestContent);
+                WebPageUpdate update = new WebPageUpdate(webPage.ID, content);
                 await DbHelper.InsertAsync(update);
             }
         }

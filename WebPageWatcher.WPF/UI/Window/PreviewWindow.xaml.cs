@@ -15,10 +15,7 @@ namespace WebPageWatcher.UI
     /// </summary>
     public partial class PreviewWindow : WindowBase
     {
-        public PreviewWindow(WebPage webPage) : this()
-        {
-            box.Load(webPage);
-        }
+
         public PreviewWindow(string text, ResponseType type):this()
         {
             box.Load(text,type);

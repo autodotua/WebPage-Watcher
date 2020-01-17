@@ -49,7 +49,7 @@
                                 Content="{DynamicResource button_view}" Click="btnCompare_Click"/>
             <local:PreviewBox x:Name="pre" Grid.Row="4" Grid.ColumnSpan="99"/>
         </Grid>
-        <local:Dialog x:Name="dialog" Margin="-4"/>
+        <local:Dialog x:Name="dialog" Grid.RowSpan="99" Grid.ColumnSpan="99" Margin="-4"/>
     </Grid>
 
 </local:WindowBase>

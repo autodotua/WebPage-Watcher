@@ -30,10 +30,6 @@ namespace WebPageWatcher.UI
             InitializeComponent();
 
         }
-        public void Load(WebPage webPage)
-        {
-            Load(webPage.LatestContent.ToEncodedString(), webPage.Response_Type);
-        }
         public void Load(string text, ResponseType type)
         {
             switch (type)
