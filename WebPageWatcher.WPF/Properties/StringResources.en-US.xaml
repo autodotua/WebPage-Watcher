@@ -29,6 +29,7 @@ xmlns:system="clr-namespace:System;assembly=mscorlib">
 
     <system:String x:Key="button_setting" >Set..</system:String>
     <system:String x:Key="button_view" >View..</system:String>
+    <system:String x:Key="button_select" >Choose..</system:String>
     <system:String x:Key="button_Excute" >Excute</system:String>
     <system:String x:Key="label_forceGet" >Get and view immediately:</system:String>
     <system:String x:Key="label_forceCompare" >Compare immediately:</system:String>
@@ -52,6 +53,7 @@ xmlns:system="clr-namespace:System;assembly=mscorlib">
     <system:String x:Key="win_cookie" >Cookie settings</system:String>
     <system:String x:Key="win_preview" >Preview</system:String>
     <system:String x:Key="win_setting" >Settings</system:String>
+    <system:String x:Key="win_history" >History</system:String>
 
     <system:String x:Key="time_hint" >Select interval..</system:String>
     
@@ -105,7 +107,7 @@ xmlns:system="clr-namespace:System;assembly=mscorlib">
     <system:String x:Key="error_notGetYet">Not get webpage yet</system:String>
     <system:String x:Key="error_textTypeNotSupport">Text type not support black or white list</system:String>
     <system:String x:Key="error_binaryTypeNotSupport">Binary type not support black or white list</system:String>
-    <system:String x:Key="error_forceCompare">Compare Failed</system:String>
+    <system:String x:Key="error_compareFailed">Compare Failed</system:String>
     <system:String x:Key="error_forceGet">Get Failed</system:String>
     <system:String x:Key="error_exucteFailed">Excute failed</system:String>
     <system:String x:Key="info_excuteSucceed">Excute Succeed</system:String>

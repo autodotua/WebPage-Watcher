@@ -72,8 +72,16 @@ namespace WebPageWatcher.UI
                     selectionMode = 2;
                     lbx.SelectedItem = lastItem;
                     selectionMode = 0;
-
-                    var compareResult = await ComparerBase.CompareAsync(WebPage, Update.Content, update1.Content);
+                    CompareResult compareResult;
+                    try
+                    {
+                        compareResult = await ComparerBase.CompareAsync(WebPage, Update.Content, update1.Content);
+                    }
+                    catch (Exception ex)
+                    {
+                        await dialog.ShowErrorAsync(ex.ToString(), FindResource("error_compareFailed") as string);
+                        return;
+                    }
                     ComparisonWindow win = new ComparisonWindow(compareResult) { Owner = this };
                     win.ShowDialog();
 

@@ -142,7 +142,7 @@ namespace WebPageWatcher.UI
             catch (Exception ex)
             {
                 MainWindow.progressDialog.Close();
-                await MainWindow.dialog.ShowErrorAsync(ex.ToString(), FindResource("error_forceCompare") as string);
+                await MainWindow.dialog.ShowErrorAsync(ex.ToString(), FindResource("error_compareFailed") as string);
             }
         }
 

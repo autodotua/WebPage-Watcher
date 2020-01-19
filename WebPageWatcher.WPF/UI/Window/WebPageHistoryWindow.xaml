@@ -11,7 +11,7 @@
     mc:Ignorable="d"
     Loaded="WindowBase_Loaded"
     WindowStartupLocation="CenterOwner"
-        Title="{DynamicResource win_preview}" Height="450" Width="600">
+        Title="{DynamicResource win_history}" Height="450" Width="600">
     <Grid x:Name="grd" Margin="4">
         <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
@@ -46,7 +46,7 @@
             <TextBlock Grid.Row="2" VerticalAlignment="Center" 
                    HorizontalAlignment="Right" Text="{DynamicResource label_compare}"/>
             <Button x:Name="btnCompare" Grid.Row="2" Grid.Column="2"  VerticalAlignment="Center" HorizontalAlignment="Right"
-                                Content="{DynamicResource button_view}" Click="btnCompare_Click"/>
+                                Content="{DynamicResource button_select}" Click="btnCompare_Click"/>
             <local:PreviewBox x:Name="pre" Grid.Row="4" Grid.ColumnSpan="99"/>
         </Grid>
         <local:Dialog x:Name="dialog" Grid.RowSpan="99" Grid.ColumnSpan="99" Margin="-4"/>
