@@ -1,5 +1,5 @@
 ﻿//#define CONTINUING//忽略设置的对比间隔，每次循环进行一次对比
-#define DISABLED//禁止后台任务
+//#define DISABLED//禁止后台任务
 
 using System;
 using System.Collections.Generic;
@@ -19,7 +19,7 @@ namespace WebPageWatcher
     public static class BackgroundTask
     {
         private static Timer timer;
-
+        #region Data
         private static ExtendedObservableCollection<WebPage> webPages;
         public static ExtendedObservableCollection<WebPage> WebPages
         {
@@ -30,7 +30,7 @@ namespace WebPageWatcher
                 WebPagesChanged?.Invoke(null, WebPages);
             }
         }
-        public static EventHandler<ExtendedObservableCollection<WebPage>> WebPagesChanged;
+        public static event EventHandler<ExtendedObservableCollection<WebPage>> WebPagesChanged;
 
         private static ExtendedObservableCollection<Script> scripts;
         public static ExtendedObservableCollection<Script> Scripts
@@ -42,7 +42,7 @@ namespace WebPageWatcher
                 ScriptsChanged?.Invoke(null, Scripts);
             }
         }
-        public static EventHandler<ExtendedObservableCollection<Script>> ScriptsChanged;
+        public static event EventHandler<ExtendedObservableCollection<Script>> ScriptsChanged;
 
         private static ExtendedObservableCollection<Trigger> triggers;
         public static ExtendedObservableCollection<Trigger> Triggers
@@ -60,25 +60,27 @@ namespace WebPageWatcher
         private static ExtendedDictionary<IDbModel, int> exceptionsCount = new ExtendedDictionary<IDbModel, int>();
         private static ExtendedDictionary<IDbModel, Exception> exceptions = new ExtendedDictionary<IDbModel, Exception>();
 
-
-        public static async Task Load()
+        #endregion
+        public static async Task LoadAsync()
         {
-
-            if (timer != null)
-            {
-                timer.Dispose();
-            }
-
             WebPages = new ExtendedObservableCollection<WebPage>(await DbHelper.GetWebPagesAsync());
             Scripts = new ExtendedObservableCollection<Script>(await DbHelper.GetScriptsAsync());
             Triggers = new ExtendedObservableCollection<Trigger>(await DbHelper.GetTriggersAsync());
+        }
+
+        public static void Start()
+        {
+            if (timer == null)
+            {
+                timer = new Timer(new TimerCallback(p => Do()));
+            }
 #if (DISABLED && DEBUG)
             return;
 #endif
 #if (CONTINUING && DEBUG)
-            timer = new Timer(new TimerCallback(async p => await Do()), null, 0, 1000 * 10);
+            timer .Change( 0, 1000 * 10);
 #else
-            timer = new Timer(new TimerCallback(p => Do()), null, 0, 1000 * 60);
+            timer.Change(0, 1000 * 60);
 #endif
         }
 
@@ -194,7 +196,7 @@ namespace WebPageWatcher
         {
             if (timer != null)
             {
-                timer.Dispose();
+                timer.Change(Timeout.Infinite, Timeout.Infinite);
             }
         }
         public static event EventHandler<WebPageChangedEventArgs> WebPageChanged;

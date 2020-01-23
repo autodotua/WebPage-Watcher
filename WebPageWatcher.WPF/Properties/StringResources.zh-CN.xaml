@@ -60,6 +60,10 @@
     <system:String x:Key="menu_id" >添加ID匹配</system:String>
     <system:String x:Key="menu_xpath" >添加XPath匹配</system:String>
     <system:String x:Key="menu_path" >添加路径匹配</system:String>
+    <system:String x:Key="menu_history" >所有历史记录</system:String>
+    <system:String x:Key="menu_task" >任务</system:String>
+    <system:String x:Key="menu_backgroundTask" >后台任务总开关</system:String>
+
 
     <system:String x:Key="json_object" >对象</system:String>
     <system:String x:Key="json_array" >集合</system:String>
@@ -77,6 +81,8 @@
     <system:String x:Key="list_url" >网址</system:String>
     <system:String x:Key="list_lastCheckTime" >上次检查时间</system:String>
     <system:String x:Key="list_lastUpdateTime" >上次更新时间</system:String>
+    <system:String x:Key="list_time" >更新时间</system:String>
+    <system:String x:Key="list_webPage" >网页</system:String>
 
     <system:String x:Key="list_Key" >键</system:String>
     <system:String x:Key="list_Value" >值</system:String>

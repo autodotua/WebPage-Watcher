@@ -71,14 +71,14 @@
     <Reference Include="Dapper.Contrib, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Dapper.Contrib.2.0.30\lib\net461\Dapper.Contrib.dll</HintPath>
     </Reference>
-    <Reference Include="FzDesktopLib">
-      <HintPath>..\..\模块\Release\AnyCPU\FzDesktopLib.dll</HintPath>
+    <Reference Include="FzDesktopLib.Windows">
+      <HintPath>..\..\模块\Release\AnyCPU\FzDesktopLib.Windows.dll</HintPath>
     </Reference>
     <Reference Include="FzStandardLib">
       <HintPath>..\..\模块\Release\AnyCPU\netstandard2.0\FzStandardLib.dll</HintPath>
     </Reference>
-    <Reference Include="FzWpfControlLib">
-      <HintPath>..\..\模块\Release\AnyCPU\FzWpfControlLib.dll</HintPath>
+    <Reference Include="FzUILib.WPF">
+      <HintPath>..\..\模块\Release\AnyCPU\FzUILib.WPF.dll</HintPath>
     </Reference>
     <Reference Include="HtmlAgilityPack, Version=1.11.17.0, Culture=neutral, PublicKeyToken=bd319b19eaf3b43a, processorArchitecture=MSIL">
       <HintPath>..\packages\HtmlAgilityPack.1.11.17\lib\Net45\HtmlAgilityPack.dll</HintPath>

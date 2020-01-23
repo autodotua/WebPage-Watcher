@@ -1,5 +1,5 @@
 ﻿using FzLib.Basic.Collection;
-using FzLib.Control.Extension;
+using FzLib.UI.Extension;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -38,7 +38,7 @@ namespace WebPageWatcher.UI
             Items.Add(webPage);
             lvw.SelectedItem = webPage;
         }
-    
+
         public override void UpdateDisplay(WebPage webPage3)
         {
             WebPage webPage = webPage3 as WebPage;
@@ -57,7 +57,7 @@ namespace WebPageWatcher.UI
         public override ExtendedObservableCollection<WebPage> Items => BackgroundTask.WebPages;
 
 
-     
+
 
         private void CookieButton_Click(object sender, RoutedEventArgs e)
         {
@@ -101,7 +101,7 @@ namespace WebPageWatcher.UI
         private async void ViewLatestButton_Click(object sender, RoutedEventArgs e)
         {
             var dialog = MainWindow.dialog;
-            byte[] content =await Item.GetLatestContentAsync();
+            byte[] content = await Item.GetLatestContentAsync();
             if (content == null)
             {
                 await dialog.ShowErrorAsync(FindResource("error_notGetYet") as string);
@@ -166,7 +166,7 @@ namespace WebPageWatcher.UI
                         {
                             defaultName = url.Substring(index);
                         }
-                        string path = FzLib.Control.Dialog.FileSystemDialog.GetSaveFile(null, false, false, defaultName);
+                        string path = FzLib.UI.Dialog.FileSystemDialog.GetSaveFile(null, false, false, defaultName);
                         if (path != null)
                         {
                             File.WriteAllBytes(path, content);
@@ -197,7 +197,7 @@ namespace WebPageWatcher.UI
 
         private void Button_Click_3(object sender, RoutedEventArgs e)
         {
-            WebPageHistoryWindow win = new WebPageHistoryWindow(Item) { Owner = MainWindow };
+            WebPageHistoryWindow win = new WebPageHistoryWindow(Item);
             win.Show();
         }
     }

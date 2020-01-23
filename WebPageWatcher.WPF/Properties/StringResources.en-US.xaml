@@ -60,6 +60,9 @@ xmlns:system="clr-namespace:System;assembly=mscorlib">
     <system:String x:Key="menu_id" >Add ID match</system:String>
     <system:String x:Key="menu_xpath" >Add XPath match</system:String>
     <system:String x:Key="menu_path" >Add Path match</system:String>
+    <system:String x:Key="menu_history" >All hisotries</system:String>
+    <system:String x:Key="menu_task" >Task</system:String>
+    <system:String x:Key="menu_backgroundTask" >Background task</system:String>
 
 
     <system:String x:Key="json_object" >Object</system:String>
@@ -77,6 +80,8 @@ xmlns:system="clr-namespace:System;assembly=mscorlib">
     <system:String x:Key="list_url" >Url</system:String>
     <system:String x:Key="list_lastCheckTime" >Last check time</system:String>
     <system:String x:Key="list_lastUpdateTime" >Last update time</system:String>
+    <system:String x:Key="list_time" >Update time</system:String>
+    <system:String x:Key="list_webPage" >Web page</system:String>
 
 
     <system:String x:Key="list_Key" >Key</system:String>

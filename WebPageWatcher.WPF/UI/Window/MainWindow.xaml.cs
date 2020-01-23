@@ -5,6 +5,7 @@ using System.Windows.Documents;
 using WebPageWatcher.Data;
 using WebPageWatcher.Web;
 using System;
+using System.Windows.Input;
 
 namespace WebPageWatcher.UI
 {
@@ -106,32 +107,36 @@ cp a4";
         }
 
 
-        private void win_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
 
         }
 
-        private void MenuItem_Click(object sender, RoutedEventArgs e)
+        private void SettingMenuItem_Click(object sender, RoutedEventArgs e)
         {
             SettingWindow win = new SettingWindow() { Owner = this };
             win.ShowDialog();
         }
 
-        private void MenuItem_Click_1(object sender, RoutedEventArgs e)
+        private void ShutdownMenuItem_Click(object sender, RoutedEventArgs e)
         {
             BackgroundTask.Stop();
             Application.Current.Shutdown();
         }
 
-        private void MenuItem_Click_2(object sender, RoutedEventArgs e)
+        private void ScriptHelperMenuItem_Click(object sender, RoutedEventArgs e)
         {
             new ScriptHelpWindow() { Owner = this }.ShowDialog();
         }
 
-        private async void MenuItem_Click_3(object sender, RoutedEventArgs e)
+        private async void AboutMenuItem_Click(object sender, RoutedEventArgs e)
         {
             await aboutDialog.Show();
         }
-    }
 
+        private void AllHistoryMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            new WebPageHistoryWindow().Show();
+        }
+    }
 }

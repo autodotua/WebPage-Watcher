@@ -2,12 +2,14 @@
 using ICSharpCode.AvalonEdit.Highlighting;
 using Newtonsoft.Json.Linq;
 using System;
+using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using System.Windows.Controls;
+using System.Windows.Data;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using WebPageWatcher.Data;
@@ -20,57 +22,73 @@ namespace WebPageWatcher.UI
     /// </summary>
     public partial class WebPageHistoryWindow : WindowBase
     {
-        public WebPageHistoryWindow(WebPage webPage)
+        public WebPageHistoryWindow(WebPage webPage) : this()
+        {
+            WebPage = webPage;
+        }
+        public WebPageHistoryWindow()
         {
             InitializeComponent();
 
-            WebPage = webPage;
         }
 
         public WebPage WebPage { get; }
-        public WebPageUpdate Update => lbx.SelectedItem == null ? null : (lbx.SelectedItem as ListBoxItem).Tag as WebPageUpdate;
+        public WebPageUpdate update;
+        public WebPageUpdate Update
+        {
+            get => update;
+            set
+            {
+                SetValueAndNotify(ref update, value, nameof(Update));
+                ListViewSelectionChanged();
+            }
+        }
 
         private async Task Initialize()
         {
-            WebPageUpdate[] datas = (await DbHelper.GetWebPageUpdatesAsync(WebPage)).ToArray();
+            WebPageUpdate[] datas;
+            if (WebPage == null)
+            {
+                datas = (await DbHelper.GetWebPageUpdatesAsync()).ToArray();
+            }
+            else
+            {
+                datas = (await DbHelper.GetWebPageUpdatesAsync(WebPage)).ToArray();
+                (lvw.View as GridView).Columns.RemoveAt(0);
+            }
             if (datas.Length == 0)
             {
                 await dialog.ShowErrorAsync(FindResource("error_noHistory") as string);
                 Close();
                 return;
             }
-            foreach (var item in datas)
-            {
-                ListBoxItem lbxItem = new ListBoxItem
-                {
-                    Content = item.Time.ToString(CultureInfo.CurrentUICulture),
-                    Tag = item
-                };
-                lbx.Items.Add(lbxItem);
-            }
+            Updates = new ObservableCollection<WebPageUpdate>(datas);
+            Notify(nameof(Updates));
 
         }
 
-        private async void WindowBase_Loaded(object sender, System.Windows.RoutedEventArgs e)
+        public ObservableCollection<WebPageUpdate> Updates { get; private set; }
+
+        private async void Window_Loaded(object sender, System.Windows.RoutedEventArgs e)
         {
             await Initialize();
         }
 
-        private async void lbx_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private async void ListViewSelectionChanged()
         {
             switch (selectionMode)
             {
                 case 1:
-                    if (lbx.SelectedItem == null)
+                    if (Update == null)
                     {
                         return;
                     }
                     Animate(2);
                     ResizeMode = System.Windows.ResizeMode.CanResize;
-                    WebPageUpdate update1 = (lbx.SelectedItem as ListBoxItem).Tag as WebPageUpdate;
+                    WebPageUpdate update1 = Update;
 
                     selectionMode = 2;
-                    lbx.SelectedItem = lastItem;
+                    Update = lastItem;
                     selectionMode = 0;
                     CompareResult compareResult;
                     try
@@ -87,7 +105,6 @@ namespace WebPageWatcher.UI
 
                     break;
                 case 0:
-                    Notify(nameof(Update));
                     if (Update != null)
                     {
                         pre.Load(Update.Content.ToEncodedString(), WebPage.Response_Type);
@@ -103,14 +120,14 @@ namespace WebPageWatcher.UI
         }
 
         int selectionMode = 0;
-        private object lastItem;
+        private WebPageUpdate lastItem;
         private void btnCompare_Click(object sender, System.Windows.RoutedEventArgs e)
         {
             selectionMode = 1;
             ResizeMode = System.Windows.ResizeMode.NoResize;
             Animate(1);
-            lastItem = lbx.SelectedItem;
-            lbx.SelectedItem = null;
+            lastItem = Update;
+            Update = null;
 
         }
         private void Animate(int step)
@@ -121,7 +138,7 @@ namespace WebPageWatcher.UI
             double x2;
             if (step == 1)
             {
-                x1 = ActualWidth / 2 - lbx.ActualWidth / 2;
+                x1 = ActualWidth / 2 - lvw.ActualWidth / 2;
                 opacity = 0;
                 x2 = column2.ActualWidth;
             }
@@ -132,11 +149,31 @@ namespace WebPageWatcher.UI
                 x2 = 0;
             }
             ThicknessAnimation ani = new ThicknessAnimation(new System.Windows.Thickness(x1, 0, -x1, 0), TimeSpan.FromSeconds(0.3), FillBehavior.HoldEnd);
-            lbx.BeginAnimation(MarginProperty, ani);
+            lvw.BeginAnimation(MarginProperty, ani);
             DoubleAnimation ani2 = new DoubleAnimation(opacity, TimeSpan.FromSeconds(0.3), FillBehavior.HoldEnd);
             splitter.BeginAnimation(OpacityProperty, ani2);
             DoubleAnimation ani3 = new DoubleAnimation(x2, TimeSpan.FromSeconds(0.3), FillBehavior.HoldEnd);
             column2Tran.BeginAnimation(TranslateTransform.XProperty, ani3);
+        }
+    }
+    public class WebPageIDConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            WebPage webPage = BackgroundTask.WebPages.FirstOrDefault(p => p.ID == (int)value);
+            if (webPage == null)
+            {
+                return "ID=" + value;
+            }
+            else
+            {
+                return webPage.Name;
+            }
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
         }
     }
 }

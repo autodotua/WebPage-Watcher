@@ -1,5 +1,5 @@
 ﻿<extension:ExtendedUserControl
-    xmlns:extension="clr-namespace:FzLib.Control.Extension;assembly=FzWpfControlLib"
+    xmlns:extension="clr-namespace:FzLib.UI.Extension;assembly=FzUILib.WPF"
     x:Class="WebPageWatcher.UI.JsonBlackWhiteListItemLine"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"

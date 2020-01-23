@@ -36,7 +36,11 @@ namespace WebPageWatcher
                 return;
             }
 #endif
-            await BackgroundTask.Load();
+            await BackgroundTask.LoadAsync();
+            if (Config.Instance.BackgroundTask)
+            {
+                BackgroundTask.Start();
+            }
             BackgroundTaskHelper.Initialize();
 
             FzLib.Program.App.SetWorkingDirectoryToAppPath();

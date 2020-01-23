@@ -93,6 +93,11 @@ namespace WebPageWatcher.Data
         {
             EnsureDb();
             return await db.QueryAsync<WebPageUpdate>($"select * from {WebPageUpdatesTableName} where {nameof(WebPageUpdate.WebPage_ID)}={webPage.ID}");
+        }       
+        public async static Task<IEnumerable<WebPageUpdate>> GetWebPageUpdatesAsync( )
+        {
+            EnsureDb();
+            return await db.QueryAsync<WebPageUpdate>($"select * from {WebPageUpdatesTableName} ");
         }
         public static async Task<byte[]> GetLatestContentAsync(this WebPage webPage)
         {

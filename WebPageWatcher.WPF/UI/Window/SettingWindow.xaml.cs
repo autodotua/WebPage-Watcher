@@ -1,4 +1,4 @@
-﻿using FzLib.Control.Extension;
+﻿using FzLib.UI.Extension;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -108,7 +108,7 @@ namespace WebPageWatcher.UI
 
         private async void Button_Click(object sender, RoutedEventArgs e)
         {
-            string path = FzLib.Control.Dialog.FileSystemDialog.GetOpenFile(new (string, string)[] { ("mp3", "mp3") });
+            string path = FzLib.UI.Dialog.FileSystemDialog.GetOpenFile(new (string, string)[] { ("mp3", "mp3") });
             if(path!=null)
             {
                 string name = Path.GetFileName(path);

@@ -1,4 +1,4 @@
-﻿using FzLib.Control.Extension;
+﻿using FzLib.UI.Extension;
 using ICSharpCode.AvalonEdit.Highlighting;
 using System;
 using System.Collections.Generic;

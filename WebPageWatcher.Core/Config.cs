@@ -11,6 +11,7 @@ namespace WebPageWatcher
     public class Config : FzLib.DataStorage.Serialization.JsonSerializationBase
     {
         private static Config instance;
+        private bool backgroundTask;
 
         public static string DataPath
         {
@@ -54,9 +55,27 @@ namespace WebPageWatcher
         public int Ring { get; set; } = 0;
         public string CustomRingName { get; set; } = null;
         [Newtonsoft.Json.JsonIgnore]
-        public string CustomRingPath => CustomRingName==null?null: IOPath.Combine(DataPath, CustomRingName);
+        public string CustomRingPath => CustomRingName == null ? null : IOPath.Combine(DataPath, CustomRingName);
         [Newtonsoft.Json.JsonIgnore]
         public Encoding Encoding => Encoding.UTF8;
         public bool RegardOneSideParseErrorAsNotSame { get; set; } = true;
+        public bool BackgroundTask
+        {
+            get => backgroundTask;
+            set
+            {
+                backgroundTask = value;
+                Notify(nameof(BackgroundTask));
+                if(value)
+                {
+                    WebPageWatcher.BackgroundTask.Start();
+                }
+                else
+                {
+                    WebPageWatcher.BackgroundTask.Stop();
+                }
+                Save();
+            }
+        }
     }
 }
