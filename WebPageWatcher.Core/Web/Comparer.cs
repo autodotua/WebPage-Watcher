@@ -28,7 +28,7 @@ namespace WebPageWatcher.Web
             }
             catch (Exception ex)
             {
-                throw new Exception("获取最新的内容失败", ex);
+                throw new WebPageException("ex_getContentFailed",webPage, ex);
             }
             return await CompareAsync(webPage, webPage.GetLatestContent(), newContent);
         }
@@ -52,7 +52,7 @@ namespace WebPageWatcher.Web
                  }
                  catch (Exception ex)
                  {
-                     throw new Exception(Strings.Get("ex_compareFailed"), ex);
+                     throw new WebPageException("ex_compareFailed",webPage, ex);
                  }
              });
             return result;
@@ -85,7 +85,7 @@ namespace WebPageWatcher.Web
             {
                 if (!Config.Instance.RegardOneSideParseErrorAsNotSame)
                 {
-                    throw new Exception(Strings.Get("ex_parseError"), oldEx == null ? newEx : oldEx);
+                    throw new WebPageException("ex_parseError", WebPage, oldEx == null ? newEx : oldEx);
                 }
                 else
                 {
@@ -94,7 +94,7 @@ namespace WebPageWatcher.Web
             }
             else if (errorCount == 2)
             {
-                throw new Exception(Strings.Get("ex_parseError"), newEx);
+                throw new WebPageException("ex_parseError", WebPage);
             }
             return (oldDocument, newDocument);
         }
@@ -170,7 +170,7 @@ namespace WebPageWatcher.Web
 
             if (WebPage.BlackWhiteList == null || WebPage.BlackWhiteList.Count == 0)
             {
-                throw new Exception("白名单为空");
+                throw new WebPageException("ex_whiteSpaceIsEmpty", WebPage);
             }
             foreach (var identify in WebPage.BlackWhiteList)
             {
@@ -269,7 +269,7 @@ namespace WebPageWatcher.Web
 
             if (WebPage.BlackWhiteList == null || WebPage.BlackWhiteList.Count == 0)
             {
-                throw new Exception("白名单为空");
+                throw new WebPageException("ex_whiteSpaceIsEmpty", WebPage);
             }
             foreach (var identify in WebPage.BlackWhiteList)
             {
@@ -462,23 +462,4 @@ namespace WebPageWatcher.Web
             return new diff_match_patch().diff_main(text1.ToString(), text2.ToString()).ToArray();
         }
     }
-
-    //public  class HtmlCompareResult: CompareResult<HtmlDocument,HtmlNode>
-    //{
-    //public HtmlCompareResult(IEnumerable<(HtmlNode Old, HtmlNode New)> differentElements,
-    //    HtmlDocument oldDocument, HtmlDocument newDocument)
-    //{
-    //    Same = !differentElements.Any();
-    //    DifferentElements.AddRange(differentElements);
-    //    OldDocument = oldDocument;
-    //    NewDocument = newDocument;
-    //}
-
-    //    public override bool Same { get;  }
-    //    public override List<(HtmlNode Old, HtmlNode New)> DifferentElements { get; } = new List<(HtmlNode Old, HtmlNode New)>();
-    //    public override HtmlDocument OldDocument { get; }
-    //    public override HtmlDocument NewDocument { get; }
-    //}
-
-
 }

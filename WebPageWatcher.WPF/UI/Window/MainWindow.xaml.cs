@@ -59,9 +59,9 @@ let a3r response a3
 let a4 webpage a4
 set a4 Cookies a3r
 cp a4";
-                ScriptParser parser = new ScriptParser();
-                parser.Output += (p1, p2) => Debug.WriteLine(p2);
-                await parser.ParseAsync(c);
+                //ScriptParser parser = new ScriptParser();
+                //parser.Output += (p1, p2) => Debug.WriteLine(p2);
+                //await parser.ParseAsync(c);
             }
             catch (ScriptException ex)
             {
@@ -69,7 +69,7 @@ cp a4";
             }
 
         }
-        public void UpdateDisplay(IDbModel item) 
+        public void UpdateDisplay(IDbModel item)
         {
             switch (item)
             {
@@ -87,11 +87,11 @@ cp a4";
 
         public void SelectItem(IDbModel item)
         {
-            switch(item)
+            switch (item)
             {
                 case WebPage webPage:
                     (webPagePanel as TabItemPanelBase<WebPage>).SelectItem(webPage);
-                    break;     
+                    break;
                 case Script script:
                     (scriptPanel as TabItemPanelBase<Script>).SelectItem(script);
                     break;
@@ -137,6 +137,43 @@ cp a4";
         private void AllHistoryMenuItem_Click(object sender, RoutedEventArgs e)
         {
             new WebPageHistoryWindow().Show();
+        }
+
+        private async void ExportMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            string path = FzLib.UI.Dialog.FileSystemDialog.GetSaveFile(new (string, string)[] { ("SQLite", "db") }, false, true,
+                   FindResource("app_name") as string + DateTime.Now.ToString("yyyyMMdd-HHmmss"));
+            if (path != null)
+            {
+                try
+                {
+                    DbHelper.Export(path);
+                    await dialog.ShowInfomationAsync(FindResource("info_exportSucceed") as string, FindResource("title_export") as string);
+                }
+                catch (Exception ex)
+                {
+                    await dialog.ShowExceptionAsync(ex, FindResource("error_exportFailed") as string, FindResource("title_export") as string);
+                }
+            }
+        }
+        private async void ImportMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            string path = FzLib.UI.Dialog.FileSystemDialog.GetOpenFile(new (string, string)[] { ("SQLite", "db") }, false);
+            if (path != null)
+            {
+                try
+                {
+                    DbHelper.Import(path);
+                    await dialog.ShowInfomationAsync(FindResource("info_importSucceed") as string, FindResource("title_import") as string);
+                    Close();
+                    await BackgroundTask.LoadAsync();
+                    App.Current.GetNewMainWindow().Show();
+                }
+                catch (Exception ex)
+                {
+                    await dialog.ShowExceptionAsync(ex, FindResource("error_importFailed") as string, FindResource("title_import") as string);
+                }
+            }
         }
     }
 }

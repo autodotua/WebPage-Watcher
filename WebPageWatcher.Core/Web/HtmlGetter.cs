@@ -142,7 +142,7 @@ namespace WebPageWatcher.Web
         {
             if (string.IsNullOrEmpty(WebPage.Url))
             {
-                throw new Exception(Strings.Get("error_urlIsEmpty") );
+                throw new WebPageException("ex_urlIsEmpty", WebPage);
             }
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(WebPage.Url);
             request.CookieContainer = GetCookies();
@@ -201,7 +201,7 @@ namespace WebPageWatcher.Web
             }
             catch(Exception ex)
             {
-                throw new Exception(Strings.Get("ex_GetResponse") , ex);
+                throw new WebPageException("ex_GetResponse", WebPage,ex);
             }
             FixResponseCookies(request, response);
             return response;

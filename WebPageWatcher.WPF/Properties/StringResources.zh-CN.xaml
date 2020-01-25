@@ -7,11 +7,13 @@
     <system:String x:Key="expander_getAndCompare" >获取与对比</system:String>
     <system:String x:Key="expander_httpRequest" >HTTP请求</system:String>
     <system:String x:Key="expander_httpResponse" >HTTP响应</system:String>
+    <system:String x:Key="expander_eventAndOperation" >事件和操作</system:String>
 
 
     <system:String x:Key="label_lastCheckTime" >上一次检查时间：</system:String>
     <system:String x:Key="label_lastUpdateTime" >上一次更新时间：</system:String>
     <system:String x:Key="label_lastExcuteTime" >上一次执行时间：</system:String>
+    <system:String x:Key="label_lastTriggerTime" >上一次触发时间：</system:String>
     <system:String x:Key="label_lastUpdateContent" >上一次更新内容：</system:String>
 
     <system:String x:Key="label_name" >名称：</system:String>
@@ -34,6 +36,14 @@
     <system:String x:Key="label_forceGet" >立即获取查看：</system:String>
     <system:String x:Key="label_forceCompare" >立即进行对比：</system:String>
     <system:String x:Key="label_compare" >对比：</system:String>
+    
+    <system:String x:Key="label_event" >事件：</system:String>
+    <system:String x:Key="label_eventWebPage" >事件的网页：</system:String>
+    <system:String x:Key="label_eventScript" >事件的脚本：</system:String>
+    <system:String x:Key="label_operation" >操作：</system:String>
+    <system:String x:Key="label_operationWebPage" >操作的网页：</system:String>
+    <system:String x:Key="label_operationScript" >操作的脚本：</system:String>
+    <system:String x:Key="label_operationCommand" >需要执行的命令：</system:String>
 
     <system:String x:Key="button_save" >保存</system:String>
     <system:String x:Key="button_reset" >重置</system:String>
@@ -63,7 +73,8 @@
     <system:String x:Key="menu_history" >所有历史记录</system:String>
     <system:String x:Key="menu_task" >任务</system:String>
     <system:String x:Key="menu_backgroundTask" >后台任务总开关</system:String>
-
+    <system:String x:Key="menu_export">导出</system:String>
+    <system:String x:Key="menu_import">导入</system:String>
 
     <system:String x:Key="json_object" >对象</system:String>
     <system:String x:Key="json_array" >集合</system:String>
@@ -114,6 +125,12 @@
     <system:String x:Key="error_compareFailed">对比失败</system:String>
     <system:String x:Key="error_forceGet">获取失败</system:String>
     <system:String x:Key="error_exucteFailed">执行失败</system:String>
+    <system:String x:Key="error_exportFailed">导出失败</system:String>
+    <system:String x:Key="info_exportSucceed">导出成功</system:String>
+    <system:String x:Key="error_importFailed">导入失败</system:String>
+    <system:String x:Key="info_importSucceed">导入成功</system:String>
+    <system:String x:Key="title_import">导入</system:String>
+    <system:String x:Key="title_export">导出</system:String>
     <system:String x:Key="info_excuteSucceed">执行成功</system:String>
 
     <system:String x:Key="menu_program">程序</system:String>
@@ -188,5 +205,17 @@
     <system:String x:Key="label_updateTime">更新时间：</system:String>
     <system:String x:Key="error_noHistory">没有历史记录</system:String>
 
+    <system:String x:Key="trigger_excuteWebPageFailed">对比网页失败</system:String>
+    <system:String x:Key="trigger_excuteWebPageChanged">对比网页，发生改变</system:String>
+    <system:String x:Key="trigger_excuteWebPageNotChanged">对比网页，没有发生改变</system:String>
+    <system:String x:Key="trigger_excuteScriptFailed">执行脚本失败</system:String>
+    <system:String x:Key="trigger_excuteScriptSucceed">执行脚本成功</system:String>
+    <system:String x:Key="trigger_excuteWebPage">对比网页</system:String>
+    <system:String x:Key="trigger_excuteScript">执行脚本</system:String>
+    <system:String x:Key="trigger_excuteCommand">执行命令行</system:String>
+    <system:String x:Key="trigger_none">未指定</system:String>
 
+    <system:String x:Key="warning_endlessLoop">请注意不要陷入死循环</system:String>
+
+  
 </ResourceDictionary>

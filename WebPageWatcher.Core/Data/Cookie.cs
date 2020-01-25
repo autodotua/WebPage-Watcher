@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace WebPageWatcher.Data
 {
-    public class Cookie
+    public class Cookie:INotifyPropertyChanged
     {
         public Cookie()
         {
@@ -18,8 +19,29 @@ namespace WebPageWatcher.Data
             Value = value ?? throw new ArgumentNullException(nameof(value));
         }
 
-        public string Key { get; set; }
-        public string Value { get; set; }
+        private string key;
+        public string Key
+        {
+            get => key;
+            set
+            {
+                key = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Key)));
+            }
+        }
+        private string value;
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        public string Value
+        {
+            get => value;
+            set
+            {
+                value = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Value)));
+            }
+        }
 
         public override string ToString()
         {
@@ -27,3 +49,4 @@ namespace WebPageWatcher.Data
         }
     }
 }
+

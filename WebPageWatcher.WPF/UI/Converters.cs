@@ -35,9 +35,7 @@ namespace WebPageWatcher.UI
         {
             return (ResponseType)(int)value;
         }
-
     }
-
     public class TimeSpan2Ms : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
@@ -131,6 +129,47 @@ namespace WebPageWatcher.UI
                 return null;
             }
             return methodInfo.Invoke(value, new object[0]);
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotSupportedException();
+        }
+    }
+    public sealed class TriggerEnumToStringConverter : IValueConverter
+    {
+        private static Dictionary<TriggerEvent, string> triggerEventToResouceKey
+            = new Dictionary<TriggerEvent, string>()
+            {
+                [TriggerEvent.ExcuteScriptFailed ]= "trigger_excuteScriptFailed",
+                [TriggerEvent.ExcuteScriptSucceed] = "trigger_excuteScriptSucceed",
+                [TriggerEvent.ExcuteWebPageFailed] = "trigger_excuteWebPageFailed",
+                [TriggerEvent.ExcuteWebPageChanged] = "trigger_excuteWebPageChanged",
+                [TriggerEvent.ExcuteWebPageNotChanged] = "trigger_excuteWebPageNotChanged",
+                [TriggerEvent.None] = "trigger_none",
+            };
+        private static Dictionary<TriggerOperation, string> triggerOperationToResouceKey
+            = new Dictionary<TriggerOperation, string>()
+            {
+                [TriggerOperation.ExcuteScript] = "trigger_excuteScript",
+                [TriggerOperation.ExcuteWebPage] = "trigger_excuteWebPage",
+                [TriggerOperation.ExcuteCommand] = "trigger_excuteCommand",
+                [TriggerOperation.None] = "trigger_none",
+            };
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (value is TriggerEvent @event)
+            {
+                return App.Current.FindResource(triggerEventToResouceKey[@event]) as string;
+            }
+            else if (value is TriggerOperation operation)
+            {
+                return App.Current.FindResource(triggerOperationToResouceKey[operation]);
+            }
+            else
+            {
+                throw new NotSupportedException();
+            }
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

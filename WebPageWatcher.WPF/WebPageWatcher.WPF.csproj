@@ -139,6 +139,9 @@
       <DependentUpon>AboutDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="UI\Panel\PanelBase.cs" />
+    <Compile Include="UI\Panel\TriggerPanel.xaml.cs">
+      <DependentUpon>TriggerPanel.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UI\Panel\ScriptPanel.xaml.cs">
       <DependentUpon>ScriptPanel.xaml</DependentUpon>
     </Compile>
@@ -208,6 +211,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="UI\Dialog\InputDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\Panel\TriggerPanel.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

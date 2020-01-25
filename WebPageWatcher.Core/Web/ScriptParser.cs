@@ -16,14 +16,20 @@ namespace WebPageWatcher.Web
 {
     public class ScriptParser
     {
-        
+        public ScriptParser(Script script)
+        {
+            Script = script;
+        }
+
         private List<ScriptVariable> variables = new List<ScriptVariable>();
         public ReadOnlyCollection<ScriptVariable> Variables => variables.AsReadOnly();
         public event EventHandler<string> Output;
         private int currentLine;
         private string currentCommand;
-        public async Task ParseAsync(string content)
+        public Script Script { get; private set; }
+        public async Task ParseAsync()
         {
+            string content = Script.Code;
             int index = 0;
             foreach (var line in content.Split(new string[] { Environment.NewLine }, StringSplitOptions.None))
             {
@@ -44,7 +50,7 @@ namespace WebPageWatcher.Web
             string[] parts = line.Split(' ');
             if (parts.Length <= 1)
             {
-                throw new ScriptException(Strings.Get("ex_syntaxError"), currentCommand, currentLine);
+                ThrowException("ex_syntaxError");
             }
             switch (parts[0])
             {
@@ -52,7 +58,7 @@ namespace WebPageWatcher.Web
                 case "let": await ParseLetAsync(parts); break;
                 case "set": ParseSet(parts); break;
                 case "log": ParseLog(parts); break;
-                default: throw new ScriptException(Strings.Get("ex_unknownCommand") + " " + parts[0], currentCommand, currentLine);
+                default: throw new ScriptException("ex_unknownCommand", currentCommand, currentLine,Script);
 
             }
 
@@ -62,7 +68,7 @@ namespace WebPageWatcher.Web
         {
             if (parts.Length != 2)
             {
-                throw new ScriptException(Strings.Get("ex_syntaxError"), currentCommand, currentLine);
+                ThrowException("ex_syntaxError");
             }
             string webPageName = parts[1];
 
@@ -81,7 +87,7 @@ namespace WebPageWatcher.Web
         {
             if (parts.Length != 4)
             {
-                throw new ScriptException(Strings.Get("ex_syntaxError"), currentCommand, currentLine);
+                ThrowException("ex_syntaxError");
             }
             WebPage webPage = GetVariable(parts[1], "webpage") as WebPage;
             string propertyName = parts[2];
@@ -91,7 +97,8 @@ namespace WebPageWatcher.Web
                     {
                         if (!(GetVariable(parts[3], "response") is HttpWebResponse response))
                         {
-                            throw new ScriptException(Strings.Get("ex_cannotFindProperty") + propertyName, currentCommand, currentLine);
+                            ThrowException("ex_cannotFindProperty");
+                            throw new Exception();
                         }
                         webPage.Request_Cookies.Clear();
                         foreach (System.Net.Cookie cookie in response.Cookies)
@@ -107,7 +114,7 @@ namespace WebPageWatcher.Web
                         PropertyInfo property = webPage.GetType().GetProperty(propertyName);
                         if (property == null)
                         {
-                            throw new ScriptException(Strings.Get("ex_cannotFindProperty") + propertyName, currentCommand, currentLine);
+                            ThrowException("ex_cannotFindProperty");
                         }
                         bool errorType = false;
                         try
@@ -133,11 +140,11 @@ namespace WebPageWatcher.Web
                         }
                         catch (Exception ex)
                         {
-                            throw new ScriptException(Strings.Get("ex_wrongPropertyValue") + propertyName, currentCommand, currentLine, ex);
+                            ThrowException("ex_wrongPropertyValue");
                         }
                         if (errorType)
                         {
-                            throw new ScriptException(Strings.Get("ex_invalidPropertyType") + propertyName, currentCommand, currentLine);
+                            ThrowException("ex_invalidPropertyType");
                         }
                     }
                     break;
@@ -145,17 +152,17 @@ namespace WebPageWatcher.Web
 
         }
 
-
+        private void ThrowException(string messageKey) => throw new ScriptException(messageKey, currentCommand, currentLine, Script);
         private async Task ParseLetAsync(string[] parts)
         {
             if (parts.Length != 4 && parts.Length != 5)
             {
-                throw new ScriptException(Strings.Get("ex_syntaxError"), currentCommand, currentLine);
+                ThrowException("ex_syntaxError");
             }
             string key = parts[1];
             if (variables.Any(p => p.Key == key))
             {
-                throw new ScriptException(string.Format(Strings.Get("label_variableExist"), key), currentCommand, currentLine);
+                ThrowException("ex_cannotFindVariable");
             }
             //待加入：重复key
             string type = parts[2];
@@ -168,11 +175,12 @@ namespace WebPageWatcher.Web
                 "responseJsonValue" => GetResponseData(value),
                 //"responseCookie" => GetResponseCookie(value),
                 "webpage" => GetWebPage(value, parts.Length == 5 && parts[4].Contains("clone")),
-                _ => throw new ScriptException(Strings.Get("ex_wrongType"), currentCommand, currentLine),
+                _ => throw new ScriptException("ex_wrongType", currentCommand, currentLine, Script),
 
             };
             Output?.Invoke(this, $"add new variable: {key} = {realValue.ToString()}");
-            ScriptVariable variable = new ScriptVariable(key, realValue, type);
+
+        ScriptVariable variable = new ScriptVariable(key, realValue, type);
             variables.Add(variable);
         }
 
@@ -197,7 +205,7 @@ namespace WebPageWatcher.Web
             var target = jToken.SelectToken(path);
             if (target == null)
             {
-                throw new ScriptException(Strings.Get("ex_jsonPathError") + path, currentCommand, currentLine);
+                ThrowException("ex_jsonPathError");
             }
             string value = target.Value<string>();
             Output?.Invoke(this, $"get response json data of {variableKey}: {value}");
@@ -209,7 +217,7 @@ namespace WebPageWatcher.Web
             ScriptVariable variable = variables.FirstOrDefault(p => p.Key == variableKey && p.Type == type);
             if (variable == null)
             {
-                throw new ScriptException(Strings.Get("ex_cannotFindVariable") + variableKey, currentCommand, currentLine);
+                ThrowException("ex_cannotFindVariable");
             }
 
             return variable.Value;
@@ -219,7 +227,7 @@ namespace WebPageWatcher.Web
             ScriptVariable variable = variables.FirstOrDefault(p => p.Key == variableKey && p.Value is T);
             if (variable == null)
             {
-                throw new ScriptException(Strings.Get("ex_cannotFindVariable") + variableKey, currentCommand, currentLine);
+                ThrowException("ex_cannotFindVariable");
             }
 
             return (T)variable.Value;
@@ -257,11 +265,11 @@ namespace WebPageWatcher.Web
             var webPages = BackgroundTask.WebPages.Where(p => p.Name == webPageName);
             if (webPages.Count() == 0)
             {
-                throw new ScriptException(Strings.Get("ex_cannotFindWebPageByName") + webPageName, currentCommand, currentLine);
+                ThrowException("ex_cannotFindWebPageByName");
             }
             if (webPages.Count() > 1)
             {
-                throw new ScriptException(Strings.Get("ex_webPageNameNotUnique") + webPageName, currentCommand, currentLine);
+                ThrowException("ex_webPageNameNotUnique");
             }
 
             Output?.Invoke(this, $"get web page by name \"{webPageName}\"");
@@ -300,44 +308,5 @@ namespace WebPageWatcher.Web
         }
     }
 
-    [Serializable]
-    public class ScriptException : Exception
-    {
-
-        public string Command { get; }
-        public int Line { get; }
-
-        public ScriptException(string message, string command, int line) : this(message)
-        {
-            Command = command;
-            Line = line;
-        }
-        public ScriptException(string message, string command, int line, Exception innerException) : this(message, innerException)
-        {
-            Command = command;
-            Line = line;
-        }
-
-        public ScriptException()
-        {
-        }
-
-        public ScriptException(string message) : base(message)
-        {
-        }
-
-        public ScriptException(string message, Exception innerException) : base(message, innerException)
-        {
-        }
-
-        protected ScriptException(System.Runtime.Serialization.SerializationInfo serializationInfo, System.Runtime.Serialization.StreamingContext streamingContext)
-        {
-            serializationInfo.AddValue(nameof(Command), Command);
-            serializationInfo.AddValue(nameof(Line), Line);
-        }
-        public override string ToString()
-        {
-            return string.Format(Strings.Get("ex_CommandAndLine"), Line, Command) + Environment.NewLine + base.ToString();
-        }
-    }
+    
 }

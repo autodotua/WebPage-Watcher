@@ -11,7 +11,7 @@ namespace WebPageWatcher
     public class Config : FzLib.DataStorage.Serialization.JsonSerializationBase
     {
         private static Config instance;
-        private bool backgroundTask;
+        private bool backgroundTask=true;
 
         public static string DataPath
         {

@@ -132,6 +132,9 @@
   <data name="ex_compareFailed" xml:space="preserve">
     <value>对比失败</value>
   </data>
+  <data name="ex_getContentFailed" xml:space="preserve">
+    <value>获取最新内容失败</value>
+  </data>
   <data name="ex_GetResponse" xml:space="preserve">
     <value>获取HTTP响应失败</value>
   </data>
@@ -156,8 +159,14 @@
   <data name="ex_unknownCommand" xml:space="preserve">
     <value>未知命令</value>
   </data>
+  <data name="ex_urlIsEmpty" xml:space="preserve">
+    <value>Url为空</value>
+  </data>
   <data name="ex_webPageNameNotUnique" xml:space="preserve">
     <value>该名称的任务不唯一</value>
+  </data>
+  <data name="ex_whiteSpaceIsEmpty" xml:space="preserve">
+    <value>白名单为空</value>
   </data>
   <data name="ex_wrongPropertyValue" xml:space="preserve">
     <value>属性赋值错误</value>
@@ -165,7 +174,28 @@
   <data name="ex_wrongType" xml:space="preserve">
     <value>变量类型错误</value>
   </data>
-  <data name="String1" xml:space="preserve">
-    <value>对比失败</value>
+  <data name="log_scriptExcuteFailed" xml:space="preserve">
+    <value>脚本执行失败</value>
+  </data>
+  <data name="log_scriptExcuteSucceed" xml:space="preserve">
+    <value>脚本执行成功</value>
+  </data>
+  <data name="log_triggerCommandError" xml:space="preserve">
+    <value>脚本执行错误输出</value>
+  </data>
+  <data name="log_triggerCommandOutput" xml:space="preserve">
+    <value>脚本执行命令输出</value>
+  </data>
+  <data name="log_triggerFailed" xml:space="preserve">
+    <value>触发器触发但执行失败</value>
+  </data>
+  <data name="log_triggerSucceed" xml:space="preserve">
+    <value>触发器触发并执行成功</value>
+  </data>
+  <data name="log_webpageCompareFailed" xml:space="preserve">
+    <value>网页对比失败</value>
+  </data>
+  <data name="log_webpageCompareSucceed" xml:space="preserve">
+    <value>网页对比成功</value>
   </data>
 </root>

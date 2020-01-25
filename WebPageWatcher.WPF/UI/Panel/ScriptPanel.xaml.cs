@@ -70,13 +70,13 @@ namespace WebPageWatcher.UI
             MainWindow.progressDialog.Show();
             try
             {
-                ScriptParser parser = new ScriptParser();
+                ScriptParser parser = new ScriptParser(Item);
                 StringBuilder logs = new StringBuilder();
                 parser.Output += (p1, p2) =>
                 {
                     logs.AppendLine(p2);
                 };
-                await parser.ParseAsync(Item.Code);
+                await parser.ParseAsync();
              
                 MainWindow.progressDialog.Close();
                 await MainWindow.dialog.ShowInfomationAsync(logs.ToString(),FindResource("info_excuteSucceed") as string); ;

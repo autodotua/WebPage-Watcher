@@ -18,6 +18,7 @@ namespace WebPageWatcher.Data
         public const string ScriptsTableName = "Scripts";
         public const string TriggersTableName = "Triggers";
         public const string WebPageUpdatesTableName = "WebPageUpdates";
+        public const string LogTableName = "Logs";
         private static IDbConnection db;
 
 
@@ -75,7 +76,18 @@ namespace WebPageWatcher.Data
                     fzDb.CreateTable(TriggersTableName, "ID",
                        new SQLiteColumn(nameof(Trigger.Name), SQLiteDataType.Text),
                        new SQLiteColumn(nameof(Trigger.Enabled), SQLiteDataType.Integer),
-                       new SQLiteColumn(nameof(Trigger.LastExcuteTime), SQLiteDataType.Text)
+                       new SQLiteColumn(nameof(Trigger.LastExcuteTime), SQLiteDataType.Text),
+                       new SQLiteColumn(nameof(Trigger.Event), SQLiteDataType.Text),
+                       new SQLiteColumn(nameof(Trigger.Event_ID), SQLiteDataType.Text),
+                       new SQLiteColumn(nameof(Trigger.Operation), SQLiteDataType.Text),
+                       new SQLiteColumn(nameof(Trigger.Operation_ID), SQLiteDataType.Text),
+                       new SQLiteColumn(nameof(Trigger.Operation_Command), SQLiteDataType.Text)
+                       ); 
+                    fzDb.CreateTable(LogTableName, "ID",
+                       new SQLiteColumn(nameof(Log.Type), SQLiteDataType.Text),
+                       new SQLiteColumn(nameof(Log.Message), SQLiteDataType.Text),
+                       new SQLiteColumn(nameof(Log.Item_ID), SQLiteDataType.Integer),
+                       new SQLiteColumn(nameof(Log.Time), SQLiteDataType.Text)
                        );
                 }
             }
@@ -83,7 +95,18 @@ namespace WebPageWatcher.Data
             db = new SQLiteConnection($"data source = {DbPath};version=3;");
         }
 
-
+        public static void Export(string targetPath)
+        {
+            EnsureDb();
+            Dispose();
+            File.Copy(DbPath, targetPath);
+        }       
+        public static void Import(string sourcePath)
+        {
+            Dispose();
+            File.Copy(sourcePath, DbPath,true);
+            EnsureDb();
+        }
         public async static Task<IEnumerable<WebPage>> GetWebPagesAsync()
         {
             EnsureDb();
@@ -93,8 +116,8 @@ namespace WebPageWatcher.Data
         {
             EnsureDb();
             return await db.QueryAsync<WebPageUpdate>($"select * from {WebPageUpdatesTableName} where {nameof(WebPageUpdate.WebPage_ID)}={webPage.ID}");
-        }       
-        public async static Task<IEnumerable<WebPageUpdate>> GetWebPageUpdatesAsync( )
+        }
+        public async static Task<IEnumerable<WebPageUpdate>> GetWebPageUpdatesAsync()
         {
             EnsureDb();
             return await db.QueryAsync<WebPageUpdate>($"select * from {WebPageUpdatesTableName} ");
@@ -151,24 +174,29 @@ namespace WebPageWatcher.Data
             EnsureDb();
             await db.InsertAsync(item);
             return item;
+        } 
+        public async static Task AddLogAsync(Log log) 
+        {
+            EnsureDb();
+            await db.InsertAsync(log);
         }
 
-        public async static Task UpdateAsync<T>(T webPage) where T : class, IDbModel, new()
+        public async static Task UpdateAsync<T>(T item) where T : class, IDbModel, new()
         {
             EnsureDb();
-            await db.UpdateAsync(webPage);
+            await db.UpdateAsync(item);
         }
-        public async static Task<T> CloneAsync<T>(T webPage) where T : class, IDbModel, new()
+        public async static Task<T> CloneAsync<T>(T item) where T : class, IDbModel, new()
         {
             EnsureDb();
-            webPage = webPage.Clone() as T;
-            await db.InsertAsync(webPage);
-            return webPage;
+            item = item.Clone() as T;
+            await db.InsertAsync(item);
+            return item;
         }
-        public async static Task DeleteAsync<T>(T webPage) where T : class, IDbModel, new()
+        public async static Task DeleteAsync<T>(T item) where T : class, IDbModel, new()
         {
             EnsureDb();
-            await db.DeleteAsync(webPage);
+            await db.DeleteAsync(item);
         }
 
         public static void Dispose()
@@ -176,6 +204,7 @@ namespace WebPageWatcher.Data
             if (db != null)
             {
                 db.Dispose();
+                db = null;
             }
         }
     }

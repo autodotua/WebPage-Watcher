@@ -90,11 +90,17 @@ namespace WebPageWatcher
             {
                 try
                 {
-                    await CheckAndExcuteWebPageAsync(webPage);
+                    bool succeed = await CheckAndExcuteWebPageAsync(webPage);
+                    await CheckTriggerAsync(webPage, succeed ? TriggerEvent.ExcuteWebPageChanged : TriggerEvent.ExcuteWebPageNotChanged);
+                    await DbHelper.AddLogAsync(new Log("log_webpageCompareSucceed", webPage.ToString() + " - " + succeed.ToString(), webPage.ID));
                 }
                 catch (Exception ex)
                 {
+                    await DbHelper.AddLogAsync(new Log("log_webpageCompareFailed", webPage.ToString(), webPage.ID));
+                    await CheckTriggerAsync(webPage, TriggerEvent.ExcuteWebPageFailed);
+
                     AddAndCheckExceptions(webPage, ex);
+
                 }
             }
 
@@ -102,25 +108,89 @@ namespace WebPageWatcher
             {
                 try
                 {
-                    await CheckAndExcuteScriptAsync(script);
+                    await ExcuteScriptAsync(script);
+                    await CheckTriggerAsync(script, TriggerEvent.ExcuteScriptSucceed);
+                    await DbHelper.AddLogAsync(new Log("log_scriptExcuteSucceed", script.ToString()  , script.ID));
                 }
                 catch (Exception ex)
                 {
+                    await DbHelper.AddLogAsync(new Log("log_scriptExcuteFailed", script.ToString(), script.ID));
+
+                    await CheckTriggerAsync(script, TriggerEvent.ExcuteScriptFailed);
                     AddAndCheckExceptions(script, ex);
                 }
             }
         }
 
+        private async static Task CheckTriggerAsync(IDbModel item, TriggerEvent triggerEvent)
+        {
+            Trigger trigger = Triggers.FirstOrDefault(p => p.Event == triggerEvent && p.Event_ID == item.ID);
+            if (trigger != null)
+            {
+                try
+                {
+                    await ExcuteTrigger(trigger);
+                    await DbHelper.AddLogAsync(new Log("log_triggerSucceed", item.ToString() + " - " + trigger.ToString(), trigger.ID));
+                }
+                catch (Exception ex)
+                {
+                    await DbHelper.AddLogAsync(new Log("log_triggerFailed", item.ToString() + " - " + trigger.ToString(), trigger.ID));
+                }
+            }
+        }
+
+        private static Trigger lastTrigger = null;
+        private static IDbModel lastTriggerItem = null;
+        public async static Task ExcuteTrigger(Trigger trigger)
+        {
+            trigger.LastExcuteTime = DateTime.Now;
+            await DbHelper.UpdateAsync(trigger);
+            switch (trigger.Operation)
+            {
+                case TriggerOperation.None:
+                    break;
+                case TriggerOperation.ExcuteWebPage:
+                    WebPage webPage = WebPages.FirstOrDefault(p => p.ID == trigger.Operation_ID);
+                    //类似下面的语句，是为了防止死循环，防止触发事件中再次触发相同事件
+                    if (trigger == lastTrigger && lastTriggerItem == webPage)
+                    {
+                        return;
+                    }
+                    lastTriggerItem = webPage;
+                    if (webPage != null)
+                    {
+                        await CheckAndExcuteWebPageAsync(webPage);
+                    }
+                    break;
+                case TriggerOperation.ExcuteScript:
+                    Script script = Scripts.FirstOrDefault(p => p.ID == trigger.Operation_ID);
+                    if (trigger == lastTrigger && lastTriggerItem == script)
+                    {
+                        return;
+                    }
+                    lastTriggerItem = script;
+                    if (script != null)
+                    {
+                        await ExcuteScriptAsync(script);
+                    }
+                    break;
+                case TriggerOperation.ExcuteCommand:
+                    await ExcuteCommandAsync(trigger);
+                    break;
+            }
+            lastTrigger = trigger;
+        }
+
         public static async Task<bool> CheckAndExcuteWebPageAsync(WebPage webPage, bool force = false)
         {
             DateTime now = DateTime.Now;
-            byte[] latestContent =await webPage.GetLatestContentAsync();
+            byte[] latestContent = await webPage.GetLatestContentAsync();
             if (latestContent == null)
             {
                 byte[] content = await HtmlGetter.GetResponseBinaryAsync(webPage);
                 webPage.LastCheckTime = now;
                 await UpdateWebPageDbAndUI(webPage, null);
-                await UpdateWebPageUpdateDb(webPage,content);
+                await UpdateWebPageUpdateDb(webPage, content);
                 return false;
             }
             else
@@ -134,7 +204,7 @@ namespace WebPageWatcher
                 {
                     WebPageChanged?.Invoke(null, new WebPageChangedEventArgs(webPage, result));
                     webPage.LastUpdateTime = now;
-                    await UpdateWebPageUpdateDb(webPage,result.NewContent);
+                    await UpdateWebPageUpdateDb(webPage, result.NewContent);
                 }
 
                 webPage.LastCheckTime = now;
@@ -147,15 +217,15 @@ namespace WebPageWatcher
             {
                 await DbHelper.UpdateAsync(page);
                 PropertyUpdated?.Invoke(null, new PropertyUpdatedEventArgs(page));
-            }  
-            async static Task UpdateWebPageUpdateDb(WebPage webPage,byte[] content)
+            }
+            async static Task UpdateWebPageUpdateDb(WebPage webPage, byte[] content)
             {
 
                 WebPageUpdate update = new WebPageUpdate(webPage.ID, content);
                 await DbHelper.InsertAsync(update);
             }
         }
-        public static async Task CheckAndExcuteScriptAsync(Script script, bool force = false)
+        public static async Task ExcuteScriptAsync(Script script, bool force = false)
         {
             DateTime now = DateTime.Now;
 
@@ -163,8 +233,8 @@ namespace WebPageWatcher
             if (script.LastExcuteTime + TimeSpan.FromMilliseconds(script.Interval) < now || force)
             {
 #endif
-                ScriptParser parser = new ScriptParser();
-                await parser.ParseAsync(script.Code);
+                ScriptParser parser = new ScriptParser(script);
+                await parser.ParseAsync();
                 script.LastExcuteTime = now;
                 await DbHelper.UpdateAsync(script);
                 PropertyUpdated?.Invoke(null, new PropertyUpdatedEventArgs(script));
@@ -173,7 +243,48 @@ namespace WebPageWatcher
             }
 #endif
         }
+        public async static Task ExcuteCommandAsync(Trigger trigger)
+        {
+            try
+            {
+                Process process = new Process();
+                ProcessStartInfo startInfo = new ProcessStartInfo();
+                startInfo.WindowStyle = ProcessWindowStyle.Hidden;
+                startInfo.FileName = "cmd.exe";
+                startInfo.UseShellExecute = false;
+                startInfo.RedirectStandardInput = true;
+                startInfo.RedirectStandardError = true;
+                startInfo.RedirectStandardOutput = true;
+                process.ErrorDataReceived +=async (p1, p2) =>
+                {
+                    await DbHelper.AddLogAsync(new Log("log_triggerCommandError", p2.Data, trigger.ID));
+                };
+                process.OutputDataReceived +=async (p1, p2) =>
+                {
+                    await DbHelper.AddLogAsync(new Log("log_triggerCommandOutput", p2.Data, trigger.ID));
+                };
+                //startInfo.UseShellExecute = false;
+                process.StartInfo = startInfo;
+                process.Start();
+                using StreamWriter sw = process.StandardInput;
+                if (sw.BaseStream.CanWrite)
+                {
+                    foreach (var line in trigger.Operation_Command.Split(Environment.NewLine.ToCharArray()))
+                    {
+                        string str = line.Trim();
+                        if (!string.IsNullOrWhiteSpace(str))
+                        {
+                            await sw.WriteLineAsync(str);
+                        }
+                    }
+                    await sw.WriteLineAsync("exit");
+                }
+            }
+            catch (Exception ex)
+            {
 
+            }
+        }
 
         private static void AddAndCheckExceptions(IDbModel item, Exception ex)
         {

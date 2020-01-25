@@ -37,8 +37,10 @@ namespace WebPageWatcher.UI
             ContextMenu menu = new ContextMenu();
             menu.Items.Add(menuDelete);
             menu.Items.Add(menuClone);
-
-            View.ContextMenu = menu;
+            if (View != null)
+            {
+                View.ContextMenu = menu;
+            }
         }
         public event EventHandler<T> Delete;
         public event EventHandler<T> Clone;

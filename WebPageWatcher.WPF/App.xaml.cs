@@ -184,9 +184,21 @@ namespace WebPageWatcher
             }
             return null;
         }
+        public MainWindow GetNewMainWindow()
+        {
+            MainWindow mainWindow = SingleObject;
+            if (mainWindow != null && mainWindow.IsLoaded && !mainWindow.IsClosed)
+            {
+                mainWindow.Close();
+            }
+            SingleObject = new MainWindow();
+            return SingleObject;
+        }
 
         private void Test()
         {
+            string cmd = @"copy ""C:\Users\autod\Desktop\新建文件夹 (2)\1.txt"" ""C:\Users\autod\Desktop\新建文件夹 (2)\2.txt""";
+            //ComparerBase.CompareAsync(new WebPage() { Response_Type = ResponseType.Json }, new byte[0], new byte[0]);
             string a = @"<div class=""word"">
     <div class=""word-cont"">
 		<h1 class=""keyword"" tip=""音节划分：dis·crep·an·cy"">discrepancy</h1>

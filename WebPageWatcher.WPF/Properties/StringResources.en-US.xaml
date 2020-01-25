@@ -7,16 +7,26 @@ xmlns:system="clr-namespace:System;assembly=mscorlib">
     <system:String x:Key="expander_getAndCompare" >Get and compare</system:String>
     <system:String x:Key="expander_httpRequest" >HTTP request</system:String>
     <system:String x:Key="expander_httpResponse" >HTTP response</system:String>
+    <system:String x:Key="expander_eventAndOperation" >Event and operation</system:String>
     
     <system:String x:Key="label_lastCheckTime" >Last check time:</system:String>
     <system:String x:Key="label_lastExcuteTime" >Last excute time:</system:String>
+    <system:String x:Key="label_lastTriggerTime" >Last trigger time:</system:String>
     <system:String x:Key="label_lastUpdateTime" >Last update time:</system:String>
     <system:String x:Key="label_lastUpdateContent" >Last update content:</system:String>
 
     <system:String x:Key="label_name" >Name:</system:String>
     <system:String x:Key="label_enabled" >Enabled:</system:String>
     <system:String x:Key="label_code" >Code</system:String>
-
+    
+    <system:String x:Key="label_event" >Event:</system:String>
+    <system:String x:Key="label_eventWebPage" >Event Web Page:</system:String>
+    <system:String x:Key="label_eventScript" >Event Script:</system:String>
+    <system:String x:Key="label_operation" >Operation:</system:String>
+    <system:String x:Key="label_operationWebPage" >Operation Web Page:</system:String>
+    <system:String x:Key="label_operationScript" >Operation Script:</system:String>
+    <system:String x:Key="label_operationCommand" >Operation Command:</system:String>
+    
     <system:String x:Key="label_blackWhiteList" >Black and white list:</system:String>
     <system:String x:Key="label_updateInterval" >Update interval:</system:String>
     <system:String x:Key="label_compareOptions" >Compare options:</system:String>
@@ -115,7 +125,13 @@ xmlns:system="clr-namespace:System;assembly=mscorlib">
     <system:String x:Key="error_compareFailed">Compare Failed</system:String>
     <system:String x:Key="error_forceGet">Get Failed</system:String>
     <system:String x:Key="error_exucteFailed">Excute failed</system:String>
-    <system:String x:Key="info_excuteSucceed">Excute Succeed</system:String>
+    <system:String x:Key="error_exportFailed">Export failed</system:String>
+    <system:String x:Key="info_exportSucceed">Export succeed</system:String>
+    <system:String x:Key="error_importFailed">Import failed</system:String>
+    <system:String x:Key="info_importSucceed">Import succeed</system:String>
+    <system:String x:Key="title_import">Import </system:String>
+    <system:String x:Key="title_export">Export</system:String>
+    <system:String x:Key="info_excuteSucceed">Excute succeed</system:String>
 
     <system:String x:Key="menu_program">Program</system:String>
     <system:String x:Key="menu_setting">Settings</system:String>
@@ -123,6 +139,9 @@ xmlns:system="clr-namespace:System;assembly=mscorlib">
     <system:String x:Key="menu_about">About</system:String>
     <system:String x:Key="menu_close">Close (include backgroun task)</system:String>
     <system:String x:Key="menu_scriptGrammar">Script grammar</system:String>
+    <system:String x:Key="menu_export">Export</system:String>
+    <system:String x:Key="menu_import">Import</system:String>
+
     <system:String x:Key="win_scriptGrammar">Script grammar</system:String>
     <system:String x:Key="win_delete">Delete</system:String>
     <system:String x:Key="win_clone">Clone</system:String>
@@ -189,6 +208,18 @@ xmlns:system="clr-namespace:System;assembly=mscorlib">
 
     <system:String x:Key="label_updateTime">Update Time:</system:String>
     <system:String x:Key="error_noHistory">There's no histories</system:String>
+    
+    <system:String x:Key="trigger_excuteWebPageFailed">Compare web page failed</system:String>
+    <system:String x:Key="trigger_excuteWebPageChanged">Compare web page, it changed</system:String>
+    <system:String x:Key="trigger_excuteWebPageNotChanged">Compare web page, it dosn't changed</system:String>
+    <system:String x:Key="trigger_excuteScriptFailed">Excute script failed</system:String>
+    <system:String x:Key="trigger_excuteScriptSucceed">Excute script succeed</system:String>
+    <system:String x:Key="trigger_excuteWebPage">Compare web page</system:String>
+    <system:String x:Key="trigger_excuteScript">Excute script</system:String>
+    <system:String x:Key="trigger_excuteCommand">Excute command</system:String>
+
+    <system:String x:Key="trigger_none">None</system:String>
+    <system:String x:Key="warning_endlessLoop">Pay attention to the infinite loop</system:String>
 
 
 </ResourceDictionary>

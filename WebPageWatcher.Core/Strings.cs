@@ -8,7 +8,7 @@ namespace WebPageWatcher.Web
 {
     internal static class Strings
     {
-        internal static ResourceManager resourceManager = new ResourceManager("WebPageWatcher.Web.ExceptionMessages", Assembly.GetExecutingAssembly());
+        internal static ResourceManager resourceManager = new ResourceManager("WebPageWatcher.StringResources", Assembly.GetExecutingAssembly());
         public static string Get(string key)
         {
             return resourceManager.GetString(key);
