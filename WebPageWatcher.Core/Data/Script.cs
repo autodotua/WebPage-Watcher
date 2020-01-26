@@ -4,14 +4,14 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using WebPageWatcher.Web;
 
 namespace WebPageWatcher.Data
 {
-    public class Script : IDbModel
+    public class Script : ITaskDbModel
     {
         public Script()
         {
-            Name = "未命名";
         }
 
         private int iD;
@@ -24,7 +24,7 @@ namespace WebPageWatcher.Data
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ID)));
             }
         }
-        private string @name;
+        private string @name = Strings.Get("model_unnamed");
         public string Name
         {
             get => @name;

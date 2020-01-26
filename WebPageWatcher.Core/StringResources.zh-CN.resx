@@ -198,4 +198,7 @@
   <data name="log_webpageCompareSucceed" xml:space="preserve">
     <value>网页对比成功</value>
   </data>
+  <data name="model_unnamed" xml:space="preserve">
+    <value>未命名</value>
+  </data>
 </root>

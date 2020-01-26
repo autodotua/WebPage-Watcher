@@ -10,6 +10,10 @@ namespace WebPageWatcher.Data
     public interface IDbModel:ICloneable,INotifyPropertyChanged
     {
         public int ID { get; set; }
+    }
+
+    public interface ITaskDbModel:IDbModel
+    {
         public string Name { get; set; }
     }
 }

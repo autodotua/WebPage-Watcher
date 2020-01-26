@@ -33,25 +33,15 @@ namespace WebPageWatcher.UI
             SetResourceReference(TextElement.ForegroundProperty, "MaterialDesignBody");
         }
         private static ImageSource icon;
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
         public static ImageSource ImageSourceFromBitmap(Bitmap bmp)
         {
             var handle = bmp.GetHbitmap();
 
             return Imaging.CreateBitmapSourceFromHBitmap(handle, IntPtr.Zero, Int32Rect.Empty, BitmapSizeOptions.FromEmptyOptions());
 
-        }
-        protected void Notify(params string[] names)
-        {
-            foreach (var name in names)
-            {
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
-            }
-        }
-
-        protected void SetValueAndNotify<T>(ref T field, T value, params string[] names)
-        {
-            field = value;
-            Notify(names);
         }
         public bool IsClosed { get; private set; }
         protected override void OnClosed(EventArgs e)
@@ -78,7 +68,6 @@ namespace WebPageWatcher.UI
             Focus();
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
     }
 
 }

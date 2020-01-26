@@ -10,7 +10,6 @@ using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Media;
 using WebPageWatcher.Web;
-using static WebPageWatcher.Data.Helper;
 
 namespace WebPageWatcher.UI
 {

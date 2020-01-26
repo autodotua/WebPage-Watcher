@@ -60,9 +60,6 @@ namespace WebPageWatcher.Data
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Content)));
             }
         }
-        [Computed]
-        public string Name { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-
         public event PropertyChangedEventHandler PropertyChanged;
 
         public WebPageUpdate Clone()

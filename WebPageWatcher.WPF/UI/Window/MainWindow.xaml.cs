@@ -175,5 +175,10 @@ cp a4";
                 }
             }
         }
+
+        private void LogsMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            new LogWindow().Show();
+        }
     }
 }

@@ -4,10 +4,11 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using WebPageWatcher.Web;
 
 namespace WebPageWatcher.Data
 {
-    public class Trigger : IDbModel
+    public class Trigger : ITaskDbModel
     {
         private int iD;
         public int ID
@@ -19,7 +20,7 @@ namespace WebPageWatcher.Data
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ID)));
             }
         }
-        private string @name;
+        private string @name = Strings.Get("model_unnamed");
         public string Name
         {
             get => @name;

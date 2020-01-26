@@ -1,4 +1,5 @@
-﻿using HtmlAgilityPack;
+﻿using FzLib.Extension;
+using HtmlAgilityPack;
 using ICSharpCode.AvalonEdit.Highlighting;
 using Newtonsoft.Json.Linq;
 using System;
@@ -39,7 +40,7 @@ namespace WebPageWatcher.UI
             get => update;
             set
             {
-                SetValueAndNotify(ref update, value, nameof(Update));
+                this.SetValueAndNotify(ref update, value, nameof(Update));
                 ListViewSelectionChanged();
             }
         }
@@ -63,7 +64,7 @@ namespace WebPageWatcher.UI
                 return;
             }
             Updates = new ObservableCollection<WebPageUpdate>(datas);
-            Notify(nameof(Updates));
+            this.Notify(nameof(Updates));
 
         }
 

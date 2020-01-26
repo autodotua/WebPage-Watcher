@@ -136,12 +136,25 @@ namespace WebPageWatcher.UI
             throw new NotSupportedException();
         }
     }
+    public sealed class LogTypeConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            string type = value as string;
+            return Strings.Get(type);
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotSupportedException();
+        }
+    }
     public sealed class TriggerEnumToStringConverter : IValueConverter
     {
         private static Dictionary<TriggerEvent, string> triggerEventToResouceKey
             = new Dictionary<TriggerEvent, string>()
             {
-                [TriggerEvent.ExcuteScriptFailed ]= "trigger_excuteScriptFailed",
+                [TriggerEvent.ExcuteScriptFailed] = "trigger_excuteScriptFailed",
                 [TriggerEvent.ExcuteScriptSucceed] = "trigger_excuteScriptSucceed",
                 [TriggerEvent.ExcuteWebPageFailed] = "trigger_excuteWebPageFailed",
                 [TriggerEvent.ExcuteWebPageChanged] = "trigger_excuteWebPageChanged",

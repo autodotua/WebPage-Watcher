@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WebPageWatcher.Data
+namespace WebPageWatcher.Web
 {
     public static class Helper
     {

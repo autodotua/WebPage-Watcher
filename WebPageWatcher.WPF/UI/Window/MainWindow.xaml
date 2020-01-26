@@ -45,7 +45,28 @@
                         <materialDesign:PackIcon Kind="Settings" />
                     </MenuItem.Icon>
                 </MenuItem>
+                <MenuItem  Header="{DynamicResource menu_log}" Click="LogsMenuItem_Click">
+                    <MenuItem.Icon>
+                        <materialDesign:PackIcon Kind="ClipboardList" />
+                    </MenuItem.Icon>
+                </MenuItem>
 
+              
+                <MenuItem  Header="{DynamicResource menu_close}" Click="ShutdownMenuItem_Click">
+                    <MenuItem.Icon>
+                        <materialDesign:PackIcon Kind="Shutdown" />
+                    </MenuItem.Icon>
+                </MenuItem> 
+
+            </MenuItem>
+            <MenuItem Header="{DynamicResource menu_task}">
+                           <MenuItem  Header="{DynamicResource menu_backgroundTask}"
+                          IsChecked="{Binding Source={x:Static wpw:Config.Instance}, Path=BackgroundTask}" IsCheckable="True" />
+     <MenuItem  Header="{DynamicResource menu_history}" Click="AllHistoryMenuItem_Click">
+                    <MenuItem.Icon>
+                        <materialDesign:PackIcon Kind="History" />
+                    </MenuItem.Icon>
+                </MenuItem>
                 <MenuItem  Header="{DynamicResource menu_import}" Click="ImportMenuItem_Click">
                     <MenuItem.Icon>
                         <materialDesign:PackIcon Kind="Import" />
@@ -56,21 +77,6 @@
                         <materialDesign:PackIcon Kind="Export" />
                     </MenuItem.Icon>
                 </MenuItem>
-                <MenuItem  Header="{DynamicResource menu_close}" Click="ShutdownMenuItem_Click">
-                    <MenuItem.Icon>
-                        <materialDesign:PackIcon Kind="Shutdown" />
-                    </MenuItem.Icon>
-                </MenuItem> 
-
-            </MenuItem>
-            <MenuItem Header="{DynamicResource menu_task}">
-                <MenuItem  Header="{DynamicResource menu_history}" Click="AllHistoryMenuItem_Click">
-                    <MenuItem.Icon>
-                        <materialDesign:PackIcon Kind="History" />
-                    </MenuItem.Icon>
-                </MenuItem>
-                <MenuItem  Header="{DynamicResource menu_backgroundTask}"
-                          IsChecked="{Binding Source={x:Static wpw:Config.Instance}, Path=BackgroundTask}" IsCheckable="True" />
             </MenuItem>
             <MenuItem    Header="{DynamicResource menu_help}">
                 <MenuItem     Click="ScriptHelperMenuItem_Click"    Header="{DynamicResource menu_scriptGrammar}">

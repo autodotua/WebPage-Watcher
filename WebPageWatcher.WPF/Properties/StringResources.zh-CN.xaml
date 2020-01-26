@@ -3,7 +3,7 @@
                     xmlns:local="clr-namespace:WebPageWatcher.Properties"
                     xmlns:system="clr-namespace:System;assembly=mscorlib">
     <system:String x:Key="expander_runningStatus" >运行状态</system:String>
-    <system:String x:Key="expander_basicInfo" >运行信息</system:String>
+    <system:String x:Key="expander_basicInfo" >基本信息</system:String>
     <system:String x:Key="expander_getAndCompare" >获取与对比</system:String>
     <system:String x:Key="expander_httpRequest" >HTTP请求</system:String>
     <system:String x:Key="expander_httpResponse" >HTTP响应</system:String>
@@ -71,6 +71,7 @@
     <system:String x:Key="menu_xpath" >添加XPath匹配</system:String>
     <system:String x:Key="menu_path" >添加路径匹配</system:String>
     <system:String x:Key="menu_history" >所有历史记录</system:String>
+    <system:String x:Key="menu_log" >日志</system:String>
     <system:String x:Key="menu_task" >任务</system:String>
     <system:String x:Key="menu_backgroundTask" >后台任务总开关</system:String>
     <system:String x:Key="menu_export">导出</system:String>
@@ -216,6 +217,14 @@
     <system:String x:Key="trigger_none">未指定</system:String>
 
     <system:String x:Key="warning_endlessLoop">请注意不要陷入死循环</system:String>
+    <system:String x:Key="win_log">日志</system:String>
+    <system:String x:Key="label_beginDate">开始日期：</system:String>
+    <system:String x:Key="label_endDate">截止日期：</system:String>
+    <system:String x:Key="button_ok">确定</system:String>
+    <system:String x:Key="list_logType">类别</system:String>
+    <system:String x:Key="list_logMessage">信息</system:String>
+    <system:String x:Key="list_logItemID">对象ID</system:String>
+    <system:String x:Key="error_">ds</system:String>
 
-  
+
 </ResourceDictionary>

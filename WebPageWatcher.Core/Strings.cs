@@ -4,11 +4,11 @@ using System.Reflection;
 using System.Resources;
 using System.Text;
 
-namespace WebPageWatcher.Web
+namespace WebPageWatcher
 {
-    internal static class Strings
+    public static class Strings
     {
-        internal static ResourceManager resourceManager = new ResourceManager("WebPageWatcher.StringResources", Assembly.GetExecutingAssembly());
+        private static ResourceManager resourceManager = new ResourceManager("WebPageWatcher.StringResources", Assembly.GetExecutingAssembly());
         public static string Get(string key)
         {
             return resourceManager.GetString(key);

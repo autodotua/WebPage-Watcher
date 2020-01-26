@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Dapper.Contrib.Extensions;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -8,7 +9,7 @@ using WebPageWatcher.Web;
 
 namespace WebPageWatcher.Data
 {
-    public class Log : INotifyPropertyChanged
+    public class Log : IDbModel
     {
         public Log()
         {
@@ -30,7 +31,10 @@ namespace WebPageWatcher.Data
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-   
+        public object Clone()
+        {
+            return MemberwiseClone();
+        }
     }
 }
 

@@ -1,4 +1,5 @@
-﻿using FzLib.UI.Extension;
+﻿using FzLib.Extension;
+using FzLib.UI.Extension;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -57,7 +58,7 @@ namespace WebPageWatcher.UI
             rbtnRingDefault.Checked += RadioButton_Checked;
             rbtnRingCustom.Checked += RadioButton_Checked;
 
-            Notify(nameof(Config));
+            this.Notify(nameof(Config));
         }
 
 
@@ -113,7 +114,7 @@ namespace WebPageWatcher.UI
             {
                 string name = Path.GetFileName(path);
                 Config.CustomRingName = name;
-                Notify(nameof(Config));
+                this.Notify(nameof(Config));
                 await Task.Run(() =>
                 {
                     if(File.Exists(Config.CustomRingPath))

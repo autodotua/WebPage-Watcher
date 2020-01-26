@@ -135,6 +135,7 @@ xmlns:system="clr-namespace:System;assembly=mscorlib">
 
     <system:String x:Key="menu_program">Program</system:String>
     <system:String x:Key="menu_setting">Settings</system:String>
+    <system:String x:Key="menu_log">Logs</system:String>
     <system:String x:Key="menu_help">Help</system:String>
     <system:String x:Key="menu_about">About</system:String>
     <system:String x:Key="menu_close">Close (include backgroun task)</system:String>

@@ -74,7 +74,8 @@
     <Reference Include="FzDesktopLib.Windows">
       <HintPath>..\..\模块\Release\AnyCPU\FzDesktopLib.Windows.dll</HintPath>
     </Reference>
-    <Reference Include="FzStandardLib">
+    <Reference Include="FzStandardLib, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\模块\Release\AnyCPU\netstandard2.0\FzStandardLib.dll</HintPath>
     </Reference>
     <Reference Include="FzUILib.WPF">
@@ -150,6 +151,9 @@
     </Compile>
     <Compile Include="UI\UserControl\PreviewBox.xaml.cs">
       <DependentUpon>PreviewBox.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Window\LogWindow.xaml.cs">
+      <DependentUpon>LogWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="UI\Window\WebPageHistoryWindow.xaml.cs">
       <DependentUpon>WebPageHistoryWindow.xaml</DependentUpon>
@@ -245,6 +249,10 @@
     <Page Include="UI\UserControl\HtmlBlackWhiteListItemLine.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Window\LogWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="UI\Window\WebPageHistoryWindow.xaml">
       <Generator>MSBuild:Compile</Generator>

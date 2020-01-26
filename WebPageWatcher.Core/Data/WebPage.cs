@@ -9,11 +9,10 @@ using WebPageWatcher.Web;
 
 namespace WebPageWatcher.Data
 {
-    public class WebPage : IDbModel
+    public class WebPage : ITaskDbModel
     {
         public WebPage()
         {
-            Name = "未命名";
             LastUpdateTime = DateTime.Now;
             LastCheckTime = DateTime.Now;
         }
@@ -28,7 +27,7 @@ namespace WebPageWatcher.Data
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ID)));
             }
         }
-        private string @name;
+        private string @name = Strings.Get("model_unnamed");
         public string Name
         {
             get => @name;

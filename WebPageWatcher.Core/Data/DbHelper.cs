@@ -161,6 +161,12 @@ namespace WebPageWatcher.Data
             EnsureDb();
             return await db.QueryAsync<Script>($"select * from {ScriptsTableName}");
         }
+        public async static Task<IEnumerable<Log>> GetLogsAsync(DateTime dateFrom,DateTime dateTo)
+        {
+            EnsureDb();
+            return await db.QueryAsync<Log>($"select * from {LogTableName} where " +
+                $"strftime('%s', {nameof(Log.Time)}) between strftime('%s', '{dateFrom.ToShortDateString()}') and  strftime('%s', '{dateTo.AddDays(1).ToShortDateString()}')");
+        }
 
         public async static Task<T> InsertAsync<T>() where T : class, IDbModel, new()
         {
