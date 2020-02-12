@@ -1,5 +1,4 @@
 ﻿<local:WindowBase
-    xmlns:extension="clr-namespace:FzLib.UI.Extension;assembly=FzWpfControlLib"
     x:Class="WebPageWatcher.UI.SettingWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -54,7 +53,7 @@
                             <StackPanel Orientation="Horizontal"   Margin="0,0,0,0">
                                 <RadioButton x:Name="rbtnRingCustom" VerticalAlignment="Center" GroupName="ring" />
                                 <TextBox IsEnabled="{Binding ElementName=rbtnRingCustom, Path=IsChecked}" VerticalAlignment="Center" 
-                                         MinWidth="216" Margin="8,0" Text="{Binding Config.CustomRingName}" IsReadOnly="True"/>
+                                         MinWidth="216" Margin="8,0" Text="{Binding GUIConfig.CustomRingName}" IsReadOnly="True"/>
                                 <Button VerticalAlignment="Center" Click="Button_Click"   ToolTip="{DynamicResource set_browse}"
                                             Style="{StaticResource MaterialDesignFlatButton}" IsEnabled="{Binding ElementName=rbtnRingCustom, Path=IsChecked}">
                                     <materialDesign:PackIcon Kind="FileFindOutline"/>

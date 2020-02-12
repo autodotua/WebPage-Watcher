@@ -69,18 +69,18 @@ namespace WebPageWatcher
         {
             App.Current.Dispatcher.Invoke(() =>
             {
-                if (Config.Instance.Ring == 0)
+                if (GUIConfig.Instance.Ring == 0)
                 {
                     return;
                 }
                 string path;
-                if (Config.Instance.Ring == 1 || !File.Exists(Config.Instance.CustomRingPath))
+                if (GUIConfig.Instance.Ring == 1 || !File.Exists(GUIConfig.Instance.CustomRingPath))
                 {
                     path = Path.Combine(FzLib.Program.App.ProgramDirectoryPath, "Res", "ring.mp3");
                 }
                 else
                 {
-                    path = Config.Instance.CustomRingPath;
+                    path = GUIConfig.Instance.CustomRingPath;
                 }
                 mciSendString("close ring", null, 0, 0);
                 mciSendString($"open \"{path}\" alias ring", null, 0, 0); //音乐文件

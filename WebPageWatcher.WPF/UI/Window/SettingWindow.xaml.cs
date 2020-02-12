@@ -27,12 +27,12 @@ namespace WebPageWatcher.UI
         {
             InitializeComponent();
             cbbLanguage.SelectedItem = cbbLanguage.Items.Cast<ComboBoxItem>().First(p => p.Tag.Equals(Config.Language));
-            cbbTheme.SelectedItem = cbbTheme.Items.Cast<ComboBoxItem>().First(p => p.Tag.Equals(Config.Theme.ToString()));
+            cbbTheme.SelectedItem = cbbTheme.Items.Cast<ComboBoxItem>().First(p => p.Tag.Equals(GUIConfig.Theme.ToString()));
             chkStartup.IsChecked = FzLib.Program.Startup.IsRegistryKeyExist() == FzLib.IO.Shortcut.ShortcutStatus.Exist;
             cbbLanguage.SelectionChanged += cbbLanguage_SelectionChanged;
             cbbTheme.SelectionChanged += cbbTheme_SelectionChanged;
 
-            switch(Config.Ring)
+            switch(GUIConfig.Ring)
             {
                 case 0:
                     rbtnRingDisabled.IsChecked = true;
@@ -41,12 +41,12 @@ namespace WebPageWatcher.UI
                     rbtnRingDefault.IsChecked = true;
                     break;
                 default:
-                    if (string.IsNullOrEmpty(Config.CustomRingPath) || !File.Exists(Config.CustomRingPath))
+                    if (string.IsNullOrEmpty(GUIConfig.CustomRingPath) || !File.Exists(GUIConfig.CustomRingPath))
                     {
-                        Config.Ring = 1;
+                        GUIConfig.Ring = 1;
                         rbtnRingDefault.IsChecked = true;
-                        Config.CustomRingName = null;
-                        Config.Save();
+                        GUIConfig.CustomRingName = null;
+                        GUIConfig.Save();
                     }
                     else
                     {
@@ -83,9 +83,9 @@ namespace WebPageWatcher.UI
 
         private void cbbTheme_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            Config.Theme = int.Parse((cbbTheme.SelectedItem as ComboBoxItem).Tag as string);
+            GUIConfig.Theme = int.Parse((cbbTheme.SelectedItem as ComboBoxItem).Tag as string);
             App.Current.SetTheme();
-            Config.Save();
+            GUIConfig.Save();
         }
 
         private void RadioButton_Checked(object sender, RoutedEventArgs e)
@@ -93,19 +93,20 @@ namespace WebPageWatcher.UI
             switch((sender as RadioButton).Name)
             {
                 case nameof(rbtnRingDisabled):
-                    Config.Ring = 0;
+                    GUIConfig.Ring = 0;
                     break;
                 case nameof(rbtnRingDefault):
-                    Config.Ring = 1;
+                    GUIConfig.Ring = 1;
                     break;
                 case nameof(rbtnRingCustom):
-                    Config.Ring = 2;
+                    GUIConfig.Ring = 2;
                     break;
             }
-            Config.Save();
+            GUIConfig.Save();
         }
 
         public Config Config => Config.Instance;
+        public GUIConfig GUIConfig => GUIConfig.Instance;
 
         private async void Button_Click(object sender, RoutedEventArgs e)
         {
@@ -113,17 +114,17 @@ namespace WebPageWatcher.UI
             if(path!=null)
             {
                 string name = Path.GetFileName(path);
-                Config.CustomRingName = name;
+                GUIConfig.CustomRingName = name;
                 this.Notify(nameof(Config));
                 await Task.Run(() =>
                 {
-                    if(File.Exists(Config.CustomRingPath))
+                    if(File.Exists(GUIConfig.CustomRingPath))
                     {
-                        File.Delete(Config.CustomRingPath);
+                        File.Delete(GUIConfig.CustomRingPath);
                     }
-                    File.Copy(path, Config.CustomRingPath);
+                    File.Copy(path, GUIConfig.CustomRingPath);
                 });
-                Config.Save();
+                GUIConfig.Save();
             }
         }
 

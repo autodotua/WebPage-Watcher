@@ -170,7 +170,7 @@ namespace WebPageWatcher.Web
 
             if (WebPage.BlackWhiteList == null || WebPage.BlackWhiteList.Count == 0)
             {
-                throw new WebPageException("ex_whiteSpaceIsEmpty", WebPage);
+                throw new WebPageException("ex_whiteListIsEmpty", WebPage);
             }
             foreach (var identify in WebPage.BlackWhiteList)
             {

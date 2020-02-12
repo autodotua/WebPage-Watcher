@@ -112,6 +112,11 @@ namespace WebPageWatcher.Data
             EnsureDb();
             return await db.QueryAsync<WebPage>($"select * from {WebPagesTableName}");
         }
+        public async static Task<WebPage> GetWebPageAsync(int id)
+        {
+            EnsureDb();
+            return await db.QueryFirstOrDefaultAsync<WebPage>($"select * from {WebPagesTableName} where {nameof(WebPage.ID)}={id}");
+        }
         public async static Task<IEnumerable<WebPageUpdate>> GetWebPageUpdatesAsync(WebPage webPage)
         {
             EnsureDb();

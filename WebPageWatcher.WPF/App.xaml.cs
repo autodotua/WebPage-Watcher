@@ -90,7 +90,7 @@ namespace WebPageWatcher
             MaterialDesignThemes.Wpf.BundledTheme theme = new MaterialDesignThemes.Wpf.BundledTheme();
             theme.PrimaryColor = MaterialDesignColors.PrimaryColor.Purple;
             theme.SecondaryColor = MaterialDesignColors.SecondaryColor.Lime;
-            switch (Config.Instance.Theme)
+            switch (GUIConfig.Instance.Theme)
             {
                 case 0:
                     if (AppsUseLightTheme)

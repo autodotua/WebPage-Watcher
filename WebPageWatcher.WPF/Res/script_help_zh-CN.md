@@ -1,160 +1,114 @@
-# 网页内容变动提醒
+# 网页内容变动提醒 - 脚本语法说明
 
-## 介绍
+## 基本结构
 
-这是一款支持当指定的网页或接口响应发生变化时在桌面右下角弹出提醒框的小程序
+脚本语句基本结构为“命令名 命令参数1 命令参数2 ...”。
 
+没有代码块。
 
-## 特性
+以空行为语句之间的分隔。
 
-- 使用.Net Framework 4.8 + WPF 开发
-- 使用MD风格的界面
-- 支持GET和POST
-- 支持HTML和JSON
-- 支持中文和英文，支持扩展更多语言
-- 能够跟随系统亮色/暗色模式进行自动切换
+## 变量
 
+变量类型标识|变量类型|实际类型
+-|-|-
+`string`|字符串|System.String
+`response`|HTTP回应|System.Net.HttpWebResponse
+`responseText`|字符串格式的HTTP回应结果|System.String
+`responseJsonValue`|JSON格式HTTP回应的指定路径的值|System.String
+`webpage`|网页对比对象|WebPageWatcher.Data.WebPage
 
-## 更新内容
+## 命令
 
-- [x] 自动跟随系统主题变色
-- [x] POST支持
-- [x] JSON HTTP响应格式
-- [x] 设置界面
-- [x] 开机自启
-- [x] 多次错误弹窗提示
-- [x] 多国语言支持
-- [x] 文本HTTP响应格式
-- [x] 自动解析HTTP头
-- [x] 铃声提醒
-- [x] 强制检测
-- [x] 二进制相应格式支持
-- [x] 详细对比
-- [ ] 网站更新历史查看
-- [ ] 脚本语言
-- [ ] 事件触发
+命令代码|命令名|基本语法
+-|-|-
+`let`|赋值|let 变量名 变量类型 用于新建该变量类型的对象的参数
+`set`|设置属性|set WebPage变量名 WebPage对象 [clone]
+`cp`|执行比较|cp WebPage变量名
+`log`|日志输出|log 内容
 
+### 赋值命令
 
-## 日志
+赋值语句会因为变量类型的不同而不同。
 
-### 2019-12-25
+变量类型|赋值参数1|赋值参数2|示例
+-|-|-|-
+`string`|字符串内容||`let data string id=43&token={token}`
+`webpage`|webpage名|可选参数：`clone`|`let a3 webpage a3 clone`
+`response`|`webpage`变量||`let a3r response a3`
+`responseText`|`webpage`变量||`let a1r responseText a1`
+`responseJsonValue`|`response`变量JSON结果的路径||`let a3Url responseJsonValue a2r.data.url`
 
-开始项目
+#### `string`
 
-基本完成主窗口搭建
+字符串不加双引号`"`。
 
-基本完成Cookie设置窗口搭建
+双引号若要内嵌其它string类型的变量值，需要在外侧加大括号`{}`
 
-完成对Html的获取
+示例：
 
-### 2019-12-26
+```
+let string token abcdefg
+let string para id=43&token={token}
+```
 
-新增黑白名单窗口
+#### `webpage`
 
-新增HtmlElementIdentify类，用于定位元素
+`webpage`就是网页比较对象类型，与程序中的“网页”相对应。
 
-新增HtmlComparer类，编写了白名单比较方法，未测试
+第一个参数就是GUI中设置的名称。
 
-### 2019-12-27
+若有第二个参数clone，则将新建一份该名称webpage的副本，防止对原对象产生了改变。
 
-继续完善黑白名单窗口
+若有多个对象拥有相同的名称，那么将会报错。
 
-新增通过ID/XPath来定位HTML树状图的功能
+#### `response`
 
-将Dialog进行了提取封装
+该赋值命令执行时，将会尝试获取HTTP响应，并将对象暂时存在变量库中
 
-完成了简单的后台对比任务
+#### `responseText`
 
-### 2019-12-28
-   
-增加了黑白名单项的仅文字、忽略空白属性
+该赋值命令执行时，将会尝试获取HTTP响应，并将对象转换成文字暂时存在变量库中
 
-基本完成了提醒窗口
+#### `responseJsonData`
 
-新增更新时间间隔设置UI
+该赋值命令执行时，将会尝试获取HTTP响应。将响应转换成文字后转换为JToken类型，然后根据参数中的路径，赋值指定的JToken。
 
-首次成功实现了白名单对比autodotua.top成功
+例如，有一个`response`名为a，获得的JSON类型结果将为：
 
-### 2019-12-29
+```
+{
+	"people": [{
+			"firstName": "Brett",
+			"lastName": "McLaughlin"
+		},
+		{
+			"firstName": "Jason",
+			"lastName": "Hunter"
+		}
+	]
+}
+```
 
-完成了忽略HTML属性和忽略空白的选项，并实现了功能
+需要获取第1个firstName，则代码为：
+`let response a.people[0].firtName`
 
-新增了托盘图标，并支持根据系统的App颜色和系统颜色对托盘图标、主题进行亮色/暗色调整
+### 设置属性命令
 
-修改了网页设置界面，改为三个Expander组成
+使用`set`命令可以设置`webpage`对象的属性。
 
-增加了大多数的头文件设置
+对于字符串、数字类型的属性，可以直接设置。例如：`set a3 Url a3Url`。
 
-支持了POST，成功实现对我的成绩的获取
+特别的，该命令还可以将某一个响应的所有Cookie应用到某一个`webpage`。
 
-### 2019-12-30
+例如：有`webpage`类型变量`a4`，有`response`类型`a3r`。
 
-对比界面新增了显示新旧源码
+则可以使用命令：`set a4 Cookies a3r`，将`a3r`的Cookie应用到`a4`。
 
-### 2019-12-31
+### 执行比较命令
 
-增加支持了JSON格式的响应，暂时完成：
+比较命令较为简单。由于该脚本没有返回值功能，因为比较后若有不同，将通过GUI进行返回。
 
-&nbsp;&nbsp;&nbsp;&nbsp;响应类型的HTML、JSON、TEXT的选择
+### 输出日志命令
 
-&nbsp;&nbsp;&nbsp;&nbsp;JSON黑白名单的显示
-
-&nbsp;&nbsp;&nbsp;&nbsp;相应后台逻辑的修改，如提取接口等
-
-### 2020-01-05
-
-完成了JSON对比核心代码
-
-新增了显示上一次检查/更新时间以及上一次内容的窗口
-
-完成了多国语言框架，完成了项目设置的翻译
-
-修复了日期显示格式不符合本土化的BUG
-
-### 2020-01-06
-
-完成对多国语言化
-
-页面将使用后台任务的数据源，保证二者统一
-
-新增了当后台任务错误超过5次时，弹出错误框
-
-### 2020-01-07
-
-新增主界面菜单栏
-
-新增设置窗体
-
-新增语言设置项
-
-新增开机自启设置项
-
-修改数据目录为Windows指定目录而非程序目录
-
-支持了网页变化时发出通知铃声提醒
-
-### 2020-01-09
-
-完成自动识别HTTP Header并且应用的功能
-
-新增了完全退出程序的菜单项
-
-新增支持强制进行一次对比以及进行一次获取的功能
-
-### 2020-01-10
-
-增加了二进制格式，并基本完成文本格式、二进制格式的获取、对比、查看等。为此，修改了基本数据格式为字节数组。
-
-### 2020-01-11
-
-基于Github的Google Diff算法，完成了显示前后网页详细区别的功能
-
-### 2020-01-13
-
-新增用于控制是否进行对比的开关
-
-新增服务端选项，是否都发送Expect: continue-100
-
-新增选项：Keep-Alive和是否允许跳转
-
-基本完成了用于自动化处理的脚本语言的逻辑部分
+用于在调试窗口输出日志。

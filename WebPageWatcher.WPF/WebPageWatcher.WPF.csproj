@@ -135,6 +135,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="BackgroundTaskHelper.cs" />
+    <Compile Include="Config.cs" />
     <Compile Include="UI\Converters.cs" />
     <Compile Include="UI\Dialog\AboutDialog.xaml.cs">
       <DependentUpon>AboutDialog.xaml</DependentUpon>

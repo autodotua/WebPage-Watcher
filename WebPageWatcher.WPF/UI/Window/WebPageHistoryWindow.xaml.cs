@@ -108,7 +108,7 @@ namespace WebPageWatcher.UI
                 case 0:
                     if (Update != null)
                     {
-                        pre.Load(Update.Content.ToEncodedString(), WebPage.Response_Type);
+                        pre.Load(Update.Content.ToEncodedString(),(await DbHelper.GetWebPageAsync(Update.ID)).Response_Type);
                     }
                     else
                     {

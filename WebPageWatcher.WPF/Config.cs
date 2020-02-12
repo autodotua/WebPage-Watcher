@@ -10,10 +10,9 @@ using IOPath = System.IO.Path;
 
 namespace WebPageWatcher
 {
-    public class Config : FzLib.DataStorage.Serialization.JsonSerializationBase,INotifyPropertyChanged
+    public class GUIConfig : FzLib.DataStorage.Serialization.JsonSerializationBase,INotifyPropertyChanged
     {
-        private static Config instance;
-        private bool backgroundTask=true;
+        private static GUIConfig instance;
 
         public static string DataPath
         {
@@ -32,45 +31,29 @@ namespace WebPageWatcher
             }
         }
 
-        public static Config Instance
+        public static GUIConfig Instance
         {
             get
             {
                 if (instance == null)
                 {
-                    instance = OpenOrCreate<Config>(IOPath.Combine(DataPath, "coreConfig.json"));
+                    instance = OpenOrCreate<GUIConfig>(IOPath.Combine(DataPath, "guiConfig.json"));
                 }
                 return instance;
             }
         }
+
         /// <summary>
-        /// 程序语言，支持zh-CN和en-US
+        /// 两色暗色主题。1为亮色，-1为暗色，0为跟随系统
         /// </summary>
-        public string Language { get; set; } = "zh-CN";
+        public int Theme { get; set; } = 0;
+        /// <summary>
+        /// 0为不播放，1为默认，2为
+        /// </summary>
+        public int Ring { get; set; } = 0;
+        public string CustomRingName { get; set; } = null;
         [Newtonsoft.Json.JsonIgnore]
-        public Encoding Encoding => Encoding.UTF8;
-        public bool RegardOneSideParseErrorAsNotSame { get; set; } = true;
-        public bool BackgroundTask
-        {
-            get => backgroundTask;
-            set
-            {
-                backgroundTask = value;
-                this.Notify(nameof(BackgroundTask));
-                if(value)
-                {
-                    WebPageWatcher.BackgroundTask.Start();
-                }
-                else
-                {
-                    WebPageWatcher.BackgroundTask.Stop();
-                }
-                if (Loaded)
-                {
-                    Save();
-                }
-            }
-        }
+        public string CustomRingPath => CustomRingName == null ? null : IOPath.Combine(DataPath, CustomRingName);
 
         public event PropertyChangedEventHandler PropertyChanged;
     }

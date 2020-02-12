@@ -40,7 +40,9 @@ namespace WebPageWatcher.UI
                 {
                     value = EndTime;
                 }
-                beginTime = this.NotifyAndReturnValue(value);
+
+                beginTime = value;
+                this.Notify();
             }
         }
         private DateTime endTime = DateTime.Today;
@@ -53,7 +55,8 @@ namespace WebPageWatcher.UI
                 {
                     value = BeginTime;
                 }
-                endTime = this.NotifyAndReturnValue(value);
+                endTime = value;
+                this.Notify();
             }
         }
 

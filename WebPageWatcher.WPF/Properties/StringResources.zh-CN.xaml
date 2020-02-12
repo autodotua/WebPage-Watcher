@@ -223,8 +223,7 @@
     <system:String x:Key="button_ok">确定</system:String>
     <system:String x:Key="list_logType">类别</system:String>
     <system:String x:Key="list_logMessage">信息</system:String>
-    <system:String x:Key="list_logItemID">对象ID</system:String>
-    <system:String x:Key="error_">ds</system:String>
+    <system:String x:Key="list_logItemID">对象ID</system:String> 
 
 
 </ResourceDictionary>

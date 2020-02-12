@@ -221,6 +221,12 @@ xmlns:system="clr-namespace:System;assembly=mscorlib">
 
     <system:String x:Key="trigger_none">None</system:String>
     <system:String x:Key="warning_endlessLoop">Pay attention to the infinite loop</system:String>
-
+    <system:String x:Key="win_log">Log</system:String>
+    <system:String x:Key="label_beginDate">Begin Date:</system:String>
+    <system:String x:Key="label_endDate">End Date:</system:String>
+    <system:String x:Key="button_ok">OK</system:String>
+    <system:String x:Key="list_logType">Type</system:String>
+    <system:String x:Key="list_logMessage">Message</system:String>
+    <system:String x:Key="list_logItemID">Item ID</system:String>
 
 </ResourceDictionary>
