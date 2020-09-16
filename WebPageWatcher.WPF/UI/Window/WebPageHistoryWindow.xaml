@@ -12,53 +12,52 @@
     WindowStartupLocation="CenterOwner"
         Title="{DynamicResource win_history}" Height="450" Width="600">
     <local:WindowBase.Resources>
-        <local:WebPageIDConverter x:Key="webpageConverter"/>
+        <local:WebPageIDConverter x:Key="webpageConverter" />
     </local:WindowBase.Resources>
     <Grid x:Name="grd" Margin="4">
         <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="8"/>
-                <ColumnDefinition Width="2*"/>
-            </Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="8" />
+            <ColumnDefinition Width="2*" />
+        </Grid.ColumnDefinitions>
         <GridSplitter x:Name="splitter" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
         <ListView x:Name="lvw" ItemsSource="{Binding Updates}" SelectedItem="{Binding Update}">
             <ListView.View>
                 <GridView>
-                    <GridViewColumn Header="{DynamicResource list_webPage}" DisplayMemberBinding="{Binding WebPage_ID,Converter={StaticResource webpageConverter}}"/>
-                    <GridViewColumn Header="{DynamicResource list_time}" DisplayMemberBinding="{Binding Time , ConverterCulture={x:Static glo:CultureInfo.CurrentUICulture}}"/>
+                    <GridViewColumn Header="{DynamicResource list_webPage}" DisplayMemberBinding="{Binding WebPage_ID,Converter={StaticResource webpageConverter}}" />
+                    <GridViewColumn Header="{DynamicResource list_time}" DisplayMemberBinding="{Binding Time , ConverterCulture={x:Static glo:CultureInfo.CurrentUICulture}}" />
                 </GridView>
             </ListView.View>
         </ListView>
 
-            <Grid Grid.Column="2" x:Name="column2" Margin="4">
+        <Grid Grid.Column="2" x:Name="column2" Margin="4">
             <Grid.RenderTransform>
-                <TranslateTransform x:Name="column2Tran"/>
+                <TranslateTransform x:Name="column2Tran" />
             </Grid.RenderTransform>
             <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="8"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="8"/>
-                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="8" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="8" />
+                <RowDefinition Height="*" />
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="16"/>
-                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="16" />
+                <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
 
-            <TextBlock Grid.Row="0" VerticalAlignment="Center" 
-                   HorizontalAlignment="Right" Text="{DynamicResource label_updateTime}"/>
+            <TextBlock Grid.Row="0" VerticalAlignment="Center"
+                   HorizontalAlignment="Right" Text="{DynamicResource label_updateTime}" />
             <TextBox Grid.Row="0" Grid.Column="2"  IsReadOnly="True"
-                VerticalAlignment="Center" Text="{Binding Update.Time , ConverterCulture={x:Static glo:CultureInfo.CurrentUICulture}}"/>
-           
-            <TextBlock Grid.Row="2" VerticalAlignment="Center" 
-                   HorizontalAlignment="Right" Text="{DynamicResource label_compare}"/>
-            <Button x:Name="btnCompare" Grid.Row="2" Grid.Column="2"  VerticalAlignment="Center" HorizontalAlignment="Right"
-                                Content="{DynamicResource button_select}" Click="btnCompare_Click"/>
-            <local:PreviewBox x:Name="pre" Grid.Row="4" Grid.ColumnSpan="99"/>
-        </Grid>
-        <local:Dialog x:Name="dialog" Grid.RowSpan="99" Grid.ColumnSpan="99" Margin="-4"/>
-    </Grid>
+                VerticalAlignment="Center" Text="{Binding Update.Time , ConverterCulture={x:Static glo:CultureInfo.CurrentUICulture}}" />
 
+            <TextBlock Grid.Row="2" VerticalAlignment="Center"
+                   HorizontalAlignment="Right" Text="{DynamicResource label_compare}" />
+            <Button x:Name="btnCompare" Grid.Row="2" Grid.Column="2"  VerticalAlignment="Center" HorizontalAlignment="Right"
+                                Content="{DynamicResource button_select}" Click="btnCompare_Click" />
+            <local:PreviewBox x:Name="pre" Grid.Row="4" Grid.ColumnSpan="99" />
+        </Grid>
+        <local:Dialog x:Name="dialog" Grid.RowSpan="99" Grid.ColumnSpan="99" Margin="-4" />
+    </Grid>
 </local:WindowBase>

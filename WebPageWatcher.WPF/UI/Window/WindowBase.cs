@@ -1,18 +1,13 @@
 ﻿using MaterialDesignExtensions.Controls;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Documents;
-using System.Windows.Media;
-using System.Windows;
-using System.Runtime.InteropServices;
-using System.Windows.Interop;
 using System.Drawing;
+using System.Runtime.InteropServices;
+using System.Windows;
+using System.Windows.Documents;
+using System.Windows.Interop;
+using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Globalization;
 
 namespace WebPageWatcher.UI
 {
@@ -21,6 +16,7 @@ namespace WebPageWatcher.UI
         [DllImport("gdi32.dll", EntryPoint = "DeleteObject")]
         [return: MarshalAs(UnmanagedType.Bool)]
         private static extern bool DeleteObject([In] IntPtr hObject);
+
         public WindowBase()
         {
             DataContext = this;
@@ -32,6 +28,7 @@ namespace WebPageWatcher.UI
             SetResourceReference(BackgroundProperty, "MaterialDesignPaper");
             SetResourceReference(TextElement.ForegroundProperty, "MaterialDesignBody");
         }
+
         private static ImageSource icon;
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -41,9 +38,10 @@ namespace WebPageWatcher.UI
             var handle = bmp.GetHbitmap();
 
             return Imaging.CreateBitmapSourceFromHBitmap(handle, IntPtr.Zero, Int32Rect.Empty, BitmapSizeOptions.FromEmptyOptions());
-
         }
+
         public bool IsClosed { get; private set; }
+
         protected override void OnClosed(EventArgs e)
         {
             base.OnClosed(e);
@@ -67,7 +65,5 @@ namespace WebPageWatcher.UI
             Topmost = false; // important
             Focus();
         }
-
     }
-
 }

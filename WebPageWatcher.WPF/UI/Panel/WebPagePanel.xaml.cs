@@ -1,21 +1,10 @@
 ﻿using FzLib.Basic.Collection;
-using FzLib.UI.Extension;
+using FzLib.UI.Dialog;
 using System;
-using System.Collections.Generic;
-using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using WebPageWatcher.Data;
 using WebPageWatcher.Web;
 
@@ -56,9 +45,6 @@ namespace WebPageWatcher.UI
 
         public override ExtendedObservableCollection<WebPage> Items => BackgroundTask.WebPages;
 
-
-
-
         private void CookieButton_Click(object sender, RoutedEventArgs e)
         {
             new CookieWindow(Item) { Owner = MainWindow }.ShowDialog();
@@ -76,8 +62,6 @@ namespace WebPageWatcher.UI
         {
             ResetItem();
         }
-
-
 
         private async void BlackWhiteListButton_Click(object sender, RoutedEventArgs e)
         {
@@ -111,10 +95,8 @@ namespace WebPageWatcher.UI
             win.ShowDialog();
         }
 
-
         private async void ParseHTTPHeaderButton_Click(object sender, RoutedEventArgs e)
         {
-
             string header = await MainWindow.inputDialog.ShowAsync(FindResource("label_HTTPHeaderInput") as string, true, TryFindResource("hint_HTTPHeader") as string);
             if (header != null)
             {
@@ -166,7 +148,7 @@ namespace WebPageWatcher.UI
                         {
                             defaultName = url.Substring(index);
                         }
-                        string path = FzLib.UI.Dialog.FileSystemDialog.GetSaveFile(null, false, false, defaultName);
+                        string path = FileSystemDialog.GetSaveFile(new FileFilterCollection().AddAllFiles(), false, defaultName);
                         if (path != null)
                         {
                             File.WriteAllBytes(path, content);
@@ -190,7 +172,6 @@ namespace WebPageWatcher.UI
                 MainWindow.progressDialog.Close();
                 await MainWindow.dialog.ShowErrorAsync(ex.ToString(), FindResource("error_forceGet") as string);
             }
-
         }
 
         public override ListView List => lvw;

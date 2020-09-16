@@ -8,7 +8,7 @@ xmlns:system="clr-namespace:System;assembly=mscorlib">
     <system:String x:Key="expander_httpRequest" >HTTP request</system:String>
     <system:String x:Key="expander_httpResponse" >HTTP response</system:String>
     <system:String x:Key="expander_eventAndOperation" >Event and operation</system:String>
-    
+
     <system:String x:Key="label_lastCheckTime" >Last check time:</system:String>
     <system:String x:Key="label_lastExcuteTime" >Last excute time:</system:String>
     <system:String x:Key="label_lastTriggerTime" >Last trigger time:</system:String>
@@ -18,7 +18,7 @@ xmlns:system="clr-namespace:System;assembly=mscorlib">
     <system:String x:Key="label_name" >Name:</system:String>
     <system:String x:Key="label_enabled" >Enabled:</system:String>
     <system:String x:Key="label_code" >Code</system:String>
-    
+
     <system:String x:Key="label_event" >Event:</system:String>
     <system:String x:Key="label_eventWebPage" >Event Web Page:</system:String>
     <system:String x:Key="label_eventScript" >Event Script:</system:String>
@@ -26,7 +26,7 @@ xmlns:system="clr-namespace:System;assembly=mscorlib">
     <system:String x:Key="label_operationWebPage" >Operation Web Page:</system:String>
     <system:String x:Key="label_operationScript" >Operation Script:</system:String>
     <system:String x:Key="label_operationCommand" >Operation Command:</system:String>
-    
+
     <system:String x:Key="label_blackWhiteList" >Black and white list:</system:String>
     <system:String x:Key="label_updateInterval" >Update interval:</system:String>
     <system:String x:Key="label_compareOptions" >Compare options:</system:String>
@@ -55,7 +55,6 @@ xmlns:system="clr-namespace:System;assembly=mscorlib">
     <system:String x:Key="check_innerTextOnly" >Compare inner text only</system:String>
     <system:String x:Key="check_ignoreWhiteSpace" >Ignore white space</system:String>
 
-
     <system:String x:Key="app_name" >Webpage Watcher</system:String>
     <system:String x:Key="win_main" >Webpage Watcher</system:String>
     <system:String x:Key="win_blackWhiteList" >Black and white list settings</system:String>
@@ -66,7 +65,7 @@ xmlns:system="clr-namespace:System;assembly=mscorlib">
     <system:String x:Key="win_history" >History</system:String>
 
     <system:String x:Key="time_hint" >Select interval..</system:String>
-    
+
     <system:String x:Key="menu_id" >Add ID match</system:String>
     <system:String x:Key="menu_xpath" >Add XPath match</system:String>
     <system:String x:Key="menu_path" >Add Path match</system:String>
@@ -74,18 +73,17 @@ xmlns:system="clr-namespace:System;assembly=mscorlib">
     <system:String x:Key="menu_task" >Task</system:String>
     <system:String x:Key="menu_backgroundTask" >Background task</system:String>
 
-
     <system:String x:Key="json_object" >Object</system:String>
     <system:String x:Key="json_array" >Array</system:String>
     <system:String x:Key="json_property" >Property:</system:String>
     <system:String x:Key="json_constructor" >Constructor</system:String>
     <system:String x:Key="json_raw" >Raw</system:String>
-    
+
     <system:String x:Key="option_whiteList" >Use Wwhite list</system:String>
     <system:String x:Key="option_blackList" >Use black lst</system:String>
 
     <system:String x:Key="label_search" >Search</system:String>
-    
+
     <system:String x:Key="list_title" >Title</system:String>
     <system:String x:Key="list_url" >Url</system:String>
     <system:String x:Key="list_lastCheckTime" >Last check time</system:String>
@@ -93,15 +91,13 @@ xmlns:system="clr-namespace:System;assembly=mscorlib">
     <system:String x:Key="list_time" >Update time</system:String>
     <system:String x:Key="list_webPage" >Web page</system:String>
 
-
     <system:String x:Key="list_Key" >Key</system:String>
     <system:String x:Key="list_Value" >Value</system:String>
-
 
     <system:String x:Key="button_openWebPage" >Open..</system:String>
     <system:String x:Key="button_getMore" >More..</system:String>
     <system:String x:Key="button_close" >Close</system:String>
-    
+
     <system:String x:Key="label_changed1">Webpage</system:String>
     <system:String x:Key="label_changed2">Changed</system:String>
 
@@ -111,7 +107,7 @@ xmlns:system="clr-namespace:System;assembly=mscorlib">
     <system:String x:Key="button_viewSetting">View setting</system:String>
     <system:String x:Key="button_ignoreOnce">Ignore once</system:String>
     <system:String x:Key="button_ignore">Always ignore</system:String>
-    
+
     <system:String x:Key="label_taskError1">Webpage</system:String>
     <system:String x:Key="label_taskError2">Error 5 times</system:String>
 
@@ -129,7 +125,7 @@ xmlns:system="clr-namespace:System;assembly=mscorlib">
     <system:String x:Key="info_exportSucceed">Export succeed</system:String>
     <system:String x:Key="error_importFailed">Import failed</system:String>
     <system:String x:Key="info_importSucceed">Import succeed</system:String>
-    <system:String x:Key="title_import">Import </system:String>
+    <system:String x:Key="title_import">Import</system:String>
     <system:String x:Key="title_export">Export</system:String>
     <system:String x:Key="info_excuteSucceed">Excute succeed</system:String>
 
@@ -168,7 +164,7 @@ xmlns:system="clr-namespace:System;assembly=mscorlib">
     <system:String x:Key="dialog_yes">Yes</system:String>
     <system:String x:Key="dialog_no">No</system:String>
     <system:String x:Key="dialog_cancel">Cancel</system:String>
-    
+
     <system:String x:Key="label_error">Error</system:String>
     <system:String x:Key="label_information">Information</system:String>
 
@@ -186,12 +182,11 @@ xmlns:system="clr-namespace:System;assembly=mscorlib">
     <system:String x:Key="ex_invalidPropertyType">The type of property is invalid:</system:String>
     <system:String x:Key="ex_wrongPropertyValue">Fail to set value for the property:</system:String>
     <system:String x:Key="ex_CommandAndLine">Line {0}: {1}</system:String>
-    <system:String x:Key="ex_unknownCommand">Unkown command </system:String>
-
+    <system:String x:Key="ex_unknownCommand">Unkown command</system:String>
 
     <system:String x:Key="type_text">Text</system:String>
     <system:String x:Key="type_binary">Binary</system:String>
-    <system:String x:Key="label_binaryTypePreview">Can't preview binary, do you want to save and open later? </system:String>
+    <system:String x:Key="label_binaryTypePreview">Can't preview binary, do you want to save and open later?</system:String>
     <system:String x:Key="label_binaryTypePreviewTitle">Preview Binary</system:String>
     <system:String x:Key="label_responseIsEmpty">Succeed, but response content is empty</system:String>
     <system:String x:Key="label_allowAutoRedirect">Allow auto redirect by Location</system:String>
@@ -209,7 +204,7 @@ xmlns:system="clr-namespace:System;assembly=mscorlib">
 
     <system:String x:Key="label_updateTime">Update Time:</system:String>
     <system:String x:Key="error_noHistory">There's no histories</system:String>
-    
+
     <system:String x:Key="trigger_excuteWebPageFailed">Compare web page failed</system:String>
     <system:String x:Key="trigger_excuteWebPageChanged">Compare web page, it changed</system:String>
     <system:String x:Key="trigger_excuteWebPageNotChanged">Compare web page, it dosn't changed</system:String>
@@ -228,5 +223,4 @@ xmlns:system="clr-namespace:System;assembly=mscorlib">
     <system:String x:Key="list_logType">Type</system:String>
     <system:String x:Key="list_logMessage">Message</system:String>
     <system:String x:Key="list_logItemID">Item ID</system:String>
-
 </ResourceDictionary>

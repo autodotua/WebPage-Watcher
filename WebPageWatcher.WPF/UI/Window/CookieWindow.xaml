@@ -10,30 +10,29 @@
     WindowStartupLocation="CenterOwner"
         Title="{DynamicResource win_cookie}" Height="450" Width="600">
     <Grid>
-        <Button x:Name="btnSave" HorizontalAlignment="Right" 
-     VerticalAlignment="Top"       Margin="4" Click="Button_Click" Content="{DynamicResource button_save}"/>
+        <Button x:Name="btnSave" HorizontalAlignment="Right"
+     VerticalAlignment="Top"       Margin="4" Click="Button_Click" Content="{DynamicResource button_save}" />
         <Grid Margin="4,48,4,4">
             <Grid.RowDefinitions>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="8"/>
-                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="8" />
+                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="8"/>
-                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="8" />
+                <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
             <DataGrid x:Name="lvw" ItemsSource="{Binding Cookies}" Grid.ColumnSpan="5" SelectionMode="Single"
                   CanUserAddRows="False" CanUserDeleteRows="True" AutoGenerateColumns="False">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="{DynamicResource list_Key}" MinWidth="108" Binding="{Binding Key}"/>
-                    <DataGridTextColumn Header="{DynamicResource list_Value}" MinWidth="160"  Binding="{Binding Value}"/>
+                    <DataGridTextColumn Header="{DynamicResource list_Key}" MinWidth="108" Binding="{Binding Key}" />
+                    <DataGridTextColumn Header="{DynamicResource list_Value}" MinWidth="160"  Binding="{Binding Value}" />
                 </DataGrid.Columns>
             </DataGrid>
 
-            <Button Grid.Row="2" Grid.Column="0" Click="Button_Click_2" Content="{DynamicResource button_new}"/>
-            <Button Grid.Row="2" Grid.Column="2" Click="Button_Click_1" Content="{DynamicResource button_reset}"/>
+            <Button Grid.Row="2" Grid.Column="0" Click="Button_Click_2" Content="{DynamicResource button_new}" />
+            <Button Grid.Row="2" Grid.Column="2" Click="Button_Click_1" Content="{DynamicResource button_reset}" />
         </Grid>
-
     </Grid>
 </local:WindowBase>

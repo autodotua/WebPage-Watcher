@@ -1,20 +1,9 @@
 ﻿using FzLib.Extension;
-using FzLib.UI.Extension;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using WebPageWatcher.Data;
 
 namespace WebPageWatcher.UI
 {
@@ -32,14 +21,16 @@ namespace WebPageWatcher.UI
             cbbLanguage.SelectionChanged += cbbLanguage_SelectionChanged;
             cbbTheme.SelectionChanged += cbbTheme_SelectionChanged;
 
-            switch(GUIConfig.Ring)
+            switch (GUIConfig.Ring)
             {
                 case 0:
                     rbtnRingDisabled.IsChecked = true;
                     break;
+
                 case 1:
                     rbtnRingDefault.IsChecked = true;
                     break;
+
                 default:
                     if (string.IsNullOrEmpty(GUIConfig.CustomRingPath) || !File.Exists(GUIConfig.CustomRingPath))
                     {
@@ -61,7 +52,6 @@ namespace WebPageWatcher.UI
             this.Notify(nameof(Config));
         }
 
-
         private void cbbLanguage_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             Config.Language = (cbbLanguage.SelectedItem as ComboBoxItem).Tag as string;
@@ -71,7 +61,7 @@ namespace WebPageWatcher.UI
 
         private void CheckBox_Click(object sender, RoutedEventArgs e)
         {
-            if(chkStartup.IsChecked==true)
+            if (chkStartup.IsChecked == true)
             {
                 FzLib.Program.Startup.CreateRegistryKey("startup");
             }
@@ -90,14 +80,16 @@ namespace WebPageWatcher.UI
 
         private void RadioButton_Checked(object sender, RoutedEventArgs e)
         {
-            switch((sender as RadioButton).Name)
+            switch ((sender as RadioButton).Name)
             {
                 case nameof(rbtnRingDisabled):
                     GUIConfig.Ring = 0;
                     break;
+
                 case nameof(rbtnRingDefault):
                     GUIConfig.Ring = 1;
                     break;
+
                 case nameof(rbtnRingCustom):
                     GUIConfig.Ring = 2;
                     break;
@@ -110,15 +102,15 @@ namespace WebPageWatcher.UI
 
         private async void Button_Click(object sender, RoutedEventArgs e)
         {
-            string path = FzLib.UI.Dialog.FileSystemDialog.GetOpenFile(new (string, string)[] { ("mp3", "mp3") });
-            if(path!=null)
+            string path = FzLib.UI.Dialog.FileSystemDialog.GetOpenFile(new FzLib.UI.Dialog.FileFilterCollection().Add("mp3", "mp3"));
+            if (path != null)
             {
                 string name = Path.GetFileName(path);
                 GUIConfig.CustomRingName = name;
                 this.Notify(nameof(Config));
                 await Task.Run(() =>
                 {
-                    if(File.Exists(GUIConfig.CustomRingPath))
+                    if (File.Exists(GUIConfig.CustomRingPath))
                     {
                         File.Delete(GUIConfig.CustomRingPath);
                     }

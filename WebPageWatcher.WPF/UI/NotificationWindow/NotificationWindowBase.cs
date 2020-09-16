@@ -1,10 +1,6 @@
 ﻿using FzLib.UI.Extension;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 
@@ -12,7 +8,7 @@ namespace WebPageWatcher.UI
 {
     public class NotificationWindowBase : ExtendedWindow
     {
-        public NotificationWindowBase():base()
+        public NotificationWindowBase() : base()
         {
             AllowsTransparency = true;
             WindowStyle = System.Windows.WindowStyle.None;
@@ -21,9 +17,8 @@ namespace WebPageWatcher.UI
             Opacity = 0.8;
             Background = Brushes.Black;
             Foreground = Brushes.White;
-            
-            Topmost = true;
 
+            Topmost = true;
         }
 
         public void PopUp()
@@ -41,7 +36,7 @@ namespace WebPageWatcher.UI
             Loaded -= NotificationWindowBase_Loaded;
             var desktopWorkingArea = System.Windows.SystemParameters.WorkArea;
 
-            this.Top = desktopWorkingArea.Bottom-ActualHeight;
+            this.Top = desktopWorkingArea.Bottom - ActualHeight;
             DoubleAnimation ani = new DoubleAnimation(desktopWorkingArea.Right - ActualWidth, TimeSpan.FromSeconds(1)) { EasingFunction = new CubicEase() { EasingMode = EasingMode.EaseInOut } };
             BeginAnimation(LeftProperty, ani);
         }
@@ -58,11 +53,13 @@ namespace WebPageWatcher.UI
             };
             BeginAnimation(LeftProperty, ani);
         }
-        bool closing = false;
+
+        private bool closing = false;
+
         protected override void OnClosing(CancelEventArgs e)
         {
             //只允许通过按钮关闭窗体
-            if(!closing)
+            if (!closing)
             {
                 e.Cancel = true;
             }

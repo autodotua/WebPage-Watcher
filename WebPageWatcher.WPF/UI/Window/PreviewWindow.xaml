@@ -11,5 +11,5 @@
     WindowStartupLocation="CenterOwner"
     Loaded="WindowBase_Loaded"
         Title="{DynamicResource win_preview}" Height=" 600" Width="1000">
-    <local:PreviewBox x:Name="box"/>
+    <local:PreviewBox x:Name="box" />
 </local:WindowBase>

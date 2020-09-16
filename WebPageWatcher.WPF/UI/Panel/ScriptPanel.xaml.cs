@@ -1,20 +1,9 @@
 ﻿using FzLib.Basic.Collection;
-using FzLib.UI.Extension;
 using System;
-using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using WebPageWatcher.Data;
 using WebPageWatcher.Web;
 
@@ -29,7 +18,6 @@ namespace WebPageWatcher.UI
         {
             BackgroundTask.WebPagesChanged += (p1, p2) => Notify(nameof(Item));
             InitializeComponent();
-
         }
 
         private async void Button_Click(object sender, RoutedEventArgs e)
@@ -51,6 +39,7 @@ namespace WebPageWatcher.UI
                 }
             }
         }
+
         public override ExtendedObservableCollection<Script> Items => BackgroundTask.Scripts;
 
         public override ListView List => lvw;
@@ -77,9 +66,9 @@ namespace WebPageWatcher.UI
                     logs.AppendLine(p2);
                 };
                 await parser.ParseAsync();
-             
+
                 MainWindow.progressDialog.Close();
-                await MainWindow.dialog.ShowInfomationAsync(logs.ToString(),FindResource("info_excuteSucceed") as string); ;
+                await MainWindow.dialog.ShowInfomationAsync(logs.ToString(), FindResource("info_excuteSucceed") as string); ;
             }
             catch (Exception ex)
             {

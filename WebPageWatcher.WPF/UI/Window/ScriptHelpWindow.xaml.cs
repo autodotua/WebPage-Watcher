@@ -1,12 +1,4 @@
-﻿using HtmlAgilityPack;
-using ICSharpCode.AvalonEdit.Highlighting;
-using Newtonsoft.Json.Linq;
-using System;
-using System.Globalization;
-using System.Reflection;
-using System.Runtime.InteropServices;
-using System.Windows.Controls;
-using WebPageWatcher.Data;
+﻿using System.Globalization;
 using WebPageWatcher.Web;
 
 namespace WebPageWatcher.UI
@@ -16,7 +8,6 @@ namespace WebPageWatcher.UI
     /// </summary>
     public partial class ScriptHelpWindow : WindowBase
     {
-
         public ScriptHelpWindow()
         {
             if (CultureInfo.CurrentCulture.Name == "zh-CN")
@@ -26,11 +17,10 @@ namespace WebPageWatcher.UI
             else
             {
                 Text = Properties.Resources.script_help_en_US.ToEncodedString();
-
             }
             InitializeComponent();
         }
+
         public string Text { get; set; }
     }
 }
-

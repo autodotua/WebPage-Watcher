@@ -1,22 +1,8 @@
 ﻿using FzLib.UI.Extension;
 using ICSharpCode.AvalonEdit.Highlighting;
 using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using WebPageWatcher.Data;
-using WebPageWatcher.Web;
 
 namespace WebPageWatcher.UI
 {
@@ -28,15 +14,15 @@ namespace WebPageWatcher.UI
         public PreviewBox()
         {
             InitializeComponent();
-
         }
+
         public void Load(string text, ResponseType type)
         {
             switch (type)
             {
                 case ResponseType.Html:
-                    grd.ColumnDefinitions[0].Width = new GridLength(1,GridUnitType.Star);
-                    grd.ColumnDefinitions[1].Width = new GridLength(8,GridUnitType.Pixel);
+                    grd.ColumnDefinitions[0].Width = new GridLength(1, GridUnitType.Star);
+                    grd.ColumnDefinitions[1].Width = new GridLength(8, GridUnitType.Pixel);
                     web.NavigateToString(text);
 
                     web.Navigated += (p1, p2) => WebBrowserHelper.SetSilent(web, true);
@@ -45,6 +31,7 @@ namespace WebPageWatcher.UI
 
                     code.Text = text;
                     break;
+
                 case ResponseType.Text:
                     goto a;
                 case ResponseType.Json:
@@ -59,6 +46,7 @@ namespace WebPageWatcher.UI
                     code.Text = text;
 
                     break;
+
                 default:
                     throw new NotSupportedException();
             }

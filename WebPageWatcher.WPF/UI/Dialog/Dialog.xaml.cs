@@ -2,18 +2,12 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace WebPageWatcher.UI
 {
@@ -25,8 +19,8 @@ namespace WebPageWatcher.UI
         public Dialog()
         {
             InitializeComponent();
-
         }
+
         public async Task ShowErrorAsync(string message, string title = null)
         {
             if (title == null)
@@ -36,7 +30,8 @@ namespace WebPageWatcher.UI
             tbkDialogTitle.Foreground = Brushes.Red;
             iconError.Visibility = Visibility.Visible;
             await ShowOk(message, title);
-        } 
+        }
+
         public async Task ShowExceptionAsync(Exception ex, string message, string title = null)
         {
             if (title == null)
@@ -51,6 +46,7 @@ namespace WebPageWatcher.UI
             inlines.Add(new Run(ex.ToString()) { Foreground = Brushes.DarkGray });
             await ShowOk(inlines, title);
         }
+
         public async Task ShowInfomationAsync(string message, string title = null)
         {
             if (title == null)
@@ -62,22 +58,22 @@ namespace WebPageWatcher.UI
             await ShowOk(message, title);
         }
 
-
         private async Task ShowOk(IEnumerable<Inline> inlines, string title)
         {
-            tbkDialogMessage.Text = "" ;
+            tbkDialogMessage.Text = "";
             tbkDialogMessage.Inlines.AddRange(inlines);
             await ShowOk(title);
-        }  
+        }
+
         private async Task ShowOk(string message, string title)
         {
             tbkDialogMessage.Inlines.Clear();
             tbkDialogMessage.Text = message;
             await ShowOk(title);
         }
+
         private async Task ShowOk(string title)
         {
-
             while (dialog.IsOpen)
             {
                 await Task.Delay(100);
@@ -87,7 +83,6 @@ namespace WebPageWatcher.UI
             btnNo.Visibility = Visibility.Collapsed;
 
             iconQuestion.Visibility = Visibility.Collapsed;
-
 
             tbkDialogTitle.Text = title;
             await dialog.ShowDialog(dialog.DialogContent);
@@ -113,7 +108,9 @@ namespace WebPageWatcher.UI
             await dialog.ShowDialog(dialog.DialogContent);
             return result;
         }
-        bool result;
+
+        private bool result;
+
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
             if (sender == btnOk)
@@ -131,7 +128,6 @@ namespace WebPageWatcher.UI
             dialog.CurrentSession?.Close();
         }
     }
-
 
     public class ValueMinusConverter : IValueConverter
     {

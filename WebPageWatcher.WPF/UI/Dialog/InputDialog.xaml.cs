@@ -1,20 +1,7 @@
 ﻿using FzLib.UI.Extension;
 using MaterialDesignThemes.Wpf;
-using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace WebPageWatcher.UI
 {
@@ -27,7 +14,8 @@ namespace WebPageWatcher.UI
         {
             InitializeComponent();
         }
-        public async Task<string> ShowAsync(string title, bool multipleLines,string hint="", string defaultContent = "")
+
+        public async Task<string> ShowAsync(string title, bool multipleLines, string hint = "", string defaultContent = "")
         {
             tbkDialogTitle.Text = title;
             HintAssist.SetHint(textArea, hint);
@@ -38,8 +26,10 @@ namespace WebPageWatcher.UI
             await dialog.ShowDialog(dialog.DialogContent);
             return Result ? InputContent : "";
         }
+
         public string InputContent { get; set; }
         public bool Result { get; set; }
+
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
             if (sender == btnOk)

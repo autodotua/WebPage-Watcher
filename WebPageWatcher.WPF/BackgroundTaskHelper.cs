@@ -1,20 +1,9 @@
 ﻿//#define CONTINUING
 //#define DISABLED
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Threading;
-using WebPageWatcher.Data;
-using WebPageWatcher.Web;
-using WebPageWatcher.UI;
-using FzLib.Basic.Collection;
-using System.Diagnostics;
-using System.Media;
 using System.IO;
 using System.Runtime.InteropServices;
+using WebPageWatcher.UI;
 
 namespace WebPageWatcher
 {
@@ -32,8 +21,8 @@ namespace WebPageWatcher
             App.Current.Dispatcher.Invoke(() =>
             {
                 BackgroundTaskErrorNotificationWindow win = new BackgroundTaskErrorNotificationWindow(e.Item, e.Exception);
-                win.Ignore += (p1, p2) => e.DisableAction() ;
-                win.IgnoreOnce += (p1, p2) => e.ResetAction() ;
+                win.Ignore += (p1, p2) => e.DisableAction();
+                win.IgnoreOnce += (p1, p2) => e.ResetAction();
                 win.PopUp();
             });
         }
@@ -54,14 +43,16 @@ namespace WebPageWatcher
         {
             App.Current.Dispatcher.Invoke(() =>
             {
-                WebPageChangedNotificationWindow win = new WebPageChangedNotificationWindow(e.WebPage,e.CompareResult);
+                WebPageChangedNotificationWindow win = new WebPageChangedNotificationWindow(e.WebPage, e.CompareResult);
                 win.Closed += (p1, p2) => StopPlayingRing();
                 win.PopUp();
                 PlayRing();
             });
         }
+
         public static uint SND_ASYNC = 0x0001;
         public static uint SND_FILENAME = 0x00020000;
+
         [DllImport("winmm.dll", CharSet = CharSet.Unicode)]
         private static extern uint mciSendString(string lpstrCommand, string lpstrReturnString, uint uReturnLength, uint hWndCallback);
 
@@ -87,6 +78,7 @@ namespace WebPageWatcher
                 mciSendString("play ring", null, 0, 0);
             });
         }
+
         public static void StopPlayingRing()
         {
             App.Current.Dispatcher.Invoke(() =>
@@ -96,5 +88,4 @@ namespace WebPageWatcher
             });
         }
     }
-    
 }

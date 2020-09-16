@@ -9,7 +9,6 @@
     <system:String x:Key="expander_httpResponse" >HTTP响应</system:String>
     <system:String x:Key="expander_eventAndOperation" >事件和操作</system:String>
 
-
     <system:String x:Key="label_lastCheckTime" >上一次检查时间：</system:String>
     <system:String x:Key="label_lastUpdateTime" >上一次更新时间：</system:String>
     <system:String x:Key="label_lastExcuteTime" >上一次执行时间：</system:String>
@@ -36,7 +35,7 @@
     <system:String x:Key="label_forceGet" >立即获取查看：</system:String>
     <system:String x:Key="label_forceCompare" >立即进行对比：</system:String>
     <system:String x:Key="label_compare" >对比：</system:String>
-    
+
     <system:String x:Key="label_event" >事件：</system:String>
     <system:String x:Key="label_eventWebPage" >事件的网页：</system:String>
     <system:String x:Key="label_eventScript" >事件的脚本：</system:String>
@@ -87,7 +86,6 @@
     <system:String x:Key="option_blackList" >使用黑名单制</system:String>
 
     <system:String x:Key="label_search" >搜索</system:String>
-
 
     <system:String x:Key="list_title" >标题</system:String>
     <system:String x:Key="list_url" >网址</system:String>
@@ -161,18 +159,17 @@
     <system:String x:Key="set_regardOneSideParseErrorAsNotSame">视单方解析错误为不同</system:String>
     <system:String x:Key="set_regardOneSideParseErrorAsNotSameHint">当对比时新旧内容有一方解析错误时，认为内容不同，而不是报错</system:String>
 
-
     <system:String x:Key="dialog_ok">确定</system:String>
     <system:String x:Key="dialog_yes">是</system:String>
     <system:String x:Key="dialog_no">否</system:String>
     <system:String x:Key="dialog_cancel">取消</system:String>
-    
+
     <system:String x:Key="label_error">错误</system:String>
     <system:String x:Key="label_information">提示</system:String>
-    
+
     <system:String x:Key="label_headerError">解析完成，以下行无法解析：</system:String>
     <system:String x:Key="label_compareComplete">对比完成，没有发生变化</system:String>
-    
+
     <system:String x:Key="ex_GetResponse">获取HTTP响应失败</system:String>
     <system:String x:Key="ex_cannotFindWebPageByName">找不到指定名称的任务：</system:String>
     <system:String x:Key="ex_webPageNameNotUnique">该名称的任务不唯一：</system:String>
@@ -185,7 +182,7 @@
     <system:String x:Key="ex_wrongPropertyValue">属性赋值错误：</system:String>
     <system:String x:Key="ex_jsonPathError">JSON路径错误，无法找到指定元素：</system:String>
     <system:String x:Key="ex_CommandAndLine">第{0}行：{1}</system:String>
-    
+
     <system:String x:Key="type_text">文本</system:String>
     <system:String x:Key="type_binary">二进制</system:String>
     <system:String x:Key="label_binaryTypePreview">二进制格式无法进行预览，是否保存？</system:String>
@@ -195,9 +192,9 @@
     <system:String x:Key="label_allowAutoRedirect">允许使用Location进行跳转</system:String>
     <system:String x:Key="label_keepAlive">保持连接</system:String>
     <system:String x:Key="label_variableExist">变量名 {0} 已存在</system:String>
-    
+
     <system:String x:Key="label_programBy">由 autodotua 编写</system:String>
-    
+
     <system:String x:Key="tab_webpage">网页</system:String>
     <system:String x:Key="tab_script">脚本</system:String>
     <system:String x:Key="tab_trigger">触发器</system:String>
@@ -223,7 +220,5 @@
     <system:String x:Key="button_ok">确定</system:String>
     <system:String x:Key="list_logType">类别</system:String>
     <system:String x:Key="list_logMessage">信息</system:String>
-    <system:String x:Key="list_logItemID">对象ID</system:String> 
-
-
+    <system:String x:Key="list_logItemID">对象ID</system:String>
 </ResourceDictionary>

@@ -1,12 +1,4 @@
-﻿using HtmlAgilityPack;
-using ICSharpCode.AvalonEdit.Highlighting;
-using Newtonsoft.Json.Linq;
-using System;
-using System.Reflection;
-using System.Runtime.InteropServices;
-using System.Windows.Controls;
-using WebPageWatcher.Data;
-using WebPageWatcher.Web;
+﻿using WebPageWatcher.Data;
 
 namespace WebPageWatcher.UI
 {
@@ -15,11 +7,11 @@ namespace WebPageWatcher.UI
     /// </summary>
     public partial class PreviewWindow : WindowBase
     {
-
-        public PreviewWindow(string text, ResponseType type):this()
+        public PreviewWindow(string text, ResponseType type) : this()
         {
-            box.Load(text,type);
+            box.Load(text, type);
         }
+
         public PreviewWindow()
         {
             InitializeComponent();

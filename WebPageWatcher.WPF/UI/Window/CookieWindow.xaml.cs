@@ -1,18 +1,6 @@
-﻿using FzLib.UI.Extension;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using WebPageWatcher.Data;
 
 namespace WebPageWatcher.UI
@@ -23,6 +11,7 @@ namespace WebPageWatcher.UI
     public partial class CookieWindow : WindowBase
     {
         private WebPage webPage;
+
         public CookieWindow(WebPage webPage)
         {
             InitializeComponent();
@@ -36,7 +25,7 @@ namespace WebPageWatcher.UI
             Reset();
         }
 
-        private void Reset( )
+        private void Reset()
         {
             Cookies.Clear();
             foreach (var cookie in webPage.Request_Cookies)
@@ -50,7 +39,7 @@ namespace WebPageWatcher.UI
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             webPage.Request_Cookies = Cookies.ToList();
-            
+
             Close();
         }
 

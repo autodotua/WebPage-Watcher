@@ -3,14 +3,11 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Data;
 using WebPageWatcher.Data;
 
 namespace WebPageWatcher.UI
 {
-
     public class IsNotNullToBoolConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
@@ -22,8 +19,8 @@ namespace WebPageWatcher.UI
         {
             throw new NotSupportedException();
         }
-
     }
+
     public class ResponseTypeConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
@@ -36,6 +33,7 @@ namespace WebPageWatcher.UI
             return (ResponseType)(int)value;
         }
     }
+
     public class TimeSpan2Ms : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
@@ -57,9 +55,9 @@ namespace WebPageWatcher.UI
                 return ms;
             }
             return 1000 * 600;
-
         }
     }
+
     public class AttributesConvert : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
@@ -73,6 +71,7 @@ namespace WebPageWatcher.UI
             throw new NotImplementedException();
         }
     }
+
     public class HtmlNodeConvert : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
@@ -83,7 +82,6 @@ namespace WebPageWatcher.UI
                 return node.OuterHtml.Trim();
             }
             return node.OuterHtml.Replace(node.InnerHtml, "").Trim();
-
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
@@ -91,6 +89,7 @@ namespace WebPageWatcher.UI
             throw new NotImplementedException();
         }
     }
+
     public class HtmlChildNodesFilterConvert : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
@@ -115,6 +114,7 @@ namespace WebPageWatcher.UI
             throw new NotImplementedException();
         }
     }
+
     public sealed class MethodToValueConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
@@ -136,6 +136,7 @@ namespace WebPageWatcher.UI
             throw new NotSupportedException();
         }
     }
+
     public sealed class LogTypeConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
@@ -149,6 +150,7 @@ namespace WebPageWatcher.UI
             throw new NotSupportedException();
         }
     }
+
     public sealed class TriggerEnumToStringConverter : IValueConverter
     {
         private static Dictionary<TriggerEvent, string> triggerEventToResouceKey
@@ -161,6 +163,7 @@ namespace WebPageWatcher.UI
                 [TriggerEvent.ExcuteWebPageNotChanged] = "trigger_excuteWebPageNotChanged",
                 [TriggerEvent.None] = "trigger_none",
             };
+
         private static Dictionary<TriggerOperation, string> triggerOperationToResouceKey
             = new Dictionary<TriggerOperation, string>()
             {
@@ -169,6 +172,7 @@ namespace WebPageWatcher.UI
                 [TriggerOperation.ExcuteCommand] = "trigger_excuteCommand",
                 [TriggerOperation.None] = "trigger_none",
             };
+
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             if (value is TriggerEvent @event)

@@ -14,85 +14,85 @@
     WindowStartupLocation="CenterOwner"
         Title="{DynamicResource win_blackWhiteList}" Height="450" Width="600">
     <Window.Resources>
-        <local:AttributesConvert x:Key="attr2str"/>
-        <local:HtmlNodeConvert x:Key="node2str"/>
-        <local:HtmlChildNodesFilterConvert x:Key="nodesFilter"/>
-        <local:MethodToValueConverter x:Key="MethodToValueConverter"/>
+        <local:AttributesConvert x:Key="attr2str" />
+        <local:HtmlNodeConvert x:Key="node2str" />
+        <local:HtmlChildNodesFilterConvert x:Key="nodesFilter" />
+        <local:MethodToValueConverter x:Key="MethodToValueConverter" />
     </Window.Resources>
     <Grid>
-        <Button x:Name="btnSave" HorizontalAlignment="Right" 
-     VerticalAlignment="Top"       Margin="4" Click="btnSave_Click" Content="{DynamicResource button_save}"/>
+        <Button x:Name="btnSave" HorizontalAlignment="Right"
+     VerticalAlignment="Top"       Margin="4" Click="btnSave_Click" Content="{DynamicResource button_save}" />
         <Grid Margin="4,48,4,4" x:Name="grd">
             <Grid.RowDefinitions>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="8"/>
-                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="8" />
+                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="2*"/>
-                <ColumnDefinition Width="8"/>
-                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="2*" />
+                <ColumnDefinition Width="8" />
+                <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
-            <GridSplitter Grid.Column="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
+            <GridSplitter Grid.Column="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" />
             <Grid>
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="8"/>
-                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="8" />
+                    <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="8"/>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="4"/>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="8"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="8"/>
-                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="8" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="4" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="8" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="8" />
+                    <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
-                <TextBlock VerticalAlignment="Center" Text="{DynamicResource label_search}"/>
+                <TextBlock VerticalAlignment="Center" Text="{DynamicResource label_search}" />
                 <ComboBox x:Name="cbbSearchType" Grid.Column="2"
                   VerticalAlignment="Center" SelectedIndex="0">
                     <ComboBoxItem>ID</ComboBoxItem>
                     <ComboBoxItem>XPath</ComboBoxItem>
                 </ComboBox>
                 <TextBlock VerticalAlignment="Center" Grid.Column="4">=</TextBlock>
-                <TextBox VerticalAlignment="Center" Grid.Column="6" x:Name="txtSearch"/>
+                <TextBox VerticalAlignment="Center" Grid.Column="6" x:Name="txtSearch" />
                 <Button Grid.Column="999" Width="24" Height="24"
   Style="{StaticResource MaterialDesignFloatingActionMiniButton}"
   HorizontalAlignment="Left"   Click="SearchButton_Click">
                     <materialDesign:PackIcon    Kind="Search"    Height="18"    Width="18" />
                 </Button>
 
-                <TreeView Name="tree" Grid.Row="2" Grid.ColumnSpan="999"  >
+                <TreeView Name="tree" Grid.Row="2" Grid.ColumnSpan="999">
                     <TreeView.ContextMenu>
                         <ContextMenu Opened="ContextMenu_Opened">
-                            <MenuItem x:Name="menuId" Header="{DynamicResource menu_id}" Click="menuId_Click"/>
-                            <MenuItem x:Name="menuXPath" Header="{DynamicResource menu_xpath}" Click="menuXPath_Click"/>
-                            <MenuItem x:Name="menuPath" Header="{DynamicResource menu_path}" Click="menuPath_Click"/>
+                            <MenuItem x:Name="menuId" Header="{DynamicResource menu_id}" Click="menuId_Click" />
+                            <MenuItem x:Name="menuXPath" Header="{DynamicResource menu_xpath}" Click="menuXPath_Click" />
+                            <MenuItem x:Name="menuPath" Header="{DynamicResource menu_path}" Click="menuPath_Click" />
                         </ContextMenu>
                     </TreeView.ContextMenu>
                     <TreeView.Resources>
                         <HierarchicalDataTemplate x:Key="htmlTemplate" DataType="{x:Type html:HtmlNode}" ItemsSource="{Binding ChildNodes, Converter={StaticResource nodesFilter}}">
                             <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="{Binding ., Converter={StaticResource node2str}}"/>
+                                <TextBlock Text="{Binding ., Converter={StaticResource node2str}}" />
                             </StackPanel>
                         </HierarchicalDataTemplate>
                         <HierarchicalDataTemplate DataType="{x:Type jlinq:JArray}" ItemsSource="{Binding Converter={StaticResource MethodToValueConverter}, ConverterParameter='Children'}">
-                            <TextBlock Text="{DynamicResource json_array}"/>
+                            <TextBlock Text="{DynamicResource json_array}" />
                         </HierarchicalDataTemplate>
                         <HierarchicalDataTemplate DataType="{x:Type jlinq:JProperty}" ItemsSource="{Binding Converter={StaticResource MethodToValueConverter}, ConverterParameter='Children'}">
                             <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="{DynamicResource json_property}"/>
-                                <TextBlock Text="{Binding Path=Name, Mode=OneWay}"/>
+                                <TextBlock Text="{DynamicResource json_property}" />
+                                <TextBlock Text="{Binding Path=Name, Mode=OneWay}" />
                             </StackPanel>
                         </HierarchicalDataTemplate>
                         <HierarchicalDataTemplate DataType="{x:Type jlinq:JObject}" ItemsSource="{Binding Converter={StaticResource MethodToValueConverter}, ConverterParameter='Children'}">
-                            <TextBlock Text="{DynamicResource json_object}"/>
+                            <TextBlock Text="{DynamicResource json_object}" />
                         </HierarchicalDataTemplate>
                         <HierarchicalDataTemplate DataType="{x:Type jlinq:JConstructor}" ItemsSource="{Binding Converter={StaticResource MethodToValueConverter}, ConverterParameter='Children'}">
-                            <TextBlock Text="{DynamicResource json_constructor}"/>
+                            <TextBlock Text="{DynamicResource json_constructor}" />
                         </HierarchicalDataTemplate>
                         <HierarchicalDataTemplate DataType="{x:Type jlinq:JRaw}" ItemsSource="{Binding Converter={StaticResource MethodToValueConverter}, ConverterParameter='Children'}">
                             <TextBlock Text="{DynamicResource json_raw}">
@@ -100,33 +100,30 @@
                         </HierarchicalDataTemplate>
                         <DataTemplate DataType="{x:Type jlinq:JValue}">
                             <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="{Binding Path=Value}"/>
+                                <TextBlock Text="{Binding Path=Value}" />
                             </StackPanel>
                         </DataTemplate>
                     </TreeView.Resources>
                 </TreeView>
-
             </Grid>
             <Grid Grid.Column="2">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="8"/>
-                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="8" />
+                    <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
                 <ComboBox x:Name="cbbBlackWhite">
-                    <ComboBoxItem Content="{DynamicResource option_whiteList}"/>
-                    <ComboBoxItem Content="{DynamicResource option_blackList}"/>
+                    <ComboBoxItem Content="{DynamicResource option_whiteList}" />
+                    <ComboBoxItem Content="{DynamicResource option_blackList}" />
                 </ComboBox>
                 <StackPanel x:Name="stkIdentifies" Grid.Row="2">
-
                 </StackPanel>
             </Grid>
-            <Button Grid.Row="2" Grid.Column="2" Click="Button_Click_2" Content="{DynamicResource button_new}"/>
+            <Button Grid.Row="2" Grid.Column="2" Click="Button_Click_2" Content="{DynamicResource button_new}" />
             <!--<Button Grid.Row="2" Grid.Column="2" Click="Button_Click_1">重置</Button>-->
             <!--<Button Grid.Row="2" Grid.Column="4" Click="Button_Click">保存</Button>-->
         </Grid>
-        <local:Dialog Margin="-4,-48,-4,-4" x:Name="dialog"/>
-        <local:ProgressDialog Margin="-4,-48,-4,-4" x:Name="progressDialog"/>
+        <local:Dialog Margin="-4,-48,-4,-4" x:Name="dialog" />
+        <local:ProgressDialog Margin="-4,-48,-4,-4" x:Name="progressDialog" />
     </Grid>
-
 </local:WindowBase>

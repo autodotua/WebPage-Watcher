@@ -3,7 +3,7 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"             
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:mde="clr-namespace:MaterialDesignExtensions.Controls;assembly=MaterialDesignExtensions"
 
         xmlns:wpw="clr-namespace:WebPageWatcher;assembly=WebPageWatcher.Core"
@@ -11,34 +11,34 @@
          xmlns:glo="clr-namespace:System.Globalization;assembly=mscorlib"
 
     Loaded="Window_Loaded"
-    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" 
+    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
     mc:Ignorable="d"
     Closing="Window_Closing"
     WindowStartupLocation="CenterScreen"
         Title="{DynamicResource win_main}" Height="600" Width="1200" x:Name="win">
     <Grid x:Name="outGrd" Margin="4">
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
-        <TabControl x:Name="tab" Style="{StaticResource MaterialDesignTabControl}" 
+        <TabControl x:Name="tab" Style="{StaticResource MaterialDesignTabControl}"
                     Grid.RowSpan="2" Grid.ColumnSpan="2"
                     mde:TabControlAssist.TabHeaderHorizontalAlignment="Center">
-            <TabItem Header="{DynamicResource tab_webpage}" >
-                <local:WebPagePanel x:Name="webPagePanel"/>
+            <TabItem Header="{DynamicResource tab_webpage}">
+                <local:WebPagePanel x:Name="webPagePanel" />
             </TabItem>
             <TabItem Header="{DynamicResource tab_script}">
-                <local:ScriptPanel x:Name="scriptPanel"/>
+                <local:ScriptPanel x:Name="scriptPanel" />
             </TabItem>
             <TabItem Header="{DynamicResource tab_trigger}">
-                <local:TriggerPanel x:Name="triggerPanel"/>
+                <local:TriggerPanel x:Name="triggerPanel" />
             </TabItem>
         </TabControl>
-        <Menu  IsMainMenu="True" HorizontalAlignment="Left" >
+        <Menu  IsMainMenu="True" HorizontalAlignment="Left">
             <MenuItem    Header="{DynamicResource menu_program}">
                 <MenuItem  Header="{DynamicResource menu_setting}" Click="SettingMenuItem_Click">
                     <MenuItem.Icon>
@@ -51,13 +51,11 @@
                     </MenuItem.Icon>
                 </MenuItem>
 
-              
                 <MenuItem  Header="{DynamicResource menu_close}" Click="ShutdownMenuItem_Click">
                     <MenuItem.Icon>
                         <materialDesign:PackIcon Kind="Shutdown" />
                     </MenuItem.Icon>
-                </MenuItem> 
-
+                </MenuItem>
             </MenuItem>
             <MenuItem Header="{DynamicResource menu_task}">
                            <MenuItem  Header="{DynamicResource menu_backgroundTask}"
@@ -92,10 +90,9 @@
             </MenuItem>
         </Menu>
 
-        <local:Dialog Grid.RowSpan="999" Margin="-4" Grid.ColumnSpan="999" x:Name="dialog"/>
-        <local:InputDialog x:Name="inputDialog" Grid.RowSpan="999" Grid.ColumnSpan="999"  Margin="-4" Width="{ Binding ElementName=win, Path=ActualWidth }"/>
-        <local:ProgressDialog x:Name="progressDialog" Grid.RowSpan="999" Grid.ColumnSpan="999"  Margin="-4" Width="{ Binding ElementName=win, Path=ActualWidth }"/>
-        <local:AboutDialog  x:Name="aboutDialog" Grid.RowSpan="999" Grid.ColumnSpan="999"  Margin="-4" Width="{ Binding ElementName=win, Path=ActualWidth }"/>
-
+        <local:Dialog Grid.RowSpan="999" Margin="-4" Grid.ColumnSpan="999" x:Name="dialog" />
+        <local:InputDialog x:Name="inputDialog" Grid.RowSpan="999" Grid.ColumnSpan="999"  Margin="-4" Width="{ Binding ElementName=win, Path=ActualWidth }" />
+        <local:ProgressDialog x:Name="progressDialog" Grid.RowSpan="999" Grid.ColumnSpan="999"  Margin="-4" Width="{ Binding ElementName=win, Path=ActualWidth }" />
+        <local:AboutDialog  x:Name="aboutDialog" Grid.RowSpan="999" Grid.ColumnSpan="999"  Margin="-4" Width="{ Binding ElementName=win, Path=ActualWidth }" />
     </Grid>
 </local:WindowBase>

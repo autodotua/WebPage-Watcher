@@ -1,23 +1,10 @@
 ﻿using FzLib.Basic.Collection;
-using FzLib.UI.Extension;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Globalization;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using WebPageWatcher.Data;
-using WebPageWatcher.Web;
 using Trigger = WebPageWatcher.Data.Trigger;
 
 namespace WebPageWatcher.UI
@@ -26,7 +13,7 @@ namespace WebPageWatcher.UI
     {
         private void UpdateEventSelector()
         {
-            bool webPageVisiable = Item.Event == TriggerEvent.ExcuteWebPageFailed || Item.Event == TriggerEvent.ExcuteWebPageChanged||Item.Event==TriggerEvent.ExcuteWebPageNotChanged;
+            bool webPageVisiable = Item.Event == TriggerEvent.ExcuteWebPageFailed || Item.Event == TriggerEvent.ExcuteWebPageChanged || Item.Event == TriggerEvent.ExcuteWebPageNotChanged;
             bool scriptVisiable = Item.Event == TriggerEvent.ExcuteScriptFailed || Item.Event == TriggerEvent.ExcuteScriptSucceed;
             tbkEventWebPage.Visibility = webPageVisiable ? Visibility.Visible : Visibility.Collapsed;
             cbbEventWebPage.Visibility = webPageVisiable ? Visibility.Visible : Visibility.Collapsed;
@@ -43,7 +30,6 @@ namespace WebPageWatcher.UI
             }
         }
 
-
         private void UpdateOperationSelector()
         {
             bool webPageVisiable = Item.Operation == TriggerOperation.ExcuteWebPage;
@@ -52,7 +38,7 @@ namespace WebPageWatcher.UI
 
             tbkOperationWebPage.Visibility = webPageVisiable ? Visibility.Visible : Visibility.Collapsed;
             cbbOperationWebPage.Visibility = webPageVisiable ? Visibility.Visible : Visibility.Collapsed;
-      
+
             tbkOperationScript.Visibility = scriptVisiable ? Visibility.Visible : Visibility.Collapsed;
             cbbOperationScript.Visibility = scriptVisiable ? Visibility.Visible : Visibility.Collapsed;
 
@@ -70,12 +56,15 @@ namespace WebPageWatcher.UI
         }
 
         private IDbModel eventItem;
+
         public IDbModel EventItem
         {
             get => eventItem;
             set => SetValueAndNotify(ref eventItem, value, nameof(EventItem));
         }
+
         private IDbModel operationItem;
+
         public IDbModel OperationItem
         {
             get => operationItem;
@@ -86,7 +75,6 @@ namespace WebPageWatcher.UI
         {
             BackgroundTask.WebPagesChanged += (p1, p2) => Notify(nameof(Item));
             InitializeComponent();
-
         }
 
         private async void Button_Click(object sender, RoutedEventArgs e)
@@ -108,13 +96,12 @@ namespace WebPageWatcher.UI
                 }
             }
         }
+
         public IEnumerable<TriggerEvent> Events { get; } = Enum.GetValues(typeof(TriggerEvent)).Cast<TriggerEvent>();
         public IEnumerable<TriggerOperation> Operations { get; } = Enum.GetValues(typeof(TriggerOperation)).Cast<TriggerOperation>();
         public override ExtendedObservableCollection<Trigger> Items => BackgroundTask.Triggers;
 
         public override ListView List => lvw;
-
-
 
         private async void SaveButton_Click(object sender, RoutedEventArgs e)
         {
@@ -128,10 +115,8 @@ namespace WebPageWatcher.UI
             ResetItem();
         }
 
-
         private void TriggerPanelBase_Loaded(object sender, RoutedEventArgs e)
         {
-            
         }
 
         private void Item_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
@@ -140,13 +125,15 @@ namespace WebPageWatcher.UI
             {
                 case nameof(Item):
                     UpdateEventSelector();
-                    UpdateOperationSelector(); 
+                    UpdateOperationSelector();
                     Item.PropertyChanged += Item_PropertyChanged;
 
                     break;
+
                 case nameof(Trigger.Event):
                     UpdateEventSelector();
                     break;
+
                 case nameof(Trigger.Operation):
                     UpdateOperationSelector();
                     break;

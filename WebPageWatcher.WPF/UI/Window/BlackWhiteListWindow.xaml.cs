@@ -1,15 +1,12 @@
-﻿using FzLib.UI.Extension;
-using HtmlAgilityPack;
+﻿using HtmlAgilityPack;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
-using System.Windows.Data;
 using WebPageWatcher.Data;
 using WebPageWatcher.Web;
 
@@ -23,8 +20,10 @@ namespace WebPageWatcher.UI
         public WebPage WebPage { get; private set; }
         private HtmlDocument htmlDoc;
         private JToken jsonObject;
+
         //private HtmlNodeCollection nodes;
         public HtmlNodeCollection HtmlNodes { get; private set; }// { get => nodes; private set => SetValueAndNotify(ref nodes, value, nameof(HtmlNodes)); }
+
         public List<JToken> JsonTokens { get; private set; }// { get => nodes; private set => SetValueAndNotify(ref nodes, value, nameof(HtmlNodes)); }
 
         public BlackWhiteListWindow(WebPage webPage)
@@ -32,20 +31,22 @@ namespace WebPageWatcher.UI
             WebPage = webPage;
             InitializeComponent();
             //VirtualizingPanel.SetIsVirtualizing(tree, false);
-
         }
+
         private async Task LoadAsync()
         {
             progressDialog.Show();
             cbbBlackWhite.SelectedIndex = WebPage.BlackWhiteListMode;
             switch (WebPage.Response_Type)
             {
-                case  ResponseType.Html:
+                case ResponseType.Html:
                     await LoadHtmlAsync();
                     break;
-                case  ResponseType.Json:
+
+                case ResponseType.Json:
                     await LoadJsonAsync();
                     break;
+
                 default:
                     throw new NotSupportedException();
             }
@@ -79,6 +80,7 @@ namespace WebPageWatcher.UI
 
             tree.ItemsSource = JsonTokens;
         }
+
         private async Task LoadHtmlAsync()
         {
             if (!await LoadHtmlDocumentAsync())
@@ -121,17 +123,17 @@ namespace WebPageWatcher.UI
             try
             {
                 Exception ex = null;
-             
-                    try
-                    {
-                        string response =await HtmlGetter.GetResponseTextAsync(WebPage);
+
+                try
+                {
+                    string response = await HtmlGetter.GetResponseTextAsync(WebPage);
                     htmlDoc = new HtmlDocument();
                     htmlDoc.LoadHtml(response);
-                    }
-                    catch (Exception ex2)
-                    {
-                        ex = ex2;
-                    }
+                }
+                catch (Exception ex2)
+                {
+                    ex = ex2;
+                }
                 if (ex != null)
                 {
                     throw ex;
@@ -152,8 +154,8 @@ namespace WebPageWatcher.UI
                 }
             }
             return true;
-
         }
+
         private async Task<bool> LoadJsonObjectAsync()
         {
             try
@@ -176,7 +178,6 @@ namespace WebPageWatcher.UI
                 }
             }
             return true;
-
         }
 
         private void Line_Deleted(object sender, EventArgs e)
@@ -184,15 +185,12 @@ namespace WebPageWatcher.UI
             stkIdentifies.Children.Remove(sender as UIElement);
         }
 
-
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-
         }
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
-
         }
 
         private void Button_Click_2(object sender, RoutedEventArgs e)
@@ -203,9 +201,11 @@ namespace WebPageWatcher.UI
                 case ResponseType.Html:
                     line = new HtmlBlackWhiteListItemLine();
                     break;
-                case   ResponseType.Json:
+
+                case ResponseType.Json:
                     line = new JsonBlackWhiteListItemLine();
                     break;
+
                 default:
                     throw new NotSupportedException();
             }
@@ -228,20 +228,19 @@ namespace WebPageWatcher.UI
                     }
                     menuXPath.Visibility = Visibility.Visible;
                     break;
+
                 case ResponseType.Json:
                     menuPath.Visibility = Visibility.Visible;
                     break;
+
                 default:
                     throw new NotSupportedException();
             }
-            
-
         }
 
         private void menuId_Click(object sender, RoutedEventArgs e)
         {
             AddHtmlLine(BlackWhiteListItemType.Id, p => p.Id);
-
         }
 
         private void AddHtmlLine(BlackWhiteListItemType type, Func<HtmlNode, string> valueFunc)
@@ -291,7 +290,6 @@ namespace WebPageWatcher.UI
             }
             //SelectTreeViewItemByHtmlNode(node);
             SelectTreeViewItemByHtmlNode(node);// tree.ItemContainerGenerator.ContainerFromIndex(tree.Items.CurrentPosition) as TreeViewItem;
-
         }
 
         private void SelectTreeViewItemByHtmlNode(HtmlNode node)
@@ -359,6 +357,4 @@ namespace WebPageWatcher.UI
             await LoadAsync();
         }
     }
-
-  
 }

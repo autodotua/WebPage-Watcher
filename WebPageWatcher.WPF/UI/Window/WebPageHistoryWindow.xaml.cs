@@ -1,13 +1,8 @@
 ﻿using FzLib.Extension;
-using HtmlAgilityPack;
-using ICSharpCode.AvalonEdit.Highlighting;
-using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Linq;
-using System.Reflection;
-using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -27,14 +22,15 @@ namespace WebPageWatcher.UI
         {
             WebPage = webPage;
         }
+
         public WebPageHistoryWindow()
         {
             InitializeComponent();
-
         }
 
         public WebPage WebPage { get; }
         public WebPageUpdate update;
+
         public WebPageUpdate Update
         {
             get => update;
@@ -65,7 +61,6 @@ namespace WebPageWatcher.UI
             }
             Updates = new ObservableCollection<WebPageUpdate>(datas);
             this.Notify(nameof(Updates));
-
         }
 
         public ObservableCollection<WebPageUpdate> Updates { get; private set; }
@@ -105,23 +100,26 @@ namespace WebPageWatcher.UI
                     win.ShowDialog();
 
                     break;
+
                 case 0:
                     if (Update != null)
                     {
-                        pre.Load(Update.Content.ToEncodedString(),(await DbHelper.GetWebPageAsync(Update.ID)).Response_Type);
+                        pre.Load(Update.Content.ToEncodedString(), (await DbHelper.GetWebPageAsync(Update.ID)).Response_Type);
                     }
                     else
                     {
                         pre.Clear();
                     }
                     break;
+
                 default:
                     break;
             }
         }
 
-        int selectionMode = 0;
+        private int selectionMode = 0;
         private WebPageUpdate lastItem;
+
         private void btnCompare_Click(object sender, System.Windows.RoutedEventArgs e)
         {
             selectionMode = 1;
@@ -129,11 +127,10 @@ namespace WebPageWatcher.UI
             Animate(1);
             lastItem = Update;
             Update = null;
-
         }
+
         private void Animate(int step)
         {
-
             double x1;
             double opacity;
             double x2;
@@ -157,6 +154,7 @@ namespace WebPageWatcher.UI
             column2Tran.BeginAnimation(TranslateTransform.XProperty, ani3);
         }
     }
+
     public class WebPageIDConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)

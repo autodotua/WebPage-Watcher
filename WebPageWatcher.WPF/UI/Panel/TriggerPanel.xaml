@@ -2,211 +2,202 @@
     x:Class="WebPageWatcher.UI.TriggerPanel"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-      xmlns:local="clr-namespace:WebPageWatcher.UI"      
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:local="clr-namespace:WebPageWatcher.UI"
     xmlns:wpw="clr-namespace:WebPageWatcher;assembly=WebPageWatcher.Core"
 
              xmlns:glo="clr-namespace:System.Globalization;assembly=mscorlib"
     xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-      mc:Ignorable="d" 
+      mc:Ignorable="d"
     Initialized="TriggerPanelBase_Initialized"
     Loaded="TriggerPanelBase_Loaded">
     <UserControl.Resources>
         <local:IsNotNullToBoolConverter x:Key="notNull2Enable" />
-        <local:ValueMinusConverter x:Key="minus"/>
-        <local:ResponseTypeConverter x:Key="responseType"/>
+        <local:ValueMinusConverter x:Key="minus" />
+        <local:ResponseTypeConverter x:Key="responseType" />
         <local:TimeSpan2Ms x:Key="timeSpan2Ms" />
-        <local:TriggerEnumToStringConverter x:Key="trigger2str"/>
+        <local:TriggerEnumToStringConverter x:Key="trigger2str" />
     </UserControl.Resources>
     <Grid Grid.Row="2">
-        <Grid.ColumnDefinitions >
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="20"/>
-            <ColumnDefinition Width="*"/>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="20" />
+            <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
-        <GridSplitter Grid.Column="1" VerticalAlignment="Stretch" HorizontalAlignment="Center" Width="6"/>
+        <GridSplitter Grid.Column="1" VerticalAlignment="Stretch" HorizontalAlignment="Center" Width="6" />
 
         <Grid>
             <Grid.RowDefinitions>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="8"/>
-                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="8" />
+                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
             <ListView x:Name="lvw" ItemsSource="{Binding Items}">
                 <ListView.View>
                     <GridView>
-                        <GridViewColumn Header="{DynamicResource list_title}" DisplayMemberBinding="{Binding Name}"/>
+                        <GridViewColumn Header="{DynamicResource list_title}" DisplayMemberBinding="{Binding Name}" />
                     </GridView>
                 </ListView.View>
             </ListView>
 
-            <Button Grid.Row="2" Click="Button_Click" Content="{DynamicResource button_new}"/>
+            <Button Grid.Row="2" Click="Button_Click" Content="{DynamicResource button_new}" />
         </Grid>
 
         <Grid Grid.Column="2" IsEnabled="{Binding Item, Converter={StaticResource notNull2Enable}}">
 
             <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="8"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="8"/>
-                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="8" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="8" />
+                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
-            <TextBlock Text="{Binding Item.Name}" FontSize="24" HorizontalAlignment="Left" Margin="8,0,0,0"/>
+            <TextBlock Text="{Binding Item.Name}" FontSize="24" HorizontalAlignment="Left" Margin="8,0,0,0" />
             <ScrollViewer HorizontalScrollBarVisibility="Disabled" Grid.Row="2"
                       ClipToBounds="True" VerticalScrollBarVisibility="Auto">
-                <StackPanel >
+                <StackPanel>
 
-                    <GroupBox BorderThickness="0" Header="{DynamicResource expander_runningStatus}" 
+                    <GroupBox BorderThickness="0" Header="{DynamicResource expander_runningStatus}"
   materialDesign:ColorZoneAssist.Mode="Accent">
                         <Grid>
                             <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="8"/>
-                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="8" />
+                                <RowDefinition Height="Auto" />
                             </Grid.RowDefinitions>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="16"/>
-                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="16" />
+                                <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
 
-                            <TextBlock Grid.Row="0" VerticalAlignment="Center" 
-                   HorizontalAlignment="Right" Text="{DynamicResource label_lastTriggerTime}"/>
+                            <TextBlock Grid.Row="0" VerticalAlignment="Center"
+                   HorizontalAlignment="Right" Text="{DynamicResource label_lastTriggerTime}" />
                             <TextBox Grid.Row="0" Grid.Column="2"  IsReadOnly="True"
-                VerticalAlignment="Center" Text="{Binding Item.LastExcuteTime , ConverterCulture={x:Static glo:CultureInfo.CurrentUICulture}}"/>
-
-
-
-                        </Grid>
-
-                    </GroupBox >
-
-                    <FrameworkElement Height="4"/>
-
-                    <GroupBox BorderThickness="0" Header="{DynamicResource expander_basicInfo}"  
-  materialDesign:ColorZoneAssist.Mode="Accent">
-                        <Grid>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="8"/>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="8"/>
-                                <RowDefinition Height="Auto"/>
-                            </Grid.RowDefinitions>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="16"/>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="16"/>
-                                <ColumnDefinition Width="72"/>
-                            </Grid.ColumnDefinitions>
-
-                            <TextBlock Grid.Row="0" VerticalAlignment="Center" 
-                   HorizontalAlignment="Right" Text="{DynamicResource label_name}"/>
-                            <TextBox Grid.Row="0" Grid.Column="2"  Grid.ColumnSpan="3" 
-                VerticalAlignment="Center" Text="{Binding Item.Name}"/>
-
-                            <TextBlock Grid.Row="2" VerticalAlignment="Center" 
-                   HorizontalAlignment="Right" Text="{DynamicResource label_enabled}"/>
-                            <ToggleButton  Grid.Row="2" Grid.Column="2" Grid.ColumnSpan="999" 
-                                       VerticalAlignment="Center" HorizontalAlignment="Right" 
-                                   IsChecked="{Binding Item.Enabled}"/>
-                        </Grid>
-                    </GroupBox >
-
-                    <GroupBox BorderThickness="0" Header="{DynamicResource expander_eventAndOperation}"  
-  materialDesign:ColorZoneAssist.Mode="Accent">
-                        <Grid>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="8"/>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="16"/>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="8"/>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="8"/>
-                                <RowDefinition Height="Auto"/>
-                            </Grid.RowDefinitions>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="16"/>
-                                <ColumnDefinition Width="*"/>
-                            </Grid.ColumnDefinitions>
-                            
-                            <TextBlock Grid.Row="0" VerticalAlignment="Center" 
-                   HorizontalAlignment="Right" Text="{DynamicResource label_event}"/>
-                            <ComboBox Grid.Row="0" Grid.Column="2"   
-                VerticalAlignment="Center" ItemsSource="{Binding Events}" SelectedItem="{Binding Item.Event}">
-                                <ComboBox.ItemTemplate>
-                                    <DataTemplate>
-                                        <TextBlock Text="{Binding .,Converter={StaticResource trigger2str}}"/>
-                                    </DataTemplate>
-                                </ComboBox.ItemTemplate>
-                            </ComboBox>  
-                            <TextBlock x:Name="tbkEventWebPage" Grid.Row="2" VerticalAlignment="Center" 
-                   HorizontalAlignment="Right" Text="{DynamicResource label_eventWebPage}"/>
-                            <ComboBox x:Name="cbbEventWebPage" Grid.Row="2" Grid.Column="2"   
-                VerticalAlignment="Center" ItemsSource="{Binding Source={x:Static wpw:BackgroundTask.WebPages}}" SelectedItem="{Binding EventItem}"/>
-                            <TextBlock x:Name="tbkEventScript" Grid.Row="3" VerticalAlignment="Center" 
-                   HorizontalAlignment="Right" Text="{DynamicResource label_eventScript}"/>
-                            <ComboBox x:Name="cbbEventScript" Grid.Row="3" Grid.Column="2"   
-                VerticalAlignment="Center" ItemsSource="{Binding Source={x:Static wpw:BackgroundTask.Scripts}}" SelectedItem="{Binding EventItem}"/>
-
-                            <TextBlock Grid.Row="5" VerticalAlignment="Center" 
-                   HorizontalAlignment="Right" Text="{DynamicResource label_operation}"/>
-                            <ComboBox Grid.Row="5" Grid.Column="2"   
-                VerticalAlignment="Center" ItemsSource="{Binding Operations}" SelectedItem="{Binding Item.Operation}">
-                                <ComboBox.ItemTemplate>
-                                    <DataTemplate>
-                                        <TextBlock Text="{Binding .,Converter={StaticResource trigger2str}}"/>
-                                    </DataTemplate>
-                                </ComboBox.ItemTemplate>
-                            </ComboBox>  
-                            <TextBlock x:Name="tbkOperationWebPage" Grid.Row="7" VerticalAlignment="Center" 
-                   HorizontalAlignment="Right" Text="{DynamicResource label_operationWebPage}"/>
-                            <ComboBox x:Name="cbbOperationWebPage" Grid.Row="7" Grid.Column="2"   
-                VerticalAlignment="Center" ItemsSource="{Binding Source={x:Static wpw:BackgroundTask.WebPages}}" SelectedItem="{Binding OperationItem}"/>
-                            <TextBlock x:Name="tbkOperationScript" Grid.Row="8" VerticalAlignment="Center" 
-                   HorizontalAlignment="Right" Text="{DynamicResource label_operationScript}"/>
-                            <ComboBox x:Name="cbbOperationScript" Grid.Row="8" Grid.Column="2"   
-                VerticalAlignment="Center" ItemsSource="{Binding Source={x:Static wpw:BackgroundTask.Scripts}}" SelectedItem="{Binding OperationItem}"/>
-                            <TextBlock x:Name="tbkOperationCommand" Grid.Row="8" VerticalAlignment="Center" 
-                   HorizontalAlignment="Right" Text="{DynamicResource label_operationCommand}"/>
-                            <TextBox x:Name="txtOperationCommand" Grid.Row="8" Grid.Column="2"   
-                VerticalAlignment="Center" Text="{Binding Item.Operation_Command}" AcceptsReturn="True" TextWrapping="Wrap"/>
-
-                            <TextBlock HorizontalAlignment="Center" Foreground="Red" 
-                                       Grid.Row="99" Grid.ColumnSpan="99" Text="{DynamicResource warning_endlessLoop}"/>
+                VerticalAlignment="Center" Text="{Binding Item.LastExcuteTime , ConverterCulture={x:Static glo:CultureInfo.CurrentUICulture}}" />
                         </Grid>
                     </GroupBox>
 
+                    <FrameworkElement Height="4" />
+
+                    <GroupBox BorderThickness="0" Header="{DynamicResource expander_basicInfo}"
+  materialDesign:ColorZoneAssist.Mode="Accent">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="8" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="8" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="16" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="16" />
+                                <ColumnDefinition Width="72" />
+                            </Grid.ColumnDefinitions>
+
+                            <TextBlock Grid.Row="0" VerticalAlignment="Center"
+                   HorizontalAlignment="Right" Text="{DynamicResource label_name}" />
+                            <TextBox Grid.Row="0" Grid.Column="2"  Grid.ColumnSpan="3"
+                VerticalAlignment="Center" Text="{Binding Item.Name}" />
+
+                            <TextBlock Grid.Row="2" VerticalAlignment="Center"
+                   HorizontalAlignment="Right" Text="{DynamicResource label_enabled}" />
+                            <ToggleButton  Grid.Row="2" Grid.Column="2" Grid.ColumnSpan="999"
+                                       VerticalAlignment="Center" HorizontalAlignment="Right"
+                                   IsChecked="{Binding Item.Enabled}" />
+                        </Grid>
+                    </GroupBox>
+
+                    <GroupBox BorderThickness="0" Header="{DynamicResource expander_eventAndOperation}"
+  materialDesign:ColorZoneAssist.Mode="Accent">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="8" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="16" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="8" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="8" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="16" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <TextBlock Grid.Row="0" VerticalAlignment="Center"
+                   HorizontalAlignment="Right" Text="{DynamicResource label_event}" />
+                            <ComboBox Grid.Row="0" Grid.Column="2"
+                VerticalAlignment="Center" ItemsSource="{Binding Events}" SelectedItem="{Binding Item.Event}">
+                                <ComboBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding .,Converter={StaticResource trigger2str}}" />
+                                    </DataTemplate>
+                                </ComboBox.ItemTemplate>
+                            </ComboBox>
+                            <TextBlock x:Name="tbkEventWebPage" Grid.Row="2" VerticalAlignment="Center"
+                   HorizontalAlignment="Right" Text="{DynamicResource label_eventWebPage}" />
+                            <ComboBox x:Name="cbbEventWebPage" Grid.Row="2" Grid.Column="2"
+                VerticalAlignment="Center" ItemsSource="{Binding Source={x:Static wpw:BackgroundTask.WebPages}}" SelectedItem="{Binding EventItem}" />
+                            <TextBlock x:Name="tbkEventScript" Grid.Row="3" VerticalAlignment="Center"
+                   HorizontalAlignment="Right" Text="{DynamicResource label_eventScript}" />
+                            <ComboBox x:Name="cbbEventScript" Grid.Row="3" Grid.Column="2"
+                VerticalAlignment="Center" ItemsSource="{Binding Source={x:Static wpw:BackgroundTask.Scripts}}" SelectedItem="{Binding EventItem}" />
+
+                            <TextBlock Grid.Row="5" VerticalAlignment="Center"
+                   HorizontalAlignment="Right" Text="{DynamicResource label_operation}" />
+                            <ComboBox Grid.Row="5" Grid.Column="2"
+                VerticalAlignment="Center" ItemsSource="{Binding Operations}" SelectedItem="{Binding Item.Operation}">
+                                <ComboBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding .,Converter={StaticResource trigger2str}}" />
+                                    </DataTemplate>
+                                </ComboBox.ItemTemplate>
+                            </ComboBox>
+                            <TextBlock x:Name="tbkOperationWebPage" Grid.Row="7" VerticalAlignment="Center"
+                   HorizontalAlignment="Right" Text="{DynamicResource label_operationWebPage}" />
+                            <ComboBox x:Name="cbbOperationWebPage" Grid.Row="7" Grid.Column="2"
+                VerticalAlignment="Center" ItemsSource="{Binding Source={x:Static wpw:BackgroundTask.WebPages}}" SelectedItem="{Binding OperationItem}" />
+                            <TextBlock x:Name="tbkOperationScript" Grid.Row="8" VerticalAlignment="Center"
+                   HorizontalAlignment="Right" Text="{DynamicResource label_operationScript}" />
+                            <ComboBox x:Name="cbbOperationScript" Grid.Row="8" Grid.Column="2"
+                VerticalAlignment="Center" ItemsSource="{Binding Source={x:Static wpw:BackgroundTask.Scripts}}" SelectedItem="{Binding OperationItem}" />
+                            <TextBlock x:Name="tbkOperationCommand" Grid.Row="8" VerticalAlignment="Center"
+                   HorizontalAlignment="Right" Text="{DynamicResource label_operationCommand}" />
+                            <TextBox x:Name="txtOperationCommand" Grid.Row="8" Grid.Column="2"
+                VerticalAlignment="Center" Text="{Binding Item.Operation_Command}" AcceptsReturn="True" TextWrapping="Wrap" />
+
+                            <TextBlock HorizontalAlignment="Center" Foreground="Red"
+                                       Grid.Row="99" Grid.ColumnSpan="99" Text="{DynamicResource warning_endlessLoop}" />
+                        </Grid>
+                    </GroupBox>
                 </StackPanel>
             </ScrollViewer>
 
-
-
             <Grid Grid.Row="4">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="16"/>
-                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="16" />
+                    <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <!--<RowDefinition Height="8"/>-->
-                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto" />
+                    <!--<RowDefinition Height="8" />-->
+                    <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
-                <Button Click="SaveButton_Click" Content="{DynamicResource button_save}"/>
-                <Button Click="ResetButton_Click" Grid.Column="2" Content="{DynamicResource button_reset}"/>
+                <Button Click="SaveButton_Click" Content="{DynamicResource button_save}" />
+                <Button Click="ResetButton_Click" Grid.Column="2" Content="{DynamicResource button_reset}" />
             </Grid>
         </Grid>
-
     </Grid>
-
 </local:TriggerPanelBase>

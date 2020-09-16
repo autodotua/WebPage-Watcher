@@ -72,7 +72,7 @@
             <Style.Triggers>
                 <Trigger Property="Tag"
                        Value="imageright">
-                    <Setter Property="Margin" 
+                    <Setter Property="Margin"
                           Value="20,0,0,0" />
                 </Trigger>
             </Style.Triggers>
@@ -88,26 +88,26 @@
                   Value="2" />-->
         </Style>
 
-        <!-- 
-         The Table's style don't seem to support border-collapse. 
-         By making the ruled line width 0.5 and applying it to cell and table, 
-         it looks like the ruled lines are not doubled. 
+        <!--
+         The Table's style don't seem to support border-collapse.
+         By making the ruled line width 0.5 and applying it to cell and table,
+         it looks like the ruled lines are not doubled.
      -->
         <Style x:Key="TableStyle" TargetType="Table">
-            <Setter Property="CellSpacing" Value="0"/>
-            <Setter Property="BorderThickness" Value="0.5"/>
-            <Setter Property="BorderBrush" Value="Gray"/>
+            <Setter Property="CellSpacing" Value="0" />
+            <Setter Property="BorderThickness" Value="0.5" />
+            <Setter Property="BorderBrush" Value="Gray" />
             <Style.Resources>
                 <Style TargetType="TableCell">
-                    <Setter Property="BorderThickness" Value="0.5"/>
-                    <Setter Property="BorderBrush" Value="Gray"/>
-                    <Setter Property="Padding" Value="2"/>
+                    <Setter Property="BorderThickness" Value="0.5" />
+                    <Setter Property="BorderBrush" Value="Gray" />
+                    <Setter Property="Padding" Value="2" />
                 </Style>
             </Style.Resources>
         </Style>
         <Style x:Key="TableHeaderStyle" TargetType="TableRowGroup">
-            <Setter Property="FontWeight" Value="DemiBold"/>
-            <Setter Property="Background" Value="LightGray"/>
+            <Setter Property="FontWeight" Value="DemiBold" />
+            <Setter Property="Background" Value="LightGray" />
         </Style>
         <md:Markdown x:Key="Markdown"
                         DocumentStyle="{StaticResource DocumentStyle}"
@@ -117,24 +117,21 @@
                         Heading4Style="{StaticResource H4Style}"
                         LinkStyle="{StaticResource LinkStyle}"
                         ImageStyle="{StaticResource ImageStyle}"
-                        SeparatorStyle="{StaticResource SeparatorStyle}"/>
+                        SeparatorStyle="{StaticResource SeparatorStyle}" />
                         <!--TableStyle="{StaticResource TableStyle}"
                         TableHeaderStyle="{StaticResource TableHeaderStyle}"
                         AssetPathRoot="{x:Static system:Environment.CurrentDirectory}"-->
 
-        <md:TextToFlowDocumentConverter x:Key="TextToFlowDocumentConverter" 
-                                           Markdown="{StaticResource Markdown}"/>
-
+        <md:TextToFlowDocumentConverter x:Key="TextToFlowDocumentConverter"
+                                           Markdown="{StaticResource Markdown}" />
     </Window.Resources>
 
     <Grid>
-
 
         <FlowDocumentScrollViewer  x:Name="docViewer"
                                   VerticalAlignment="Stretch"
                                   HorizontalAlignment="Stretch"
                                   Margin="4"
                                   Document="{Binding Text, Converter={StaticResource TextToFlowDocumentConverter}}" />
-
     </Grid>
 </local:WindowBase>

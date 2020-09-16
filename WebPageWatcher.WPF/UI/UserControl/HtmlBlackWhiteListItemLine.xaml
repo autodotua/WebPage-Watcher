@@ -3,27 +3,27 @@
     x:Class="WebPageWatcher.UI.HtmlBlackWhiteListItemLine"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:local="clr-namespace:WebPageWatcher.UI"
     xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
       mc:Ignorable="d" Margin="2,8">
     <UserControl.Resources>
-        <local:BlackWhiteListItem2IntConvert x:Key="index2Enum"/>
+        <local:BlackWhiteListItem2IntConvert x:Key="index2Enum" />
     </UserControl.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="64"/>
-            <ColumnDefinition Width="4"/>
-            <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="8"/>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="8"/>
-            <ColumnDefinition Width="Auto"/>
-            <!--<ColumnDefinition Width="8"/>
-            <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="8"/>
-            <ColumnDefinition Width="Auto"/>-->
+            <ColumnDefinition Width="64" />
+            <ColumnDefinition Width="4" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="8" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="8" />
+            <ColumnDefinition Width="Auto" />
+            <!--<ColumnDefinition Width="8" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="8" />
+            <ColumnDefinition Width="Auto" />-->
         </Grid.ColumnDefinitions>
 
         <ComboBox x:Name="cbbIdentifyType"
@@ -33,12 +33,12 @@
         </ComboBox>
 
         <TextBlock Grid.Column="2" VerticalAlignment="Center">=</TextBlock>
-        <TextBox Grid.Column="4"  VerticalAlignment="Center" x:Name="txtValue" Text="{Binding Item.Value}"/>
-        <!--<CheckBox Grid.Column="6" VerticalAlignment="Center" ToolTip="仅匹配内部文字" IsChecked="{Binding Item.TextOnly}"/>
-        <CheckBox Grid.Column="8" VerticalAlignment="Center" ToolTip="忽略空白" IsChecked="{Binding Item.IgnoreWhiteSpace}"/>-->
+        <TextBox Grid.Column="4"  VerticalAlignment="Center" x:Name="txtValue" Text="{Binding Item.Value}" />
+        <!--<CheckBox Grid.Column="6" VerticalAlignment="Center" ToolTip="仅匹配内部文字" IsChecked="{Binding Item.TextOnly}" />
+        <CheckBox Grid.Column="8" VerticalAlignment="Center" ToolTip="忽略空白" IsChecked="{Binding Item.IgnoreWhiteSpace}" />-->
 
         <Button Grid.Column="999"  VerticalAlignment="Center" Click="Button_Click">
-            <materialDesign:PackIcon Kind="Delete"/>
+            <materialDesign:PackIcon Kind="Delete" />
         </Button>
     </Grid>
 </extension:ExtendedUserControl>

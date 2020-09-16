@@ -1,12 +1,5 @@
 ﻿using FzLib.Basic;
-using HtmlAgilityPack;
-using ICSharpCode.AvalonEdit.Highlighting;
-using Newtonsoft.Json.Linq;
-using System;
-using System.Reflection;
-using System.Runtime.InteropServices;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Media;
 using WebPageWatcher.Web;
@@ -22,10 +15,12 @@ namespace WebPageWatcher.UI
         {
             CompareResult = compareResult;
         }
+
         public ComparisonWindow()
         {
             InitializeComponent();
         }
+
         public CompareResult CompareResult { get; }
 
         private void WindowBase_Loaded(object sender, System.Windows.RoutedEventArgs e)
@@ -72,7 +67,7 @@ namespace WebPageWatcher.UI
             box1.Load(text1, CompareResult.Type);
             box2.Load(text2, CompareResult.Type);
             diff_match_patch diff = new diff_match_patch();
-            var diffs = diff.diff_main(text1, text2); 
+            var diffs = diff.diff_main(text1, text2);
             rtb.Document.Blocks.Clear();
             foreach (var item in diffs)
             {
@@ -88,11 +83,13 @@ namespace WebPageWatcher.UI
                         range.ApplyPropertyValue(TextElement.FontSizeProperty, 12.0);
                         range.ApplyPropertyValue(Inline.TextDecorationsProperty, TextDecorations.Strikethrough);
                         break;
+
                     case Operation.INSERT:
                         range.ApplyPropertyValue(TextElement.FontSizeProperty, 12.0); range.ApplyPropertyValue(Inline.TextDecorationsProperty, TextDecorations.Strikethrough);
                         range.ApplyPropertyValue(Inline.TextDecorationsProperty, TextDecorations.Underline);
                         //range.ApplyPropertyValue(TextElement.ForegroundProperty, Brushes.Red);
                         break;
+
                     case Operation.EQUAL:
                         range.ApplyPropertyValue(TextElement.FontSizeProperty, 9.0);
                         range.ApplyPropertyValue(TextElement.ForegroundProperty, Brushes.Gray);

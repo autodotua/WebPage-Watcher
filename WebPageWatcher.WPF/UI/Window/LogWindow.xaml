@@ -10,29 +10,29 @@
     WindowStartupLocation="CenterOwner"
         Title="{DynamicResource win_log}" Height="450" Width="600">
     <local:WindowBase.Resources>
-        <local:LogTypeConverter x:Key="logConverter"/>
+        <local:LogTypeConverter x:Key="logConverter" />
     </local:WindowBase.Resources>
     <Grid Margin="4">
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="8"/>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="8" />
+            <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
         <Grid x:Name="grdBar">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="8"/>
-                <ColumnDefinition Width="108"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="8"/>
-                <ColumnDefinition Width="108"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="8" />
+                <ColumnDefinition Width="108" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="8" />
+                <ColumnDefinition Width="108" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
-            <TextBlock VerticalAlignment="Center" 
-                       Text="{DynamicResource label_beginDate}"/>
+            <TextBlock VerticalAlignment="Center"
+                       Text="{DynamicResource label_beginDate}" />
             <DatePicker Grid.Column="2">
                 <DatePicker.SelectedDate>
                     <Binding
@@ -40,13 +40,13 @@
       UpdateSourceTrigger="PropertyChanged">
                         <Binding.ValidationRules>
                             <local:PastDateValidationRule
-          ValidatesOnTargetUpdated="True"  />
+          ValidatesOnTargetUpdated="True" />
                         </Binding.ValidationRules>
                     </Binding>
                 </DatePicker.SelectedDate>
             </DatePicker>
-            <TextBlock Grid.Column="4" VerticalAlignment="Center" 
-                       Text="{DynamicResource label_endDate}"/>
+            <TextBlock Grid.Column="4" VerticalAlignment="Center"
+                       Text="{DynamicResource label_endDate}" />
       <DatePicker Grid.Column="6">
                 <DatePicker.SelectedDate>
                     <Binding
@@ -54,23 +54,21 @@
       UpdateSourceTrigger="PropertyChanged">
                         <Binding.ValidationRules>
                             <local:PastDateValidationRule
-          ValidatesOnTargetUpdated="True"  />
+          ValidatesOnTargetUpdated="True" />
                         </Binding.ValidationRules>
                     </Binding>
                 </DatePicker.SelectedDate>
             </DatePicker>
-            
-            <Button Content="{DynamicResource button_ok}" Grid.Column="99" Click="Button_Click"/>
 
+            <Button Content="{DynamicResource button_ok}" Grid.Column="99" Click="Button_Click" />
         </Grid>
         <ListView x:Name="lvw"  Grid.Row="2">
             <ListView.View>
                 <GridView>
-                    <GridViewColumn Header="{DynamicResource list_time}" DisplayMemberBinding="{Binding Time, ConverterCulture={x:Static glo:CultureInfo.CurrentUICulture}}"/>
-                    <GridViewColumn Header="{DynamicResource list_logType}" DisplayMemberBinding="{Binding Type, Converter={StaticResource logConverter}}"/>
-                    <GridViewColumn Header="{DynamicResource list_logMessage}" DisplayMemberBinding="{Binding Message}"/>
-                    <GridViewColumn Header="{DynamicResource list_logItemID}" DisplayMemberBinding="{Binding Item_ID}"/>
-
+                    <GridViewColumn Header="{DynamicResource list_time}" DisplayMemberBinding="{Binding Time, ConverterCulture={x:Static glo:CultureInfo.CurrentUICulture}}" />
+                    <GridViewColumn Header="{DynamicResource list_logType}" DisplayMemberBinding="{Binding Type, Converter={StaticResource logConverter}}" />
+                    <GridViewColumn Header="{DynamicResource list_logMessage}" DisplayMemberBinding="{Binding Message}" />
+                    <GridViewColumn Header="{DynamicResource list_logItemID}" DisplayMemberBinding="{Binding Item_ID}" />
                 </GridView>
             </ListView.View>
         </ListView>

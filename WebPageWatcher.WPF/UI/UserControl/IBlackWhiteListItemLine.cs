@@ -3,9 +3,10 @@ using WebPageWatcher.Data;
 
 namespace WebPageWatcher.UI
 {
-    interface IBlackWhiteListItemLine
+    internal interface IBlackWhiteListItemLine
     {
         BlackWhiteListItem Item { get; set; }
+
         event EventHandler Deleted;
     }
 }

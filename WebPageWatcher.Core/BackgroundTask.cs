@@ -19,8 +19,11 @@ namespace WebPageWatcher
     public static class BackgroundTask
     {
         private static Timer timer;
+
         #region Data
+
         private static ExtendedObservableCollection<WebPage> webPages;
+
         public static ExtendedObservableCollection<WebPage> WebPages
         {
             get => webPages;
@@ -30,9 +33,11 @@ namespace WebPageWatcher
                 WebPagesChanged?.Invoke(null, WebPages);
             }
         }
+
         public static event EventHandler<ExtendedObservableCollection<WebPage>> WebPagesChanged;
 
         private static ExtendedObservableCollection<Script> scripts;
+
         public static ExtendedObservableCollection<Script> Scripts
         {
             get => scripts;
@@ -42,9 +47,11 @@ namespace WebPageWatcher
                 ScriptsChanged?.Invoke(null, Scripts);
             }
         }
+
         public static event EventHandler<ExtendedObservableCollection<Script>> ScriptsChanged;
 
         private static ExtendedObservableCollection<Trigger> triggers;
+
         public static ExtendedObservableCollection<Trigger> Triggers
         {
             get => triggers;
@@ -54,13 +61,14 @@ namespace WebPageWatcher
                 TriggersChanged?.Invoke(null, Triggers);
             }
         }
-        public static EventHandler<ExtendedObservableCollection<Trigger>> TriggersChanged;
 
+        public static EventHandler<ExtendedObservableCollection<Trigger>> TriggersChanged;
 
         private static ExtendedDictionary<IDbModel, int> exceptionsCount = new ExtendedDictionary<IDbModel, int>();
         private static ExtendedDictionary<IDbModel, Exception> exceptions = new ExtendedDictionary<IDbModel, Exception>();
 
-        #endregion
+        #endregion Data
+
         public static async Task LoadAsync()
         {
             WebPages = new ExtendedObservableCollection<WebPage>(await DbHelper.GetWebPagesAsync());
@@ -100,7 +108,6 @@ namespace WebPageWatcher
                     await CheckTriggerAsync(webPage, TriggerEvent.ExcuteWebPageFailed);
 
                     AddAndCheckExceptions(webPage, ex);
-
                 }
             }
 
@@ -110,7 +117,7 @@ namespace WebPageWatcher
                 {
                     await ExcuteScriptAsync(script);
                     await CheckTriggerAsync(script, TriggerEvent.ExcuteScriptSucceed);
-                    await DbHelper.AddLogAsync(new Log("log_scriptExcuteSucceed", script.ToString()  , script.ID));
+                    await DbHelper.AddLogAsync(new Log("log_scriptExcuteSucceed", script.ToString(), script.ID));
                 }
                 catch (Exception ex)
                 {
@@ -122,7 +129,7 @@ namespace WebPageWatcher
             }
         }
 
-        private async static Task CheckTriggerAsync(IDbModel item, TriggerEvent triggerEvent)
+        private async static Task CheckTriggerAsync(ITaskDbModel item, TriggerEvent triggerEvent)
         {
             Trigger trigger = Triggers.FirstOrDefault(p => p.Event == triggerEvent && p.Event_ID == item.ID);
             if (trigger != null)
@@ -140,7 +147,8 @@ namespace WebPageWatcher
         }
 
         private static Trigger lastTrigger = null;
-        private static IDbModel lastTriggerItem = null;
+        private static ITaskDbModel lastTriggerItem = null;
+
         public async static Task ExcuteTrigger(Trigger trigger)
         {
             trigger.LastExcuteTime = DateTime.Now;
@@ -149,6 +157,7 @@ namespace WebPageWatcher
             {
                 case TriggerOperation.None:
                     break;
+
                 case TriggerOperation.ExcuteWebPage:
                     WebPage webPage = WebPages.FirstOrDefault(p => p.ID == trigger.Operation_ID);
                     //类似下面的语句，是为了防止死循环，防止触发事件中再次触发相同事件
@@ -162,6 +171,7 @@ namespace WebPageWatcher
                         await CheckAndExcuteWebPageAsync(webPage);
                     }
                     break;
+
                 case TriggerOperation.ExcuteScript:
                     Script script = Scripts.FirstOrDefault(p => p.ID == trigger.Operation_ID);
                     if (trigger == lastTrigger && lastTriggerItem == script)
@@ -174,6 +184,7 @@ namespace WebPageWatcher
                         await ExcuteScriptAsync(script);
                     }
                     break;
+
                 case TriggerOperation.ExcuteCommand:
                     await ExcuteCommandAsync(trigger);
                     break;
@@ -198,7 +209,6 @@ namespace WebPageWatcher
                     if (webPage.LastCheckTime + TimeSpan.FromMilliseconds(webPage.Interval) < now || force)
 #endif
             {
-
                 CompareResult result = await ComparerBase.CompareAsync(webPage);
                 if (result.Same == false)//网页发生变化
                 {
@@ -220,11 +230,11 @@ namespace WebPageWatcher
             }
             async static Task UpdateWebPageUpdateDb(WebPage webPage, byte[] content)
             {
-
                 WebPageUpdate update = new WebPageUpdate(webPage.ID, content);
                 await DbHelper.InsertAsync(update);
             }
         }
+
         public static async Task ExcuteScriptAsync(Script script, bool force = false)
         {
             DateTime now = DateTime.Now;
@@ -243,6 +253,7 @@ namespace WebPageWatcher
             }
 #endif
         }
+
         public async static Task ExcuteCommandAsync(Trigger trigger)
         {
             try
@@ -255,14 +266,14 @@ namespace WebPageWatcher
                 startInfo.RedirectStandardInput = true;
                 startInfo.RedirectStandardError = true;
                 startInfo.RedirectStandardOutput = true;
-                process.ErrorDataReceived +=async (p1, p2) =>
-                {
-                    await DbHelper.AddLogAsync(new Log("log_triggerCommandError", p2.Data, trigger.ID));
-                };
-                process.OutputDataReceived +=async (p1, p2) =>
-                {
-                    await DbHelper.AddLogAsync(new Log("log_triggerCommandOutput", p2.Data, trigger.ID));
-                };
+                process.ErrorDataReceived += async (p1, p2) =>
+                 {
+                     await DbHelper.AddLogAsync(new Log("log_triggerCommandError", p2.Data, trigger.ID));
+                 };
+                process.OutputDataReceived += async (p1, p2) =>
+                 {
+                     await DbHelper.AddLogAsync(new Log("log_triggerCommandOutput", p2.Data, trigger.ID));
+                 };
                 //startInfo.UseShellExecute = false;
                 process.StartInfo = startInfo;
                 process.Start();
@@ -282,11 +293,10 @@ namespace WebPageWatcher
             }
             catch (Exception ex)
             {
-
             }
         }
 
-        private static void AddAndCheckExceptions(IDbModel item, Exception ex)
+        private static void AddAndCheckExceptions(ITaskDbModel item, Exception ex)
         {
             if (exceptionsCount[item] == -1)
             {
@@ -310,23 +320,27 @@ namespace WebPageWatcher
                 timer.Change(Timeout.Infinite, Timeout.Infinite);
             }
         }
+
         public static event EventHandler<WebPageChangedEventArgs> WebPageChanged;
+
         public static event EventHandler<PropertyUpdatedEventArgs> PropertyUpdated;
+
         public static event EventHandler<ExceptionAlarmEventArgs> ExceptionAlarm;
     }
 
     public class PropertyUpdatedEventArgs : EventArgs
     {
-        public PropertyUpdatedEventArgs(IDbModel item)
+        public PropertyUpdatedEventArgs(ITaskDbModel item)
         {
             Item = item;
         }
 
-        public IDbModel Item { get; }
+        public ITaskDbModel Item { get; }
     }
+
     public class ExceptionAlarmEventArgs : EventArgs
     {
-        public ExceptionAlarmEventArgs(IDbModel item, Exception exception, Action resetAction, Action disableAction)
+        public ExceptionAlarmEventArgs(ITaskDbModel item, Exception exception, Action resetAction, Action disableAction)
         {
             Item = item;
             Exception = exception;
@@ -334,7 +348,7 @@ namespace WebPageWatcher
             DisableAction = disableAction;
         }
 
-        public IDbModel Item { get; }
+        public ITaskDbModel Item { get; }
         public Exception Exception { get; }
         public Action ResetAction { get; }
         public Action DisableAction { get; }

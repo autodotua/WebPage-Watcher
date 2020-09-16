@@ -1,11 +1,9 @@
-﻿using System.Diagnostics;
+﻿using FzLib.UI.Dialog;
+using System;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Documents;
 using WebPageWatcher.Data;
 using WebPageWatcher.Web;
-using System;
-using System.Windows.Input;
 
 namespace WebPageWatcher.UI
 {
@@ -14,11 +12,11 @@ namespace WebPageWatcher.UI
     /// </summary>
     public partial class MainWindow : WindowBase
     {
-
         public MainWindow(IDbModel needToSelect) : this()
         {
             SelectItem(needToSelect);
         }
+
         public MainWindow()
         {
             InitializeComponent();
@@ -67,8 +65,8 @@ cp a4";
             {
                 await dialog.ShowErrorAsync(ex.ToString());
             }
-
         }
+
         public void UpdateDisplay(IDbModel item)
         {
             switch (item)
@@ -76,9 +74,11 @@ cp a4";
                 case WebPage webPage:
                     (webPagePanel as TabItemPanelBase<WebPage>).UpdateDisplay(webPage);
                     break;
+
                 case Script script:
                     (scriptPanel as TabItemPanelBase<Script>).UpdateDisplay(script);
                     break;
+
                 case Data.Trigger trigger:
                     throw new NotImplementedException();
                     break;
@@ -92,24 +92,23 @@ cp a4";
                 case WebPage webPage:
                     (webPagePanel as TabItemPanelBase<WebPage>).SelectItem(webPage);
                     break;
+
                 case Script script:
                     (scriptPanel as TabItemPanelBase<Script>).SelectItem(script);
                     break;
+
                 case Data.Trigger trigger:
                     throw new NotImplementedException();
                     break;
             }
-
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
         }
 
-
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-
         }
 
         private void SettingMenuItem_Click(object sender, RoutedEventArgs e)
@@ -141,8 +140,9 @@ cp a4";
 
         private async void ExportMenuItem_Click(object sender, RoutedEventArgs e)
         {
-            string path = FzLib.UI.Dialog.FileSystemDialog.GetSaveFile(new (string, string)[] { ("SQLite", "db") }, false, true,
-                   FindResource("app_name") as string + DateTime.Now.ToString("yyyyMMdd-HHmmss"));
+            FileFilterCollection filters = new FileFilterCollection().Add("SQLite", "db").AddAllFiles();
+            string path = FzLib.UI.Dialog.FileSystemDialog.GetSaveFile(filters, true,
+                FindResource("app_name") as string + DateTime.Now.ToString("yyyyMMdd-HHmmss"));
             if (path != null)
             {
                 try
@@ -156,9 +156,11 @@ cp a4";
                 }
             }
         }
+
         private async void ImportMenuItem_Click(object sender, RoutedEventArgs e)
         {
-            string path = FzLib.UI.Dialog.FileSystemDialog.GetOpenFile(new (string, string)[] { ("SQLite", "db") }, false);
+            FileFilterCollection filters = new FileFilterCollection().Add("SQLite", "db").AddAllFiles();
+            string path = FzLib.UI.Dialog.FileSystemDialog.GetOpenFile(filters);
             if (path != null)
             {
                 try

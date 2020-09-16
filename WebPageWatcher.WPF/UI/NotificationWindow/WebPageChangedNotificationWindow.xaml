@@ -1,45 +1,45 @@
-﻿<local:NotificationWindowBase 
+﻿<local:NotificationWindowBase
     x:Class="WebPageWatcher.UI.WebPageChangedNotificationWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WebPageWatcher.UI"
-        mc:Ignorable="d" >
+        mc:Ignorable="d">
     <Grid Margin="12">
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="8"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="8"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="16"/>
-            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="8" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="8" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="16" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <TextBlock FontWeight="Bold" Margin="8,0,0,0" Text="{DynamicResource win_main}"/>
+        <TextBlock FontWeight="Bold" Margin="8,0,0,0" Text="{DynamicResource win_main}" />
         <TextBlock  VerticalAlignment="Center" FontSize="18" Grid.Row="2" Margin="0,0,120,0">
-            <Run Text="{DynamicResource label_changed1}"/>
-            <Run Text="{Binding WebPage.Name}" FontWeight="Bold"/>
-            <Run Text="{DynamicResource label_changed2}"/>
+            <Run Text="{DynamicResource label_changed1}" />
+            <Run Text="{Binding WebPage.Name}" FontWeight="Bold" />
+            <Run Text="{DynamicResource label_changed2}" />
         </TextBlock>
-        <TextBlock x:Name="tbkTime" HorizontalAlignment="Right" 
+        <TextBlock x:Name="tbkTime" HorizontalAlignment="Right"
                    VerticalAlignment="Center" Grid.Row="2" />
         <ScrollViewer Grid.Row="4" MaxHeight="80"
                       HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Hidden">
-            <RichTextBox x:Name="rtb" IsReadOnly="True" BorderThickness="0"  MaxWidth="360"/>
-        </ScrollViewer>  
+            <RichTextBox x:Name="rtb" IsReadOnly="True" BorderThickness="0"  MaxWidth="360" />
+        </ScrollViewer>
         <Grid Grid.Row="6">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="16"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="16"/>
-                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="16" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="16" />
+                <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
-            <Button x:Name="btnOpen" Click="OpenButton_Click" Content="{DynamicResource button_openWebPage}" Style="{StaticResource NotificationButton}"/>
-            <Button x:Name="btnView" Click="ViewButton_Click" Grid.Column="2" Content="{DynamicResource button_getMore}" Style="{StaticResource NotificationButton}"/>
-            <Button Grid.Column="4"  Style="{StaticResource NotificationButton}" Click="CloseButton_Click"   Content="{DynamicResource button_close}"/>
+            <Button x:Name="btnOpen" Click="OpenButton_Click" Content="{DynamicResource button_openWebPage}" Style="{StaticResource NotificationButton}" />
+            <Button x:Name="btnView" Click="ViewButton_Click" Grid.Column="2" Content="{DynamicResource button_getMore}" Style="{StaticResource NotificationButton}" />
+            <Button Grid.Column="4"  Style="{StaticResource NotificationButton}" Click="CloseButton_Click"   Content="{DynamicResource button_close}" />
         </Grid>
-        <local:Dialog x:Name="dialog" Margin="-12"/>
+        <local:Dialog x:Name="dialog" Margin="-12" />
     </Grid>
 </local:NotificationWindowBase>

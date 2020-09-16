@@ -1,21 +1,8 @@
 ﻿using FzLib.Basic;
-using HtmlAgilityPack;
-using Newtonsoft.Json.Linq;
 using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
 using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using WebPageWatcher.Data;
 using WebPageWatcher.Web;
 
@@ -44,11 +31,13 @@ namespace WebPageWatcher.UI
                     //strs = new string[] { compareResult.NewContent.ToEncodedString() };
                     SetDifferencesText(compareResult);
                     break;
+
                 case ResponseType.Binary:
                     btnView.IsEnabled = false;
                     //strs = new string[] { $"{FindResource("type_binary") as string} ({CompareResult.NewContent.Length})" };
                     rtb.Document.Blocks.Add(new Paragraph(new Run($"{FindResource("type_binary") as string} ({CompareResult.NewContent.Length})")));
                     break;
+
                 default:
                     throw new NotSupportedException();
             }
@@ -61,7 +50,7 @@ namespace WebPageWatcher.UI
         {
             rtb.Document.Blocks.Clear();
             Diff[] diffs = compareResult.GetDifferences();
-            if(diffs==null)
+            if (diffs == null)
             {
                 Paragraph paragraph = new Paragraph(new Run(FindResource("error_cannotGetDiff") as string));
                 rtb.Document.Blocks.Add(paragraph);
@@ -83,6 +72,7 @@ namespace WebPageWatcher.UI
                             range.ApplyPropertyValue(Inline.TextDecorationsProperty, TextDecorations.Strikethrough);
                         }
                         break;
+
                     case Operation.INSERT:
                         {
                             Paragraph paragraph = new Paragraph();
@@ -95,6 +85,7 @@ namespace WebPageWatcher.UI
                             //range.ApplyPropertyValue(Inline.TextDecorationsProperty, TextDecorations.Strikethrough);
                         }
                         break;
+
                     case Operation.EQUAL:
                         break;
                 }

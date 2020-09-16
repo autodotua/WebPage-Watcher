@@ -1,15 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 
 namespace WebPageWatcher.UI
 {
-   public class SelectorHelper<T> where T : class
+    public class SelectorHelper<T> where T : class
     {
         public SelectorHelper(Selector view, ObservableCollection<T> source)
         {
@@ -17,7 +13,7 @@ namespace WebPageWatcher.UI
             Source = source;
         }
 
-        public void SetContextMenu() 
+        public void SetContextMenu()
         {
             MenuItem menuDelete = new MenuItem() { Header = App.Current.FindResource("win_delete") as string };
             menuDelete.Click += (p1, p2) =>
@@ -26,7 +22,7 @@ namespace WebPageWatcher.UI
                 Source.Remove(item);
                 Delete?.Invoke(p1, item);
             };
-            
+
             MenuItem menuClone = new MenuItem() { Header = App.Current.FindResource("win_clone") as string };
             menuClone.Click += (p1, p2) =>
             {
@@ -42,7 +38,9 @@ namespace WebPageWatcher.UI
                 View.ContextMenu = menu;
             }
         }
+
         public event EventHandler<T> Delete;
+
         public event EventHandler<T> Clone;
 
         public Selector View { get; }
